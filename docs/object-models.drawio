@@ -1,0 +1,37 @@
+<mxfile>
+    <diagram id="S_BapDMfcEEWxNIzrydn" name="Page-1">
+        <mxGraphModel dx="688" dy="564" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="12" value="ユーザーアカウント" style="html=1;fontStyle=0" parent="1" vertex="1">
+                    <mxGeometry x="260" y="90" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="ユーザー" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="85" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="" style="endArrow=diamondThin;endFill=0;endSize=24;html=1;" parent="1" source="14" target="12" edge="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="215" y="180" as="sourcePoint"/>
+                        <mxPoint x="215" y="100" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="39" value="" style="endArrow=diamondThin;endFill=0;endSize=24;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="40" target="12" edge="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="340" y="75" as="sourcePoint"/>
+                        <mxPoint x="290" y="85" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="40" value="認証トークン" style="html=1;fontStyle=0" parent="1" vertex="1">
+                    <mxGeometry x="450" y="90" width="170" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="47" value="データベース" style="html=1;fontStyle=0" parent="1" vertex="1">
+                    <mxGeometry x="760" y="40" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="48" value="LocalStorage" style="html=1;fontStyle=0" parent="1" vertex="1">
+                    <mxGeometry x="760" y="120" width="150" height="50" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
