@@ -9,7 +9,7 @@ data class LoginRequest(val email: String, val password: String) : HttpRequest {
      *
      * @return this.
      */
-    override fun validate(): Unit {
+    override fun validate() {
         if (email.length < 0 || email.length > 255) {
             throw RequestValidationException("Illegal email size, must be between 0-255: ${email.length}")
         }

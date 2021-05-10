@@ -9,4 +9,3 @@ object Users : IntIdTable("users") {
     val createdAt = datetime("created_at").nullable()
     val updatedAt = datetime("updated_at").nullable()
 }
-

@@ -1,7 +1,7 @@
 package io.github.piteroni.todoktorvue.app.auth.jwt
 
-import io.github.piteroni.todoktorvue.app.utils.Config
 import com.auth0.jwt.algorithms.Algorithm
+import io.github.piteroni.todoktorvue.app.utils.Config
 
 data class JWTConfig(val issuer: String, val audience: String, val realm: String, val algorithm: Algorithm, val expiration: Long)
 

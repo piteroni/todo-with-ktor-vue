@@ -1,27 +1,28 @@
 package io.github.piteroni.todoktorvue.app.http.controllers
 
 import io.github.piteroni.todoktorvue.app.http.exceptions.UnauthorizedException
-import io.github.piteroni.todoktorvue.app.http.requests.LoginRequest
 import io.github.piteroni.todoktorvue.app.http.exceptions.UnprocessableEntityException
+import io.github.piteroni.todoktorvue.app.http.requests.LoginRequest
 import io.github.piteroni.todoktorvue.app.http.responses.ApiToken
-import io.github.piteroni.todoktorvue.app.http.responses.SimpleResponse
 import io.github.piteroni.todoktorvue.app.intractor.identification.Authentication
 import io.github.piteroni.todoktorvue.app.intractor.identification.AuthenticationException
-import io.ktor.application.*
-import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
+import io.ktor.application.ApplicationCall
+import io.ktor.http.HttpStatusCode
+import io.ktor.request.httpMethod
+import io.ktor.request.receive
+import io.ktor.request.uri
+import io.ktor.response.respond
 
 class IdentificationController {
     /**
      * Login to the application.
-     * 
+     *
      * @param call
      */
-    suspend fun login(call: ApplicationCall): Unit {
+    suspend fun login(call: ApplicationCall) {
         val params = try {
             call.receive<LoginRequest>().apply { validate() }
-        } catch(exception: Throwable) {
+        } catch (exception: Throwable) {
             throw UnprocessableEntityException(call.request.uri, call.request.httpMethod.value, exception)
         }
 

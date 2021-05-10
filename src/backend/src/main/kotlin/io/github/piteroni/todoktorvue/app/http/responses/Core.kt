@@ -5,4 +5,4 @@ import kotlinx.serialization.Serializable
 interface HttpResponse
 
 @Serializable
-data class SimpleResponse(val message: String): HttpResponse
+data class SimpleResponse(val message: String) : HttpResponse

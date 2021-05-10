@@ -1,13 +1,13 @@
 package io.github.piteroni.todoktorvue.app.main
 
-import io.github.piteroni.todoktorvue.app.utils.Config
 import io.github.piteroni.todoktorvue.app.http.exceptions.InternalServerErrorException
+import io.github.piteroni.todoktorvue.app.utils.Config
 import org.jetbrains.exposed.sql.Database
 
 /**
  * @throws InternalServerErrorException
  */
-fun connectToDatabase(): Unit {
+fun connectToDatabase() {
     try {
         Database.connect(
             url = Config.get("DB_URL"),

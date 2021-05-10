@@ -1,14 +1,14 @@
 package io.github.piteroni.todoktorvue.app.intractor.identification
 
-import io.github.piteroni.todoktorvue.app.auth.jwt.makeJWTConfig
 import io.github.piteroni.todoktorvue.app.auth.jwt.JWT
+import io.github.piteroni.todoktorvue.app.auth.jwt.makeJWTConfig
 import io.github.piteroni.todoktorvue.app.persistence.models.Users
 import io.github.piteroni.todoktorvue.app.persistence.repositories.asUserAccount
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
 
-class AuthenticationException(message: String): Exception(message)
+class AuthenticationException(message: String) : Exception(message)
 
 class Authentication {
     /**

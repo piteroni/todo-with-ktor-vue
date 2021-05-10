@@ -3,11 +3,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("application")
     id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     kotlin("jvm") version "1.5.0"
     kotlin("plugin.serialization") version "1.5.0"
 }
 
 apply("migration.gradle")
+apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
 java.sourceCompatibility = JavaVersion.VERSION_11
 

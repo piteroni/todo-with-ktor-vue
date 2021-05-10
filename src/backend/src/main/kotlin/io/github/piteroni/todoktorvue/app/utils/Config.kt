@@ -3,7 +3,7 @@ package io.github.piteroni.todoktorvue.app.utils
 import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.dotenv.dotenv
 
-class UnknownPropertyException(message: String): Exception(message)
+class UnknownPropertyException(message: String) : Exception(message)
 
 object Config {
     private val env: Dotenv = dotenv()
