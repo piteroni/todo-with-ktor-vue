@@ -1,4 +1,3 @@
-
 import Vuex, { Store } from "vuex"
 import { Module, createStore } from "vuex-smart-module"
 import { createLocalVue } from "@vue/test-utils"
