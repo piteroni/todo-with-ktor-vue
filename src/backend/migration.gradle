@@ -11,7 +11,3 @@ task drop(type: JavaExec) {
 
     main = 'io.github.piteroni.todoktorvue.database.migration.DropKt'
 }
-
-shadowJar {
-    zip64 true
-}
