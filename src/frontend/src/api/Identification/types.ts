@@ -1,3 +1,6 @@
-export interface PostLoginResponse {
-  apiToken: string;
+interface AuthenticationToken {
+  token: string;
+}
+
+export interface PostLoginResponse extends AuthenticationToken {
 }

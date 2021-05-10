@@ -3,7 +3,7 @@ package io.github.piteroni.todoktorvue.app.http.controllers
 import io.github.piteroni.todoktorvue.app.http.exceptions.UnauthorizedException
 import io.github.piteroni.todoktorvue.app.http.exceptions.UnprocessableEntityException
 import io.github.piteroni.todoktorvue.app.http.requests.LoginRequest
-import io.github.piteroni.todoktorvue.app.http.responses.ApiToken
+import io.github.piteroni.todoktorvue.app.http.responses.AuthenticationToken
 import io.github.piteroni.todoktorvue.app.intractor.identification.Authentication
 import io.github.piteroni.todoktorvue.app.intractor.identification.AuthenticationException
 import io.ktor.application.ApplicationCall
@@ -32,6 +32,6 @@ class IdentificationController {
             throw UnauthorizedException(call.request.uri, call.request.httpMethod.value, "authentication failed", exception)
         }
 
-        call.respond(HttpStatusCode.OK, ApiToken(token))
+        call.respond(HttpStatusCode.OK, AuthenticationToken(token))
     }
 }

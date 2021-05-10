@@ -19,7 +19,6 @@ import io.ktor.features.DefaultHeaders
 import io.ktor.features.StatusPages
 import io.ktor.response.respond
 import io.ktor.serialization.json
-import io.ktor.utils.io.*
 
 internal fun Application.applyMiddlewares() {
     install(DefaultHeaders)

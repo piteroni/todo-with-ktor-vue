@@ -85,8 +85,8 @@ export class ApiTokenActions extends Actions<ApiTokenState, ApiTokenGetters, Api
     const { email, password } = params
     const response = await this.$identification.login(email, password)
 
-    window.localStorage.setItem(apiTokenKey, response.apiToken ?? "")
-    this.mutations.save(response.apiToken)
+    window.localStorage.setItem(apiTokenKey, response.token ?? "")
+    this.mutations.save(response.token)
   }
 }
 

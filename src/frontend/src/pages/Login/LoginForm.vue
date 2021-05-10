@@ -105,7 +105,6 @@ export default class LoginForm extends Vue {
   /**
    * 入力されたメールアドレスを保持する.
    */
-
   public email = "";
 
   /**
@@ -187,7 +186,6 @@ export default class LoginForm extends Vue {
     } catch (e) {
       if (e instanceof UnauthorizedError) {
         this.isLoggedIn = false
-
         this.feedbackError("ログインに失敗しました、入力内容をご確認下さい")
       } else {
         console.error(e)
