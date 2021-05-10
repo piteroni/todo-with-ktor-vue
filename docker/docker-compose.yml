@@ -1,0 +1,70 @@
+version: "3"
+
+services:
+  api:
+    build: 
+      context: ./images
+      dockerfile: api.Dockerfile
+    container_name: todo-with-ktor-vue-api
+    hostname: api
+    command: ./gradlew run
+    volumes: 
+      - ../src/backend:/app
+      - 5c99365e658cdcfe6ecbbd05:/home/gradle/.gradle
+    ports:
+      - 8080:8080
+    networks:
+      - container-link
+    links: 
+      - db
+  db:
+    build:
+      context: ./images
+      dockerfile: db.Dockerfile
+    container_name: todo-with-ktor-vue-db
+    hostname: db
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    volumes:  
+      - 7c99891597b133f9bfa16db5:/var/lib/mysql
+      - 98a509cc8290cb50e746a5cf:/var/run/mysqld
+      - ./config/dbaccess.cnf:/dbaccess.cnf
+    ports:
+      - 3306:3306
+    networks:
+      - container-link
+    environment:
+      MYSQL_DATABASE: todo_with_ktor_vue
+      MYSQL_ROOT_PASSWORD: password
+  ui:
+    build: 
+      context: ./images
+      dockerfile: ui.Dockerfile
+    container_name: todo-with-ktor-vue-ui
+    hostname: ui
+    command: yarn serve
+    ports:
+      - 3000:3000
+    volumes: 
+      - ../src/frontend:/app
+      - ca580fc13de7d52268ddc254:/app/node_modules
+    networks:
+      - container-link
+    links: 
+      - api
+
+networks:
+  default:
+    external:
+      name: bridge
+  container-link:
+    name: todo-with-ktor-vue
+
+volumes:
+  # gradle dependencies
+  5c99365e658cdcfe6ecbbd05:
+  # node_modules
+  ca580fc13de7d52268ddc254:
+  # database data
+  7c99891597b133f9bfa16db5:
+  # database socket
+  98a509cc8290cb50e746a5cf:

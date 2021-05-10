@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -eu
+
+cd "$(cd "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
+
+echo ": install dependencies"
+
+./attach-ui <<EOL
+yarn install && cp -R node_modules node_modules.tmp
+EOL
+
+echo ": setup ide"
+
+cd ../src/frontend
+
+rm -rf node_modules
+
+mv node_modules.tmp node_modules
+
+echo "resolved dependency!!"

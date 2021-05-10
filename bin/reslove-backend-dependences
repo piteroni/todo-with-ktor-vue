@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -eu
+
+cd "$(cd "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
+
+echo ": install dependencies"
+
+./attach-api <<EOL
+./gradlew assemble -x distTar -x distZip -x shadowJar -x startShadowScripts -x shadowDistTar -x :shadowDistZip
+EOL
+
+echo ": setup ide"
+
+cd ../src/backend
+
+./gradlew assemble -x distTar -x distZip -x shadowJar -x startShadowScripts -x shadowDistTar -x :shadowDistZip
+
+echo "resolved dependency!!"
