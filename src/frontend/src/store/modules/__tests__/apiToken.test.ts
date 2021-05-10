@@ -23,11 +23,11 @@ describe("apiToken.ts", () => {
     it("stateにAPIトークンが保存されているか否かを取得できる", () => {
       context.state.token = "token"
 
-      expect(context.getters.isApiTokenStored).toBe(true)
+      expect(context.getters.isStored).toBe(true)
     })
 
     it("stateにAPIトークンが保存されていない場合、真偽値falseを返す", () => {
-      expect(context.getters.isApiTokenStored).toBe(false)
+      expect(context.getters.isStored).toBe(false)
     })
   })
 
@@ -53,7 +53,7 @@ describe("apiToken.ts", () => {
 
       window.localStorage.setItem(apiTokenKey, token)
 
-      context.actions.setUpToken()
+      context.actions.setUp()
 
       expect(context.state.token).toBe(expected)
       expect(store.state.apiToken.token).toBe(expected)

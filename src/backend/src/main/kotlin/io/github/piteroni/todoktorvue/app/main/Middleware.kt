@@ -19,6 +19,7 @@ import io.ktor.features.DefaultHeaders
 import io.ktor.features.StatusPages
 import io.ktor.response.respond
 import io.ktor.serialization.json
+import io.ktor.utils.io.*
 
 internal fun Application.applyMiddlewares() {
     install(DefaultHeaders)
@@ -38,8 +39,9 @@ internal fun Application.applyMiddlewares() {
         } catch (exception: UnknownPropertyException) {
             throw InternalServerErrorException(exception)
         }
-        config.allowMethods.forEach { method -> method(method) }
-        config.allowHosts.forEach { host -> host(host) }
+
+        methods.addAll(config.allowMethods)
+        hosts.addAll(config.allowHosts)
     }
 
     install(StatusPages) {

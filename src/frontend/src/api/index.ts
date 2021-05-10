@@ -15,10 +15,8 @@ const defaultHeaders = {
   "Content-Type": "application/json"
 }
 
-export const createAxiosInstance = (headers: Record<string, string>): AxiosInstance => axios.create({ baseURL,
+export const createAxiosInstance = (headers: Record<string, string> = {}): AxiosInstance => axios.create({ baseURL,
   headers: {
     ...defaultHeaders,
     ...headers
   } })
-
-export const api = axios.create({ baseURL, headers: { ...defaultHeaders } })

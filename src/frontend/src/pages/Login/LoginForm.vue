@@ -180,7 +180,7 @@ export default class LoginForm extends Vue {
     this.isLoggedIn = true
 
     try {
-      await this.$apiToken.actions.fetchApiToken({
+      await this.$apiToken.actions.fetch({
         email: this.email,
         password: this.password
       })
@@ -191,7 +191,6 @@ export default class LoginForm extends Vue {
         this.feedbackError("ログインに失敗しました、入力内容をご確認下さい")
       } else {
         console.error(e)
-        this.$notify.error("問題が発生しました")
       }
 
       return

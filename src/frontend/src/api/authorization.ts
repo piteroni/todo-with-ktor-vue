@@ -9,7 +9,7 @@ export class UnauthorizedError extends RuntimeError {
 export const createBearerSchema = (): Record<string, string> => {
   const apiToken = container.get<ApiTokenContext>(types.vuexContext.apiToken)
 
-  if (!apiToken.getters.isApiTokenStored) {
+  if (!apiToken.getters.isStored) {
     throw new UnauthorizedError("Unable to obtain an authentication token")
   }
 

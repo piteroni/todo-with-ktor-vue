@@ -22,7 +22,7 @@ export class ApiTokenGetters extends Getters<ApiTokenState> {
    *
    * @returns API Tokenが保存されているか.
    */
-  public get isApiTokenStored (): boolean {
+  public get isStored(): boolean {
     return this.state.token !== ""
   }
 }
@@ -53,7 +53,7 @@ export class ApiTokenActions extends Actions<ApiTokenState, ApiTokenGetters, Api
   /**
    * API Tokenの初期化処理を行う.
    */
-  public setUpToken(): void {
+  public setUp(): void {
     const token = window.localStorage.getItem(apiTokenKey) ?? ""
 
     this.mutations.save(token)
@@ -81,7 +81,7 @@ export class ApiTokenActions extends Actions<ApiTokenState, ApiTokenGetters, Api
    * @throws {ApiError}
    *   APIとの通信に失敗した場合に発生する.
    */
-  public async fetchApiToken(params: FetchApiTokenParameter): Promise<void> {
+  public async fetch(params: FetchApiTokenParameter): Promise<void> {
     const { email, password } = params
     const response = await this.$identification.login(email, password)
 

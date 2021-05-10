@@ -43,7 +43,7 @@ export default class LoginPage extends Vue {
   /**
    * ローディング状態を保持する.
    */
-  public loading = false;
+  public loading = true
 
   async mounted() {
     let isRedirect = false
@@ -52,7 +52,6 @@ export default class LoginPage extends Vue {
       isRedirect = await this.redirectIfAuthenticated()
     } catch (e) {
       console.error(e)
-      this.$notify.error("問題が発生しました")
 
       return
     }
@@ -71,9 +70,9 @@ export default class LoginPage extends Vue {
    *   リダイレクトが行われたか否か.
    */
   private async redirectIfAuthenticated(): Promise<boolean> {
-    await this.$apiToken.actions.setUpToken()
+    await this.$apiToken.actions.setUp()
 
-    if (!this.$apiToken.getters.isApiTokenStored) {
+    if (!this.$apiToken.getters.isStored) {
       return false
     }
 
