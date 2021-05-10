@@ -58,7 +58,7 @@ internal fun Application.applyMiddlewares() {
         jwt {
             realm = jwtConfig.realm
             verifier(makeJWTVerifier(jwtConfig))
-            validate { Validator.validate(it, jwtConfig) }
+            validate { credential -> Validator.validate(credential, jwtConfig) }
         }
     }
 }
