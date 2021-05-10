@@ -28,8 +28,10 @@ internal fun Application.applyMiddlewares() {
     }
 
     install(CORS) {
+        // for chrome preflight request
+        allowNonSimpleContentTypes = true
+
         header("*")
-        header("key")
 
         val config = try {
             CORSConfig()

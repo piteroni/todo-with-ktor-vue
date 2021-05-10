@@ -22,6 +22,11 @@ import Navbar from "@/components/singletons/Navber.vue"
 import Logo from "@/components/singletons/Logo.vue"
 import Loading from "@/components/singletons/Loading.vue"
 import LoginForm from "./LoginForm.vue"
+import { VuexContext } from "@/providers/containers/vuexContext"
+import { types } from "@/providers/types"
+import { ApiTokenContext } from "@/store/modules/apiToken"
+import { UnauthorizedError } from "@/api/exceptions"
+import { routeNames } from "@/router/routeNames"
 
 @Component({
   components: {
@@ -31,11 +36,61 @@ import LoginForm from "./LoginForm.vue"
     "login-form": LoginForm,
   }
 })
-export default class Login extends Vue {
+export default class LoginPage extends Vue {
+  @VuexContext(types.vuexContext.apiToken)
+  private $apiToken!: ApiTokenContext;
+
   /**
    * ローディング状態を保持する.
    */
   public loading = false;
+
+  async mounted() {
+    let isRedirect = false
+
+    try {
+      isRedirect = await this.redirectIfAuthenticated()
+    } catch (e) {
+      console.error(e)
+      this.$notify.error("問題が発生しました")
+
+      return
+    }
+
+    if (isRedirect) {
+      return
+    }
+
+    this.loading = false
+  }
+
+  /**
+   * ユーザーが認証済みの場合に、リダイレクトを行う.
+   *
+   * @return
+   *   リダイレクトが行われたか否か.
+   */
+  private async redirectIfAuthenticated(): Promise<boolean> {
+    await this.$apiToken.actions.setUpToken()
+
+    if (!this.$apiToken.getters.isApiTokenStored) {
+      return false
+    }
+
+    try {
+      await this.$apiToken.actions.verify()
+    } catch (e) {
+      if (e instanceof UnauthorizedError) {
+        return false
+      }
+
+      throw e
+    }
+
+    this.$router.push({ name: routeNames.home })
+
+    return true
+  }
 }
 </script>
 

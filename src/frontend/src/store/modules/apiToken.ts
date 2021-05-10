@@ -1,3 +1,4 @@
+import { Credentials } from "@/api/Credentials"
 import { Identification } from "@/api/Identification"
 import { Api } from "@/providers/containers/api"
 import { types } from "@/providers/types"
@@ -32,7 +33,7 @@ export class ApiTokenMutations extends Mutations<ApiTokenState> {
    *
    * @param token APIトークン.
    */
-  public save (token: string): void {
+  public save(token: string): void {
     this.state.token = token
   }
 }
@@ -46,6 +47,9 @@ export class ApiTokenActions extends Actions<ApiTokenState, ApiTokenGetters, Api
   @Api(types.api.Identification)
   private $identification!: Identification;
 
+  @Api(types.api.Credentials)
+  private $credentials!: Credentials;
+
   /**
    * API Tokenの初期化処理を行う.
    */
@@ -53,6 +57,18 @@ export class ApiTokenActions extends Actions<ApiTokenState, ApiTokenGetters, Api
     const token = window.localStorage.getItem(apiTokenKey) ?? ""
 
     this.mutations.save(token)
+  }
+
+  /**
+   * API Tokenが有効かサーバーに問い合わせ検証する.
+   *
+   * @throws {UnauthorizedError}
+   *   ログインユーザーの資格情報が有効では無い場合に送出される.
+   * @throws {ApiError}
+   *   API通信時にエラーが発生した場合に送出される.
+   */
+  public async verify(): Promise<void> {
+    await this.$credentials.verify()
   }
 
   /**

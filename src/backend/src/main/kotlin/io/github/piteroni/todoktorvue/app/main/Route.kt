@@ -6,6 +6,7 @@ import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.auth.principal
+import io.ktor.http.*
 import io.ktor.response.respond
 import io.ktor.routing.Route
 import io.ktor.routing.get
@@ -30,6 +31,10 @@ internal fun Route.internalApiRoutes() {
         authenticate {
             get("ping") {
                 call.respond(call.principal<UserIdPrincipal>()!!)
+            }
+
+            route("/credentials") {
+                post("/verify") { call.respond(HttpStatusCode.OK) }
             }
         }
     }

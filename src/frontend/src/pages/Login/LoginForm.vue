@@ -66,6 +66,7 @@
                 id="submitButton"
                 class="loginButton"
                 @click="login"
+                :loading="isLoggedIn"
                 depressed
                 color="primary"
               >
@@ -100,14 +101,18 @@ export default class LoginForm extends Vue {
    * ローディング状態を保持する.
    */
   public loading = true;
+
   /**
    * 入力されたメールアドレスを保持する.
    */
+
   public email = "";
+
   /**
    * 入力されたパスワードを保持する.
    */
   public password = "";
+
   /**
    * 認証エラーが発生したか否かを表す.
    */
@@ -117,6 +122,11 @@ export default class LoginForm extends Vue {
    * エラーメッセージを表す.
    */
   public errorMessage = "";
+
+  /**
+   * ログイン処理を実施しているか否かを表す.
+   */
+  public isLoggedIn = false;
 
   /**
    * フォーム内の入力値が有効か取得する.
@@ -141,6 +151,7 @@ export default class LoginForm extends Vue {
   public get emailRules(): Array<VTextRule> {
     return [
       (v: string | undefined) => !!v || "メールアドレスを入力してください",
+      (v: string | undefined) => (v && v.length <= 256) || "メールアドレスは256文字以内で入力してください",
     ]
   }
 
@@ -150,6 +161,7 @@ export default class LoginForm extends Vue {
   public get passwordRules(): Array<VTextRule> {
     return [
       (v: string | undefined) => !!v || "パスワードを入力してください",
+      (v: string | undefined) => (v && v.length <= 128) || "パスワードは128文字以内で入力してください",
     ]
   }
 
@@ -165,6 +177,8 @@ export default class LoginForm extends Vue {
 
     this.clear()
 
+    this.isLoggedIn = true
+
     try {
       await this.$apiToken.actions.fetchApiToken({
         email: this.email,
@@ -172,13 +186,18 @@ export default class LoginForm extends Vue {
       })
     } catch (e) {
       if (e instanceof UnauthorizedError) {
+        this.isLoggedIn = false
+
         this.feedbackError("ログインに失敗しました、入力内容をご確認下さい")
       } else {
         console.error(e)
         this.$notify.error("問題が発生しました")
       }
+
       return
     }
+
+    this.isLoggedIn = false
 
     this.$router.push({ name: routeNames.home })
   }

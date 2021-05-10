@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosInstance } from "axios"
 
 const baseURL = ((env: string): string => {
   switch (env) {
@@ -11,8 +11,14 @@ const baseURL = ((env: string): string => {
   }
 })(process.env.NODE_ENV)
 
-const headers = {
+const defaultHeaders = {
   "Content-Type": "application/json"
 }
 
-export const api = axios.create({ baseURL, headers })
+export const createAxiosInstance = (headers: Record<string, string>): AxiosInstance => axios.create({ baseURL,
+  headers: {
+    ...defaultHeaders,
+    ...headers
+  } })
+
+export const api = axios.create({ baseURL, headers: { ...defaultHeaders } })

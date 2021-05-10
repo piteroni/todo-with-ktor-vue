@@ -1,4 +1,5 @@
 import { RuntimeError } from "@/shared/exception"
+import { HttpStatusCode } from "@/shared/http"
 
 /**
  * APIでエラーが発生した場合のエラーレスポンス.
@@ -30,18 +31,20 @@ export class ApiError extends RuntimeError {
  */
 export class UnauthorizedError extends ApiError {
   public name = "UnauthorizedError";
+
+  public statusCode = HttpStatusCode.UNAUTHORIZED
 }
 
 /**
  * クライエントエラーの場合のエラー.
  */
 export class ClientError extends ApiError {
-  public name = "ClientError";
+  public name = "ClientError"
 }
 
 /**
  * サーバーエラーの場合のエラー.
  */
 export class ServerError extends ApiError {
-  public name = "ServerError";
+  public name = "ServerError"
 }
