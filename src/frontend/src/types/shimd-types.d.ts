@@ -1,5 +1,4 @@
-
-import { Notify } from "@/plugins/notify/types"
+import { Notify } from "@/lib/notify/types"
 
 declare module "vue/types/vue" {
   interface Vue {

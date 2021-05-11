@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
-import Notify from "@/plugins/notify/Container.vue"
+import Notify from "@/lib/notify/Container.vue"
 
 @Component({
   components: {
