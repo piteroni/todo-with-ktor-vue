@@ -1,5 +1,7 @@
 package io.github.piteroni.todoktorvue.app.http.controllers
 
+import io.github.piteroni.todoktorvue.app.auth.jwt.JWT
+import io.github.piteroni.todoktorvue.app.auth.jwt.makeJWTConfig
 import io.github.piteroni.todoktorvue.app.http.exceptions.UnauthorizedException
 import io.github.piteroni.todoktorvue.app.http.exceptions.UnprocessableEntityException
 import io.github.piteroni.todoktorvue.app.http.requests.LoginRequest
@@ -26,11 +28,13 @@ class IdentificationController {
             throw UnprocessableEntityException(call.request.uri, call.request.httpMethod.value, exception)
         }
 
-        val token = try {
+        val userAccountId = try {
             Authentication().authenticate(params.email, params.password)
         } catch (exception: AuthenticationException) {
             throw UnauthorizedException(call.request.uri, call.request.httpMethod.value, "authentication failed", exception)
         }
+
+        val token = JWT.createToken(userAccountId, makeJWTConfig())
 
         call.respond(HttpStatusCode.OK, AuthenticationToken(token))
     }

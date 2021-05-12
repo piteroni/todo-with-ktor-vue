@@ -1,7 +1,5 @@
 package io.github.piteroni.todoktorvue.app.intractor.identification
 
-import io.github.piteroni.todoktorvue.app.auth.jwt.JWT
-import io.github.piteroni.todoktorvue.app.auth.jwt.makeJWTConfig
 import io.github.piteroni.todoktorvue.app.persistence.models.Users
 import io.github.piteroni.todoktorvue.app.persistence.repositories.asUserAccount
 import org.jetbrains.exposed.sql.select
@@ -13,8 +11,13 @@ class AuthenticationException(message: String) : Exception(message)
 class Authentication {
     /**
      * authenticate the UserAccount.
+     *
+     * @param email email of UserAccount.
+     * @param password password of UserAccount.
+     * @return ID of the authenticated user account.
+     * @throws AuthenticationException when a user account is not authenticated.
      */
-    fun authenticate(email: String, password: String): String {
+    fun authenticate(email: String, password: String): Int {
         val userAccount = transaction {
             Users.select { Users.email eq email }.firstOrNull()?.asUserAccount()
         } ?: throw AuthenticationException("there is no user matching the specified email")
@@ -23,6 +26,6 @@ class Authentication {
             throw AuthenticationException("password is wrong")
         }
 
-        return JWT.createToken(userAccount.id, makeJWTConfig())
+        return userAccount.id
     }
 }

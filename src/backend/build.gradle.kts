@@ -5,21 +5,22 @@ plugins {
     id("application")
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-    kotlin("jvm") version "1.5.0"
-    kotlin("plugin.serialization") version "1.5.0"
+    id("com.adarshr.test-logger") version "1.7.0"
+    kotlin("jvm") version "1.4.32"
+    kotlin("plugin.serialization") version "1.4.32"
 }
 
 apply("migration.gradle")
 apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.32")
     // ktor
     implementation("io.ktor:ktor-server-core:1.5.3")
     implementation("io.ktor:ktor-server-netty:1.5.3")
@@ -38,16 +39,31 @@ dependencies {
 
     // ktor
     testImplementation("io.ktor:ktor-server-tests:1.5.3")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    // spek
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.10")
+    testRuntimeOnly("com.h2database:h2:1.4.200")
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:2.0.10")
+    testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect:1.4.32")
 }
 
 application {
     mainClassName = "io.ktor.server.netty.EngineMain"
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform {
+        includeEngines("spek2")
+    }
+
+    testLogging {
+        events("standard_out")
+    }
 }
 
 tasks.withType<ShadowJar> {

@@ -49,8 +49,6 @@ services:
       - ca580fc13de7d52268ddc254:/app/node_modules
     networks:
       - container-link
-    links: 
-      - api
 
 networks:
   default:
