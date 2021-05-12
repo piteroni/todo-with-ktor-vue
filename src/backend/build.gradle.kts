@@ -5,13 +5,14 @@ plugins {
     id("application")
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-    id("com.adarshr.test-logger") version "1.7.0"
     kotlin("jvm") version "1.4.32"
     kotlin("plugin.serialization") version "1.4.32"
 }
 
-apply("migration.gradle")
-apply(plugin = "org.jlleitschuh.gradle.ktlint")
+apply {
+    plugin("java")
+    plugin("org.jlleitschuh.gradle.ktlint")
+}
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -39,6 +40,8 @@ dependencies {
 
     // ktor
     testImplementation("io.ktor:ktor-server-tests:1.5.3")
+    // faker
+    testImplementation("io.github.serpro69:kotlin-faker:1.6.0")
     // spek
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.10")
     testRuntimeOnly("com.h2database:h2:1.4.200")
@@ -62,10 +65,28 @@ tasks.withType<Test> {
     }
 
     testLogging {
-        events("standard_out")
+        showStandardStreams = true
     }
 }
 
 tasks.withType<ShadowJar> {
     isZip64 = true
+}
+
+task<JavaExec>("drop") {
+    classpath = project.the<SourceSetContainer>()["main"].runtimeClasspath
+    main = "io.github.piteroni.todoktorvue.database.migration.DropKt"
+}
+
+task<JavaExec>("migrate") {
+    classpath = project.the<SourceSetContainer>()["main"].runtimeClasspath
+    main = "io.github.piteroni.todoktorvue.database.migration.MigrationKt"
+}
+
+task<ShadowJar>("testShadowJar") {
+    archiveClassifier.set("tests")
+
+    configurations = listOf(project.configurations.testImplementation.get().apply { isCanBeResolved = true })
+
+    from(project.the<SourceSetContainer>()["test"].output)
 }

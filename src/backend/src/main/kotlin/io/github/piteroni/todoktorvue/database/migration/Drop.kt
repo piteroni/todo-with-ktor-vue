@@ -6,12 +6,15 @@ import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun main() {
-    connect()
-
+fun drop() {
     transaction {
         addLogger(StdOutSqlLogger)
 
         SchemaUtils.drop(Users)
     }
+}
+
+fun main() {
+    connect()
+    drop()
 }

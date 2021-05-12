@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.Database
 /**
  * connect to database.
  */
-internal fun connect() {
+fun connect() {
     Database.connect(
         url = Config.get("DB_URL"),
         driver = Config.get("DB_DRIVER"),

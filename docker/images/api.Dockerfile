@@ -2,7 +2,7 @@ FROM gradle:6.6.1-jdk11
 
 RUN apt update && apt install -y zip
 
-ARG KOTLIN_VERSION=1.4.32
+ARG KOTLIN_VERSION=1.4.31
 
 SHELL ["/bin/bash", "-c"]
 
