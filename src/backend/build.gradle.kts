@@ -71,7 +71,21 @@ tasks.withType<Test> {
 tasks.jacocoTestReport {
     reports {
         xml.isEnabled = true
+        html.isEnabled = true
     }
+
+    classDirectories.setFrom(fileTree(
+        "dir" to "build/classes",
+        "includes" to listOf(
+            "**/piteroni/todoktorvue/app/interactor/**",
+            "**/piteroni/todoktorvue/app/http/requests/**",
+            "**/piteroni/todoktorvue/app/http/responses/**",
+            "**/piteroni/todoktorvue/app/http/controllers/**"
+        ),
+        "excludes" to listOf(
+            "**/*Spec*"
+        )
+    ))
 }
 
 tasks.withType<ShadowJar> {
@@ -80,12 +94,12 @@ tasks.withType<ShadowJar> {
 
 task<JavaExec>("drop") {
     classpath = project.the<SourceSetContainer>()["main"].runtimeClasspath
-    main = "io.github.piteroni.todoktorvue.database.migration.DropKt"
+    main = "io.github.piteroni.todoktorvue.migration.DropKt"
 }
 
 task<JavaExec>("migrate") {
     classpath = project.the<SourceSetContainer>()["main"].runtimeClasspath
-    main = "io.github.piteroni.todoktorvue.database.migration.MigrationKt"
+    main = "io.github.piteroni.todoktorvue.migration.MigrationKt"
 }
 
 task<ShadowJar>("testShadowJar") {

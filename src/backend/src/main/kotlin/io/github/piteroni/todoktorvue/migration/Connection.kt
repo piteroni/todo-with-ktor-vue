@@ -1,4 +1,4 @@
-package io.github.piteroni.todoktorvue.database.migration
+package io.github.piteroni.todoktorvue.migration
 
 import io.github.piteroni.todoktorvue.app.utils.Config
 import org.jetbrains.exposed.sql.Database

@@ -20,9 +20,9 @@ internal fun Application.applyRoutes() {
     }
 }
 
-val identificationController = IdentificationController()
-
 internal fun Route.internalApiRoutes() {
+    val identificationController = IdentificationController()
+
     route("/api/i/v0") {
         post("/login") {
             identificationController.login(call)

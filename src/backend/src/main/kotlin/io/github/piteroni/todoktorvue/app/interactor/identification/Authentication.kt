@@ -1,4 +1,4 @@
-package io.github.piteroni.todoktorvue.app.intractor.identification
+package io.github.piteroni.todoktorvue.app.interactor.identification
 
 import io.github.piteroni.todoktorvue.app.persistence.models.Users
 import io.github.piteroni.todoktorvue.app.persistence.repositories.asUserAccount

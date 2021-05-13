@@ -1,4 +1,4 @@
-package io.github.piteroni.todoktorvue.app.intractor.identification
+package io.github.piteroni.todoktorvue.app.interactor.identification
 
 import io.github.piteroni.todoktorvue.test.factories.UserFactory
 import io.github.piteroni.todoktorvue.test.setUp
