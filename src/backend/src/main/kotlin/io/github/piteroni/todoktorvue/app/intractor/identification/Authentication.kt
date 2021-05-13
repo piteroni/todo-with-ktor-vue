@@ -20,10 +20,10 @@ class Authentication {
     fun authenticate(email: String, password: String): Int {
         val userAccount = transaction {
             Users.select { Users.email eq email }.firstOrNull()?.asUserAccount()
-        } ?: throw AuthenticationException("there is no user matching the specified email")
+        } ?: throw AuthenticationException("there is no user matching the specified email. email = $email")
 
         if (!BCrypt.checkpw(password, userAccount.password)) {
-            throw AuthenticationException("password is wrong")
+            throw AuthenticationException("password is wrong. email = $email")
         }
 
         return userAccount.id

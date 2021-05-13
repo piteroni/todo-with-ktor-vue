@@ -1,9 +1,7 @@
 package io.github.piteroni.todoktorvue.test.factories
 
-import io.github.piteroni.todoktorvue.app.persistence.models.Users
+import io.github.piteroni.todoktorvue.app.persistence.models.User
 import io.github.serpro69.kfaker.Faker
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.statements.InsertStatement
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 import org.mindrot.jbcrypt.BCrypt.gensalt
@@ -18,14 +16,14 @@ object UserFactory {
         password: String? = null,
         createdAt: DateTime? = null,
         updatedAt: DateTime? = null,
-    ): InsertStatement<Number> {
+    ): User {
         return transaction {
-            Users.insert { user ->
-                user[Users.name] = name ?: faker.name.name()
-                user[Users.email] = email ?: faker.address.mailbox()
-                user[Users.password] = password ?: hashpw("password", gensalt())
-                user[Users.createdAt] = createdAt ?: DateTime.now()
-                user[Users.updatedAt] = updatedAt ?: DateTime.now()
+            User.new {
+                this.name = name ?: faker.name.name()
+                this.email = email ?: faker.address.mailbox()
+                this.password = hashpw(password ?: "password", gensalt())
+                this.createdAt = createdAt ?: DateTime.now()
+                this.updatedAt = updatedAt ?: DateTime.now()
             }
         }
     }

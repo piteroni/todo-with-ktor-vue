@@ -1,6 +1,10 @@
 package io.github.piteroni.todoktorvue.app.persistence.models
 
-import org.jetbrains.exposed.dao.*
+import io.github.piteroni.todoktorvue.app.domain.user.UserAccount
+import org.jetbrains.exposed.dao.EntityID
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.IntIdTable
 
 object Users : IntIdTable("users") {
     val name = varchar("name", 256)
@@ -13,9 +17,11 @@ object Users : IntIdTable("users") {
 class User(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<User>(Users)
 
-    val name by Users.name
-    val email by Users.email
-    val password by Users.password
-    val createdAt by Users.createdAt
-    val updatedAt by Users.updatedAt
+    var name by Users.name
+    var email by Users.email
+    var password by Users.password
+    var createdAt by Users.createdAt
+    var updatedAt by Users.updatedAt
+
+    fun asUserAccount() = UserAccount(id.value, email, password)
 }

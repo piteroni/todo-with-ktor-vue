@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("application")
+    id("jacoco")
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     kotlin("jvm") version "1.4.32"
@@ -42,11 +43,11 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests:1.5.3")
     // faker
     testImplementation("io.github.serpro69:kotlin-faker:1.6.0")
-    // spek
-    testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.10")
+    // kotest
+    testImplementation("io.kotest:kotest-runner-junit5:4.5.0")
+    testImplementation("io.kotest:kotest-assertions-core:4.5.0")
+    // in memory db
     testRuntimeOnly("com.h2database:h2:1.4.200")
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:2.0.10")
-    testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect:1.4.32")
 }
 
 application {
@@ -60,12 +61,16 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform {
-        includeEngines("spek2")
-    }
+    useJUnitPlatform()
 
     testLogging {
         showStandardStreams = true
+    }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = true
     }
 }
 
