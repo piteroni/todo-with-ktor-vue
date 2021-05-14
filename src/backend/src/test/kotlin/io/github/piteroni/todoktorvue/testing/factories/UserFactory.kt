@@ -1,4 +1,4 @@
-package io.github.piteroni.todoktorvue.test.factories
+package io.github.piteroni.todoktorvue.testing.factories
 
 import io.github.piteroni.todoktorvue.app.persistence.models.User
 import io.github.serpro69.kfaker.Faker

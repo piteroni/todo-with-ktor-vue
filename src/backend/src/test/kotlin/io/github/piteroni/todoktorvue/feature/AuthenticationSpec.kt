@@ -1,7 +1,9 @@
-package io.github.piteroni.todoktorvue.app.interactor.identification
+package io.github.piteroni.todoktorvue.feature
 
-import io.github.piteroni.todoktorvue.test.factories.UserFactory
-import io.github.piteroni.todoktorvue.test.setUp
+import io.github.piteroni.todoktorvue.app.interactor.identification.Authentication
+import io.github.piteroni.todoktorvue.app.interactor.identification.AuthenticationException
+import io.github.piteroni.todoktorvue.testing.factories.UserFactory
+import io.github.piteroni.todoktorvue.testing.setUp
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe

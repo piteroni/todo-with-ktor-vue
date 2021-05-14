@@ -38,11 +38,15 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:0.9.26")
     // configuration
     implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
+    // di
+    implementation("org.kodein.di:kodein-di-generic-jvm:6.4.1")
 
     // ktor
     testImplementation("io.ktor:ktor-server-tests:1.5.3")
     // faker
     testImplementation("io.github.serpro69:kotlin-faker:1.6.0")
+    // mock
+    testImplementation("io.mockk:mockk:1.10.6")
     // kotest
     testImplementation("io.kotest:kotest-runner-junit5:4.5.0")
     testImplementation("io.kotest:kotest-assertions-core:4.5.0")
@@ -74,18 +78,21 @@ tasks.jacocoTestReport {
         html.isEnabled = true
     }
 
-    classDirectories.setFrom(fileTree(
-        "dir" to "build/classes",
-        "includes" to listOf(
-            "**/piteroni/todoktorvue/app/interactor/**",
-            "**/piteroni/todoktorvue/app/http/requests/**",
-            "**/piteroni/todoktorvue/app/http/responses/**",
-            "**/piteroni/todoktorvue/app/http/controllers/**"
-        ),
-        "excludes" to listOf(
-            "**/*Spec*"
+    classDirectories.setFrom(
+        fileTree(
+            "dir" to "build/classes",
+            "includes" to listOf(
+                "**/piteroni/todoktorvue/app/interactor/**",
+                "**/piteroni/todoktorvue/app/http/requests/**",
+                "**/piteroni/todoktorvue/app/http/responses/**",
+                "**/piteroni/todoktorvue/app/http/controllers/**"
+            ),
+            "excludes" to listOf(
+                "**/*Spec*",
+                "**/*Test*"
+            )
         )
-    ))
+    )
 }
 
 tasks.withType<ShadowJar> {
