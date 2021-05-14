@@ -1,5 +1,7 @@
 package io.github.piteroni.todoktorvue.app.main
 
+import io.github.piteroni.todoktorvue.app.auth.jwt.JWT
+import io.github.piteroni.todoktorvue.app.auth.jwt.makeJWTConfig
 import io.github.piteroni.todoktorvue.app.http.controllers.IdentificationController
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -18,7 +20,7 @@ internal fun Application.applyRoutes() {
 }
 
 internal fun Route.internalApiRoutes() {
-    val identificationController = IdentificationController()
+    val identificationController = IdentificationController(JWT(makeJWTConfig()))
 
     route("/api/i/v0") {
         post("/login") {

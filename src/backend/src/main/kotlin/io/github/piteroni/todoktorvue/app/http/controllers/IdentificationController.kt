@@ -14,20 +14,8 @@ import io.ktor.request.httpMethod
 import io.ktor.request.receive
 import io.ktor.request.uri
 import io.ktor.response.respond
-import org.kodein.di.Kodein
-import org.kodein.di.generic.instance
 
-class IdentificationController(injector: Kodein) {
-    /**
-     *
-     */
-//    private val injector = Kodein {}
-
-    /**
-     * jwt service
-     */
-    private val jwt: JWT by injector.instance()
-
+class IdentificationController(private val jwt: JWT) {
     /**
      * Login to the application.
      *
@@ -46,7 +34,7 @@ class IdentificationController(injector: Kodein) {
             throw UnauthorizedException(call.request.uri, call.request.httpMethod.value, "authentication failed", exception)
         }
 
-        val token = jwt.createToken(userAccountId, makeJWTConfig())
+        val token = jwt.createToken(userAccountId)
 
         call.respond(HttpStatusCode.OK, AuthenticationToken(token))
     }

@@ -39,7 +39,7 @@ dependencies {
     // configuration
     implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
     // di
-    implementation("org.kodein.di:kodein-di-generic-jvm:6.4.1")
+    implementation("org.kodein.di:kodein-di:7.5.0")
 
     // ktor
     testImplementation("io.ktor:ktor-server-tests:1.5.3")
