@@ -47,7 +47,11 @@ internal fun Application.applyMiddlewares() {
         exception<HttpException> { cause ->
             call.respond(cause.statusCode, cause.asResponse())
 
-            throw cause
+            when (cause.statusCode.value) {
+                in 400..499 -> environment.log.warn(cause.stackTraceToString())
+                in 500..599 -> environment.log.error(cause.stackTraceToString())
+                else -> environment.log.error(cause.stackTraceToString())
+            }
         }
     }
 
