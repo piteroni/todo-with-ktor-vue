@@ -1,7 +1,6 @@
 package io.github.piteroni.todoktorvue.app.http.controllers
 
 import io.github.piteroni.todoktorvue.app.auth.jwt.JWT
-import io.github.piteroni.todoktorvue.app.auth.jwt.makeJWTConfig
 import io.github.piteroni.todoktorvue.app.http.exceptions.UnauthorizedException
 import io.github.piteroni.todoktorvue.app.http.exceptions.UnprocessableEntityException
 import io.github.piteroni.todoktorvue.app.http.requests.LoginRequest
