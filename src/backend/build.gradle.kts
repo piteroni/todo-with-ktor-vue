@@ -50,6 +50,8 @@ dependencies {
     // kotest
     testImplementation("io.kotest:kotest-runner-junit5:4.5.0")
     testImplementation("io.kotest:kotest-assertions-core:4.5.0")
+    // serialization
+    testImplementation("com.google.code.gson:gson:2.8.6")
     // in memory db
     testRuntimeOnly("com.h2database:h2:1.4.200")
 }
@@ -83,13 +85,15 @@ tasks.jacocoTestReport {
             "dir" to "build/classes",
             "includes" to listOf(
                 "**/piteroni/todoktorvue/app/interactor/**",
+                "**/piteroni/todoktorvue/app/main/Route*",
                 "**/piteroni/todoktorvue/app/http/requests/**",
                 "**/piteroni/todoktorvue/app/http/responses/**",
                 "**/piteroni/todoktorvue/app/http/controllers/**"
             ),
             "excludes" to listOf(
                 "**/*Spec*",
-                "**/*Test*"
+                "**/*Test*",
+                "**/*serializer*"
             )
         )
     )

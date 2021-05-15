@@ -1,27 +1,36 @@
 package io.github.piteroni.todoktorvue.http
 
+import com.google.gson.Gson
 import io.github.piteroni.todoktorvue.app.auth.jwt.JWT
 import io.github.piteroni.todoktorvue.app.main.main
+import io.github.piteroni.todoktorvue.app.persistence.models.User
+import io.github.piteroni.todoktorvue.testing.HttpTestCase
 import io.github.piteroni.todoktorvue.testing.factories.UserFactory
 import io.github.piteroni.todoktorvue.testing.internalApi
-import io.github.piteroni.todoktorvue.testing.setUp
-import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.startWith
 import io.ktor.application.Application
-import io.ktor.http.*
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.formUrlEncode
 import io.ktor.server.testing.contentType
 import io.ktor.server.testing.handleRequest
 import io.ktor.server.testing.setBody
 import io.ktor.server.testing.withTestApplication
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockkConstructor
+import io.mockk.unmockkAll
 
-class IdentificationTest : AnnotationSpec() {
-    private val user = UserFactory.make(email = "user@example.com", password = "password1!")
+class IdentificationSpec : HttpTestCase() {
+    private lateinit var user: User
 
-    @BeforeAll
-    fun beforeAll() {
-        setUp()
+    private val gson = Gson()
+
+    @BeforeEach
+    fun beforeEach() {
+        user = UserFactory.make(email = "user@example.com", password = "password1!")
     }
 
     @Test
@@ -33,7 +42,7 @@ class IdentificationTest : AnnotationSpec() {
         withTestApplication(Application::main) {
             handleRequest(HttpMethod.Post, internalApi("/login")) {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody("""{"email": "user@example.com", "password": "password1!"}""")
+                setBody(mapOf("email" to "user@example.com", "password" to "password1!").let { gson.toJson(it) })
             }.apply {
                 response.contentType().toString() shouldBe startWith(ContentType.Application.Json.toString())
                 response.status() shouldBe HttpStatusCode.OK
@@ -48,7 +57,7 @@ class IdentificationTest : AnnotationSpec() {
     fun `401 - Authentication fails`() = withTestApplication(Application::main) {
         handleRequest(HttpMethod.Post, internalApi("/login")) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-            setBody("""{"email": "unregisted-user@example.com", "password": "incorrect-pw"}""")
+            setBody(mapOf("email" to "unregisted-user@example.com", "password" to "incorrect-pw").let { gson.toJson(it) })
         }.apply {
             response.contentType().toString() shouldBe startWith(ContentType.Application.Json.toString())
             response.status() shouldBe HttpStatusCode.Unauthorized
@@ -70,7 +79,7 @@ class IdentificationTest : AnnotationSpec() {
     fun `422 - Illegal request body keys`() = withTestApplication(Application::main) {
         handleRequest(HttpMethod.Post, internalApi("/login")) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-            setBody("""{"userId": "email@example.com", "password": "password1!"}""")
+            setBody(mapOf("userId" to "email@example.com", "password" to "password1!").let { gson.toJson(it) })
         }.apply {
             response.contentType().toString() shouldBe startWith(ContentType.Application.Json.toString())
             response.status() shouldBe HttpStatusCode.UnprocessableEntity
@@ -81,7 +90,8 @@ class IdentificationTest : AnnotationSpec() {
     fun `422 - Illegal request body values`() = withTestApplication(Application::main) {
         handleRequest(HttpMethod.Post, internalApi("/login")) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-            setBody("""{"email": "user@example.com", "password": ""}""") // empty value.
+            // empty value.
+            setBody(mapOf("email" to "email@example.com", "password" to "").let { gson.toJson(it) })
         }.apply {
             response.contentType().toString() shouldBe startWith(ContentType.Application.Json.toString())
             response.status() shouldBe HttpStatusCode.UnprocessableEntity
