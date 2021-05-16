@@ -205,7 +205,7 @@ export default class LoginForm extends Vue {
    * @param message
    *   エラーメッセージ.
    */
-  private feedbackError (message: string): void {
+  private feedbackError(message: string): void {
     this.errorMessage = message
     this.isError = true
   }
@@ -213,7 +213,7 @@ export default class LoginForm extends Vue {
   /**
    * エラー関連のリソースを初期化する.
    */
-  private clear (): void {
+  private clear(): void {
     this.errorMessage = ""
     this.isError = false
   }
@@ -221,10 +221,10 @@ export default class LoginForm extends Vue {
   /**
    * クエリを初期化する.
    */
-  private clearQuerys (): void {
+  private clearQuerys(): void {
     /* eslint-disable arrow-body-style */
     /* eslint-disable @typescript-eslint/no-empty-function */
-    this.$router.replace({ query: {} }, () => {})
+    this.$router.replace({ query: {} }, () => { })
   }
 }
 </script>

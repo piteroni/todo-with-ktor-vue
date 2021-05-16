@@ -7,18 +7,18 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator"
-import { NotifyType } from "./types"
+import { MessageNotifyType } from "../lib"
 
 @Component
-export default class MessageBox extends Vue {
-  @Prop({ default: "" })
+export default class Message extends Vue {
+  @Prop({ type: String, required: true })
   public title!: string;
 
-  @Prop({ default: "" })
+  @Prop({ type: String, required: true })
   public message!: string;
 
-  @Prop({ default: "info" })
-  public type!: NotifyType;
+  @Prop({ type: String, required: true })
+  public type!: MessageNotifyType
 
   public get selector(): string {
     switch (this.type) {

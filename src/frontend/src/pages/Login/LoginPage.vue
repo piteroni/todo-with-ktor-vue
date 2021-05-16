@@ -45,7 +45,7 @@ export default class LoginPage extends Vue {
    */
   public loading = true
 
-  async mounted() {
+  public async mounted(): Promise<void> {
     let isRedirect = false
 
     try {
@@ -61,6 +61,8 @@ export default class LoginPage extends Vue {
     }
 
     this.loading = false
+
+    this.$notify.fatal()
   }
 
   /**
