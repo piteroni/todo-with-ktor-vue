@@ -72,16 +72,4 @@ export class NotifyApi implements NotifyClient {
       message: message ?? "問題が発生しました、しばらくお待ち頂き、ページのリロードをお願いします"
     })
   }
-
-  /**
-   * 重要メッセージを表示する.
-   */
-  public important(message: string, title: string): void {
-    this.emitter.addTask({
-      notifyType: "page",
-      pageNotifyType: "important",
-      title,
-      message
-    })
-  }
 }

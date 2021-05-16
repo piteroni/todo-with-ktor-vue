@@ -6,12 +6,6 @@
       :title="title"
       :message="message"
     />
-    <page
-      v-if='type === "important"'
-      :open="open"
-      :title="title"
-      :message="message"
-    />
   </div>
 </template>
 

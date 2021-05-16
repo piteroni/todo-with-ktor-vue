@@ -5,7 +5,7 @@ export type NotifyType = "message" | "page";
 
 export type MessageNotifyType = "info" | "success" | "warning" | "error";
 
-export type PageNotifyType = "fatal" | "important";
+export type PageNotifyType = "fatal";
 
 export type NotifyTaskType = MessageNotifyType | PageNotifyType;
 
@@ -84,7 +84,7 @@ export class TaskEmitter {
   }
 
   /**
-   * 保留中のタスクを一定時間を毎にbusを介して、コンポーネントに渡す.
+   * 保留中のタスクを一定時間毎にbusを介して、コンポーネントに渡す.
    */
   private async flushTasks(): Promise<void> {
     if (!this.pendingTasks.length) {
@@ -102,7 +102,7 @@ export class TaskEmitter {
   }
 
   /**
-   * 保留中のタスクを一定時間を毎にbusを介して、コンポーネントに渡す.
+   * タスクをコンポーネントに送信する.
    */
   private emit(task: NotifyTask): void {
     switch (task.notifyType) {
