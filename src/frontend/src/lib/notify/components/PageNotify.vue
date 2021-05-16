@@ -6,6 +6,12 @@
       :title="title"
       :message="message"
     />
+    <page
+      v-if='type === "important"'
+      :open="open"
+      :title="title"
+      :message="message"
+    />
   </div>
 </template>
 
@@ -13,10 +19,12 @@
 import { Vue, Component } from "vue-property-decorator"
 import { bus, event, PageNotifyType, PageNotifyTask } from "../lib"
 import FatalPage from "./FatalPage.vue"
+import Page from "./Page.vue"
 
 @Component({
   components: {
-    "fatal-page": FatalPage
+    "fatal-page": FatalPage,
+    "page": Page
   }
 })
 export default class PageNotify extends Vue {

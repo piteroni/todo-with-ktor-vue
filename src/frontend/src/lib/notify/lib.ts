@@ -5,7 +5,7 @@ export type NotifyType = "message" | "page";
 
 export type MessageNotifyType = "info" | "success" | "warning" | "error";
 
-export type PageNotifyType = "fatal";
+export type PageNotifyType = "fatal" | "important";
 
 export type NotifyTaskType = MessageNotifyType | PageNotifyType;
 

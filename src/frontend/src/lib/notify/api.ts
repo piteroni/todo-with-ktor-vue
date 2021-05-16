@@ -11,8 +11,6 @@ export class NotifyApi implements NotifyClient {
    * 通知メッセージを表示する.
    */
   public info(message: string, title?: string): void {
-    console.log("Hello world!!")
-
     this.emitter.addTask({
       notifyType: "message",
       messageNotifyType: "info",
@@ -71,7 +69,19 @@ export class NotifyApi implements NotifyClient {
       notifyType: "page",
       pageNotifyType: "fatal",
       title: title ?? "エラー",
-      message: message ?? "問題が発生しました、しばらくお待ち頂き、ページのリロードをお願いします",
+      message: message ?? "問題が発生しました、しばらくお待ち頂き、ページのリロードをお願いします"
+    })
+  }
+
+  /**
+   * 重要メッセージを表示する.
+   */
+  public important(message: string, title: string): void {
+    this.emitter.addTask({
+      notifyType: "page",
+      pageNotifyType: "important",
+      title,
+      message
     })
   }
 }
