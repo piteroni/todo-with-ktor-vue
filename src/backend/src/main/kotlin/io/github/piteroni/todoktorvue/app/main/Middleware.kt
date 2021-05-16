@@ -17,6 +17,7 @@ import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.features.StatusPages
+import io.ktor.http.HttpHeaders
 import io.ktor.response.respond
 import io.ktor.serialization.json
 
@@ -30,8 +31,9 @@ internal fun Application.applyMiddlewares() {
     install(CORS) {
         // for chrome preflight request
         allowNonSimpleContentTypes = true
+        allowCredentials = true
 
-        header("*")
+        header(HttpHeaders.Authorization)
 
         val config = try {
             CORSConfig()
@@ -65,7 +67,7 @@ internal fun Application.applyMiddlewares() {
         jwt {
             realm = jwtConfig.realm
             verifier(makeJWTVerifier(jwtConfig))
-            validate { credential -> Validator.validate(credential, jwtConfig) }
+            validate { credential -> Validator(makeJWTConfig()).validate(credential) }
         }
     }
 }

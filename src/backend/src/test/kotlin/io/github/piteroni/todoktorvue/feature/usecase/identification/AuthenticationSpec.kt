@@ -1,7 +1,7 @@
-package io.github.piteroni.todoktorvue.feature
+package io.github.piteroni.todoktorvue.feature.usecase.identification
 
-import io.github.piteroni.todoktorvue.app.interactor.identification.Authentication
-import io.github.piteroni.todoktorvue.app.interactor.identification.AuthenticationException
+import io.github.piteroni.todoktorvue.app.usecase.identification.Authentication
+import io.github.piteroni.todoktorvue.app.usecase.identification.AuthenticationException
 import io.github.piteroni.todoktorvue.testing.factories.UserFactory
 import io.github.piteroni.todoktorvue.testing.setUp
 import io.kotest.assertions.throwables.shouldThrow

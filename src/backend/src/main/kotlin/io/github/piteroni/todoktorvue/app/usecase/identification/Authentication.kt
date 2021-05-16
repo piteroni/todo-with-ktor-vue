@@ -1,8 +1,7 @@
-package io.github.piteroni.todoktorvue.app.interactor.identification
+package io.github.piteroni.todoktorvue.app.usecase.identification
 
+import io.github.piteroni.todoktorvue.app.persistence.models.User
 import io.github.piteroni.todoktorvue.app.persistence.models.Users
-import io.github.piteroni.todoktorvue.app.persistence.repositories.asUserAccount
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
 
@@ -19,7 +18,7 @@ class Authentication {
      */
     fun authenticate(email: String, password: String): Int {
         val userAccount = transaction {
-            Users.select { Users.email eq email }.firstOrNull()?.asUserAccount()
+            User.find { Users.email eq email }.firstOrNull()?.asUserAccount()
         } ?: throw AuthenticationException("there is no user matching the specified email. email = $email")
 
         if (!BCrypt.checkpw(password, userAccount.password)) {

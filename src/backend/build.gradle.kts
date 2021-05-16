@@ -84,7 +84,8 @@ tasks.jacocoTestReport {
         fileTree(
             "dir" to "build/classes",
             "includes" to listOf(
-                "**/piteroni/todoktorvue/app/interactor/**",
+                "**/piteroni/todoktorvue/app/domain/**",
+                "**/piteroni/todoktorvue/app/usecase/**",
                 "**/piteroni/todoktorvue/app/main/Route*",
                 "**/piteroni/todoktorvue/app/http/requests/**",
                 "**/piteroni/todoktorvue/app/http/responses/**",

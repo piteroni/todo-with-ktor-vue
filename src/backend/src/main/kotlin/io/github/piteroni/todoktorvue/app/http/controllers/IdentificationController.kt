@@ -5,8 +5,8 @@ import io.github.piteroni.todoktorvue.app.http.exceptions.UnauthorizedException
 import io.github.piteroni.todoktorvue.app.http.exceptions.UnprocessableEntityException
 import io.github.piteroni.todoktorvue.app.http.requests.LoginRequest
 import io.github.piteroni.todoktorvue.app.http.responses.AuthenticationToken
-import io.github.piteroni.todoktorvue.app.interactor.identification.Authentication
-import io.github.piteroni.todoktorvue.app.interactor.identification.AuthenticationException
+import io.github.piteroni.todoktorvue.app.usecase.identification.Authentication
+import io.github.piteroni.todoktorvue.app.usecase.identification.AuthenticationException
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.httpMethod
