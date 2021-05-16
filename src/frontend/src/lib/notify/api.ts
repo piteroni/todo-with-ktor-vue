@@ -8,7 +8,7 @@ export class NotifyApi implements NotifyClient {
   }
 
   /**
-   * 通知メッセージを表示する.
+   * 情報メッセージを表示する.
    */
   public info(message: string, title?: string): void {
     this.emitter.addTask({

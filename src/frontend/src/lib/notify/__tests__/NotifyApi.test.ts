@@ -11,8 +11,8 @@ describe("NotifyApi", () => {
     addTask.mockClear();
   });
 
-  describe("通知メッセージ通知", () => {
-    it("通知メッセージ通知タスクを作成することができる", () => {
+  describe("情報メッセージ通知", () => {
+    it("情報メッセージ通知タスクを作成することができる", () => {
       const expected: NotifyTask = {
         notifyType: "message",
         messageNotifyType: "info",
@@ -26,7 +26,7 @@ describe("NotifyApi", () => {
       expect(addTask).toBeCalledWith(expected)
     })
 
-    it("タイトルを指定しない場合、デフォルト通知タイトルが適応される", () => {
+    it("タイトルを指定しない場合、デフォルトのタイトルが適応される", () => {
       const expected: NotifyTask = {
         notifyType: "message",
         messageNotifyType: "info",

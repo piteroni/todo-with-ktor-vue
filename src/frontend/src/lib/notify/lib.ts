@@ -124,6 +124,7 @@ export class TaskEmitter {
         }
 
         this.bus.$emit(event.pageNotifyTaskCreate, newTask)
+        break
       }
     }
   }
