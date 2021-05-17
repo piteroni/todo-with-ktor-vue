@@ -52,6 +52,7 @@ export default class LoginPage extends Vue {
       isRedirect = await this.redirectIfAuthenticated()
     } catch (e) {
       console.error(e)
+      this.$notify.fatal()
 
       return
     }
@@ -61,8 +62,6 @@ export default class LoginPage extends Vue {
     }
 
     this.loading = false
-
-    this.$notify.fatal()
   }
 
   /**

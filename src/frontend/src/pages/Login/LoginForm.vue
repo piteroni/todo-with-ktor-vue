@@ -189,6 +189,7 @@ export default class LoginForm extends Vue {
         this.feedbackError("ログインに失敗しました、入力内容をご確認下さい")
       } else {
         console.error(e)
+        this.$notify.fatal()
       }
 
       return

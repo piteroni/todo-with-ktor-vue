@@ -1,15 +1,15 @@
-import Vue from "vue";
-import { NotifyApi } from "../api";
-import { NotifyTask } from "../lib";
-import { addTask, TaskEmitterMock } from "./fixtures/TaskEmitterMock";
+import Vue from "vue"
+import { NotifyApi } from "../api"
+import { NotifyTask } from "../lib"
+import { addTask, TaskEmitterMock } from "./fixtures/TaskEmitterMock"
 
 describe("NotifyApi", () => {
   const emitter = new TaskEmitterMock(new Vue())
   const notifier = new NotifyApi(emitter)
 
   afterEach(() => {
-    addTask.mockClear();
-  });
+    addTask.mockClear()
+  })
 
   describe("情報メッセージ通知", () => {
     it("情報メッセージ通知タスクを作成することができる", () => {
@@ -174,4 +174,4 @@ describe("NotifyApi", () => {
       expect(addTask).toBeCalledWith(expected)
     })
   })
-});
+})
