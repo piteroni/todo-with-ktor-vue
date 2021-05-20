@@ -87,7 +87,7 @@ export default class LoginPage extends Vue {
       throw e
     }
 
-    this.$router.push({ name: routeNames.home })
+    this.$router.push({ name: routeNames.manageTask })
 
     return true
   }

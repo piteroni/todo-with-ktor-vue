@@ -8,7 +8,7 @@ import { FetchApiTokenParameter } from "@/store/modules/apiToken"
 import LoginForm from "@/pages/Login/LoginForm.vue"
 import { waitUntilForMounted, waitUntilForDone } from "@/shared/testing"
 import * as fixtures from "./fixtures/loginForm"
-import { routes } from "./fixtures/shared"
+import { routes, setUpVuexModule } from "./fixtures/shared"
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -27,7 +27,7 @@ describe("LoginForm.vue", () => {
       routes,
     })
 
-    const { context } = fixtures.setUpVuexModule(fixtures.ApiTokenActionsMock)
+    const { context } = setUpVuexModule(fixtures.ApiTokenActionsMock)
 
     vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
   })
@@ -57,15 +57,16 @@ describe("LoginForm.vue", () => {
 
     await waitUntilForDone()
 
-    // 認証情報の保存処理が呼ばれること
+    // 認証処理が呼ばれること
+    expect(fixtures.fetchApiTokenMock).toBeCalledTimes(1)
     expect(fixtures.fetchApiTokenMock).toBeCalledWith(expected)
 
     // タスク管理画面に推移すること
-    expect("/tasks").toBe(loginForm.vm.$route.path)
+    expect(loginForm.vm.$route.path).toBe("/tasks")
   })
 
   it("認証に失敗すると、認証に失敗した旨が表示されログイン処理が中断される", async () => {
-    const { context } = fixtures.setUpVuexModule(fixtures.ApiTokenActionsMockWithAuthFailure)
+    const { context } = setUpVuexModule(fixtures.ApiTokenActionsMockWithAuthFailure)
 
     vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
 
@@ -83,14 +84,14 @@ describe("LoginForm.vue", () => {
 
     await waitUntilForDone()
 
-    // 認証情報の保存処理が呼ばれること
-    expect(fixtures.fetchApiTokenMockWithAuthFailure).toBeCalled()
+    // 認証処理が呼ばれること
+    expect(fixtures.fetchApiTokenMockWithAuthFailure).toBeCalledTimes(1)
 
     // エラーメッセージが表示されていること
     expect(loginForm.find(".failureMessage").text()).not.toBe("")
 
     // タスク管理画面へ推移しないこと
-    expect("/").toBe(loginForm.vm.$route.path)
+    expect(loginForm.vm.$route.path).not.toBe("/tasks")
   })
 
   it("リダイレクトが実施された場合、再ログインを要求する旨のメッセージが表示される", async () => {
@@ -110,7 +111,7 @@ describe("LoginForm.vue", () => {
   it("ユーザーアカウント情報を送信すると、URLのクエリやメッセージが初期化される", async () => {
     router.push("/login?isRedirect=true")
 
-    const { context } = fixtures.setUpVuexModule(fixtures.ApiTokenActionsMockWithAuthFailure)
+    const { context } = setUpVuexModule(fixtures.ApiTokenActionsMockWithAuthFailure)
 
     vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
 
@@ -127,6 +128,9 @@ describe("LoginForm.vue", () => {
     await loginForm.find(".loginButton").trigger("click")
 
     await waitUntilForDone()
+
+    // 認証処理が呼ばれること
+    expect(fixtures.fetchApiTokenMockWithAuthFailure).toBeCalledTimes(1)
 
     expect(loginForm.vm.$route.query).toEqual({})
     expect(loginForm.find(".redirectMessage").exists()).toBeFalsy()
@@ -217,10 +221,10 @@ describe("LoginForm.vue", () => {
 
     await waitUntilForDone()
 
-    // 認証情報の保存処理が呼ばれないこと
+    // 認証処理が呼ばれないこと
     expect(fixtures.fetchApiTokenMock).not.toBeCalled()
 
     // タスク管理画面に推移しないこと
-    expect("/").toBe(loginForm.vm.$route.path)
+    expect(loginForm.vm.$route.path).not.toBe("/tasks")
   })
 })

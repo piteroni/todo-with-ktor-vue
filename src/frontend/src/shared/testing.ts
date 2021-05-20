@@ -20,3 +20,37 @@ export const waitUntilForMounted = async (): Promise<void> => {
 export const waitUntilForDone = async (): Promise<void> => {
   await flushPromises()
 }
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/**
+ * 標準出力モックを取得する.
+ */
+export const useStdoutMock = (): jest.SpyInstance => {
+  let stdout!: jest.SpyInstance
+
+  beforeAll(() => {
+    stdout = jest.spyOn(console, "log").mockImplementation(() => {})
+  })
+
+  afterAll(() => {
+    stdout.mockReset()
+    stdout.mockRestore()
+  })
+
+  return stdout
+}
+
+/**
+ * エラー標準出力をスタブ化する.
+ */
+export const stubStderr = (): jest.SpyInstance => {
+  return jest.spyOn(console, "error").mockImplementation(() => {})
+}
+
+/**
+ * エラー標準出力モックを取得する.
+ */
+export const useStderrMock = (): jest.SpyInstance => {
+  return jest.spyOn(console, "error").mockImplementation(() => {})
+}
