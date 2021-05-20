@@ -6,7 +6,7 @@ import { types } from "@/providers/types"
 import { container as vuexContextContainer } from "@/providers/containers/vuexContext"
 import { FetchApiTokenParameter } from "@/store/modules/apiToken"
 import LoginForm from "@/pages/Login/LoginForm.vue"
-import { waitUntilForMounted, waitUntilForDone } from "@/shared/testing"
+import { waitUntilForMounted, waitUntilForDone, useStderrMock } from "@/shared/testing"
 import * as fixtures from "./fixtures/loginForm"
 import { routes, setUpVuexModule } from "./fixtures/shared"
 
@@ -92,6 +92,39 @@ describe("LoginForm.vue", () => {
 
     // タスク管理画面へ推移しないこと
     expect(loginForm.vm.$route.path).not.toBe("/tasks")
+  })
+
+  it("認証中に例外が発生した場合に、エラーメッセージが通知される", async () => {
+    const { context } =  setUpVuexModule(fixtures.ApiTokenActionsMockWithException)
+
+    vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
+
+    const stderr = useStderrMock()
+
+    const fatal = jest.fn()
+
+    const loginForm = mount(LoginForm, {
+      localVue,
+      vuetify,
+      router,
+      mocks: {
+        $notify: {
+          fatal
+        }
+      }
+    })
+
+    await waitUntilForMounted()
+
+    await loginForm.find(".email input").setValue("user@example.com")
+    await loginForm.find(".password input").setValue("password")
+    await loginForm.find(".loginButton").trigger("click")
+
+    await waitUntilForDone()
+
+    expect(fixtures.fetchWithException).toBeCalledTimes(1)
+    expect(stderr).toBeCalledTimes(1)
+    expect(fatal).toBeCalledTimes(1)
   })
 
   it("リダイレクトが実施された場合、再ログインを要求する旨のメッセージが表示される", async () => {

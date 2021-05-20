@@ -1,8 +1,6 @@
-
 import Vue from "vue"
 import Vuex, { Store } from "vuex"
 import { createStore, Module } from "vuex-smart-module"
-
 import { apiToken, ApiTokenState } from "@/store/modules/apiToken"
 
 Vue.use(Vuex)

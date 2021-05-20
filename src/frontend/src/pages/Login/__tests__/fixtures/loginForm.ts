@@ -18,3 +18,13 @@ export class ApiTokenActionsMockWithAuthFailure extends ApiTokenActions {
     throw new UnauthorizedError("message", 1, "code")
   }
 }
+
+export const fetchWithException = jest.fn()
+
+export class ApiTokenActionsMockWithException extends ApiTokenActions {
+  public async fetch(): Promise<void> {
+    fetchWithException()
+
+    throw new Error()
+  }
+}
