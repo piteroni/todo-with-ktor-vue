@@ -3,7 +3,7 @@ import flushPromises from "flush-promises"
 /**
  * 例外を発生させ、処理を失敗させる.
  */
-export const fail = () => {
+export const fail = (): void => {
   throw new Error()
 }
 

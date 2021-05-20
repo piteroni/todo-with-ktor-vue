@@ -197,7 +197,7 @@ export default class LoginForm extends Vue {
 
     this.isLoggedIn = false
 
-    this.$router.push({ name: routeNames.home })
+    this.$router.push({ name: routeNames.manageTask })
   }
 
   /**

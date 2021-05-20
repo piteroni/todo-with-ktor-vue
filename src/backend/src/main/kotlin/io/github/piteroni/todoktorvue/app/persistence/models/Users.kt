@@ -23,5 +23,5 @@ class User(id: EntityID<Int>) : IntEntity(id) {
     var createdAt by Users.createdAt
     var updatedAt by Users.updatedAt
 
-    fun asUserAccount(): UserAccount = UserAccount(id.value, email, password)
+    fun asUserAccount(): UserAccount = UserAccount.of(id.value, email, password)
 }

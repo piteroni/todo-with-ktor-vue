@@ -1,3 +1,11 @@
 package io.github.piteroni.todoktorvue.app.domain.user
 
-data class UserAccount(val id: Int, val email: String, val password: String)
+class UserAccount private constructor(
+    val id: Int,
+    val email: String,
+    val password: String
+) {
+    companion object {
+        fun of(id: Int, email: String, password: String): UserAccount = UserAccount(id, email, password)
+    }
+}
