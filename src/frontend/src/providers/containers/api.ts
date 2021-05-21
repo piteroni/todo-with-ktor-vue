@@ -4,11 +4,21 @@ import getDecorators from "inversify-inject-decorators"
 import { types } from "@/providers/types"
 import { Identification } from "@/api/Identification"
 import { Credentials } from "@/api/Credentials"
+import { createAxiosInstance } from "@/api"
+import { createBearerSchema } from "@/api/authorization"
 
 export const container = new Container()
 
-container.bind(types.api.Credentials).to(Credentials)
-container.bind(types.api.Identification).to(Identification)
+container.bind<Credentials>(types.api.Credentials).toDynamicValue(() => {
+  return new Credentials(
+    createAxiosInstance(createBearerSchema())
+  )
+})
+container.bind(types.api.Identification).toDynamicValue(() => {
+  return new Identification(
+    createAxiosInstance()
+  )
+})
 
 const { lazyInject } = getDecorators(container)
 

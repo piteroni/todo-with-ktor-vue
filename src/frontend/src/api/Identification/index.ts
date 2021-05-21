@@ -1,7 +1,6 @@
 import { injectable } from "inversify"
 import { AxiosInstance, AxiosResponse } from "axios"
 import { throwApiError } from "@/api/handlers"
-import { createAxiosInstance } from "@/api"
 import { ApiError, UnauthorizedError } from "@/api/exceptions"
 import { HttpStatusCode } from "@/shared/http"
 import { PostLoginResponse } from "./types"
@@ -10,8 +9,8 @@ import { PostLoginResponse } from "./types"
 export class Identification {
   private $api: AxiosInstance
 
-  constructor() {
-    this.$api = createAxiosInstance()
+  constructor(api: AxiosInstance) {
+    this.$api = api
   }
 
   /**

@@ -4,6 +4,11 @@ import { createLocalVue } from "@vue/test-utils"
 import {
   apiToken, apiTokenKey, ApiTokenState, ApiTokenContext
 } from "@/store/modules/apiToken"
+import { container } from "@/providers/containers/api"
+import { Identification } from "@/api/Identification"
+import { types } from "@/providers/types"
+import * as fixtures from "./fixtures/apiToken"
+import { Credentials } from "@/api/Credentials"
 
 const localVue = createLocalVue()
 
@@ -43,6 +48,8 @@ describe("apiToken.ts", () => {
 
   describe("actions", () => {
     beforeEach(() => {
+      container.rebind<Identification>(types.api.Identification).to(fixtures.IdentificationMock)
+      container.rebind<Credentials>(types.api.Credentials).to(fixtures.CredentialsMock)
       window.localStorage.clear()
     })
 

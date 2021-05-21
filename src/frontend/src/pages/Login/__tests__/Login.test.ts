@@ -94,7 +94,7 @@ describe("Login.vue", () => {
     })
 
     it("認証トークンの検証中に例外が発生した場合に、エラーメッセージが通知される", async () => {
-      const { context } =  setUpVuexModule(fixtures.ApiTokenActionsMockWithException)
+      const { context } = setUpVuexModule(fixtures.ApiTokenActionsMockWithException)
 
       vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
 

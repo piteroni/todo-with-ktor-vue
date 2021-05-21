@@ -3,8 +3,6 @@ import { injectable } from "inversify"
 import { throwApiError } from "@/api/handlers"
 import { ApiError, UnauthorizedError } from "@/api/exceptions"
 import { HttpStatusCode } from "@/shared/http"
-import { createAxiosInstance } from "@/api"
-import { createBearerSchema } from "@/api/authorization"
 
 export const resource = "/credentials"
 
@@ -12,8 +10,8 @@ export const resource = "/credentials"
 export class Credentials {
   private $api: AxiosInstance
 
-  constructor() {
-    this.$api = createAxiosInstance(createBearerSchema())
+  constructor(api: AxiosInstance) {
+    this.$api = api
   }
 
   /**

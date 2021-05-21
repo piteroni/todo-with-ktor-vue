@@ -1,17 +1,17 @@
-import { types } from "@/providers/types"
-import { container } from "@/providers/containers/vuexContext"
-import { ApiTokenContext } from "@/store/modules/apiToken"
+import { apiTokenKey } from "@/store/modules/apiToken"
 import { RuntimeError } from "@/shared/exception"
 
 export class UnauthorizedError extends RuntimeError {
 }
 
 export const createBearerSchema = (): Record<string, string> => {
-  const apiToken = container.get<ApiTokenContext>(types.vuexContext.apiToken)
+  const token = window.localStorage.getItem(apiTokenKey)
 
-  if (!apiToken.getters.isStored) {
+  if (!token) {
     throw new UnauthorizedError("Unable to obtain an authentication token")
   }
 
-  return { "Authorization": `Bearer ${apiToken.state.token}` }
+  return {
+    "Authorization": `Bearer ${token}`
+  }
 }
