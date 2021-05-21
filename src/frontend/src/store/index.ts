@@ -1,20 +1,20 @@
 import Vue from "vue"
 import Vuex, { Store } from "vuex"
 import { createStore, Module } from "vuex-smart-module"
-import { apiToken, ApiTokenState } from "@/store/modules/apiToken"
+import { authenticationToken, AuthenticationTokenState } from "@/store/modules/authenticationToken"
 
 Vue.use(Vuex)
 
 export type StoreType = Store<{
-  apiToken: ApiTokenState;
+  authenticationToken: AuthenticationTokenState;
 }>;
 
 export const store: StoreType = createStore(
   new Module({
     modules: {
-      apiToken
+      authenticationToken
     }
   })
 )
 
-export const apiTokenContext = apiToken.context(store)
+export const authenticationTokenContext = authenticationToken.context(store)

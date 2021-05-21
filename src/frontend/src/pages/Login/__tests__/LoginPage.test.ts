@@ -15,7 +15,7 @@ const localVue = createLocalVue()
 
 localVue.use(VueRouter)
 
-describe("Login.vue", () => {
+describe("LoginPage.vue", () => {
   let vuetify = new Vuetify()
   let router: VueRouter
 
@@ -71,10 +71,10 @@ describe("Login.vue", () => {
       expect(login.vm.$route.path).toBe("/login")
     })
 
-    it("ローカルストレージに認証トークンが有効でない場合、ログインページが表示される", async () => {
-      const { context } = setUpVuexModule(fixtures.ApiTokenActionsMockWithAuthFailure)
+    it("認証トークンが有効でない場合、ログインページが表示される", async () => {
+      const { context } = setUpVuexModule(fixtures.AuthenticationTokenActionsMockWithAuthFailure)
 
-      vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
+      vuexContextContainer.rebind(types.vuexContext.authenticationToken).toConstantValue(context)
 
       // 認証トークンを保存することで認証トークンの検証まで処理を進める
       window.localStorage.setItem("api-token", "token-stub")
@@ -94,9 +94,9 @@ describe("Login.vue", () => {
     })
 
     it("認証トークンの検証中に例外が発生した場合に、エラーメッセージが通知される", async () => {
-      const { context } = setUpVuexModule(fixtures.ApiTokenActionsMockWithException)
+      const { context } = setUpVuexModule(fixtures.AuthenticationTokenActionsMockWithException)
 
-      vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
+      vuexContextContainer.rebind(types.vuexContext.authenticationToken).toConstantValue(context)
 
       const stderr = useStderrMock()
 
@@ -121,9 +121,9 @@ describe("Login.vue", () => {
     })
 
     it("認証済みの場合に、ダッシュボード画面に推移する", async () => {
-      const { context } = setUpVuexModule(fixtures.ApiTokenActionsMockWithAuthed)
+      const { context } = setUpVuexModule(fixtures.AuthenticationTokenActionsMockWithAuthed)
 
-      vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
+      vuexContextContainer.rebind(types.vuexContext.authenticationToken).toConstantValue(context)
 
       const login = shallowMount(Login, {
         localVue,

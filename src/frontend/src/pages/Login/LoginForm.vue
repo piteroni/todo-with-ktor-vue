@@ -84,7 +84,7 @@
 import { Vue, Component, Ref } from "vue-property-decorator"
 import { types } from "@/providers/types"
 import { VuexContext } from "@/providers/containers/vuexContext"
-import { ApiTokenContext } from "@/store/modules/apiToken"
+import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
 import { routeNames } from "@/router/routeNames"
 import { UnauthorizedError } from "@/api/exceptions"
 import { VForm, VTextRule } from "@/shared/vuetify"
@@ -94,8 +94,8 @@ export default class LoginForm extends Vue {
   @Ref()
   public form!: VForm;
 
-  @VuexContext(types.vuexContext.apiToken)
-  private $apiToken!: ApiTokenContext;
+  @VuexContext(types.vuexContext.authenticationToken)
+  private $authenticationToken!: AuthenticationTokenContext;
 
   /**
    * ローディング状態を保持する.
@@ -179,7 +179,7 @@ export default class LoginForm extends Vue {
     this.isLoggedIn = true
 
     try {
-      await this.$apiToken.actions.fetch({
+      await this.$authenticationToken.actions.fetch({
         email: this.email,
         password: this.password
       })

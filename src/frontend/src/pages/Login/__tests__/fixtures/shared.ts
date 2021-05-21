@@ -1,6 +1,6 @@
 import { RouteConfig } from "vue-router"
-import { apiToken, ApiTokenActions } from "@/store/modules/apiToken"
 import { createStore, Module } from "vuex-smart-module"
+import { authenticationToken, AuthenticationTokenActions } from "@/store/modules/authenticationToken"
 
 export const routes: Array<RouteConfig> = [
   {
@@ -11,14 +11,14 @@ export const routes: Array<RouteConfig> = [
 ]
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export const setUpVuexModule = (actions: typeof ApiTokenActions) => {
-  const apiTokenClone = apiToken.clone()
+export const setUpVuexModule = (actions: typeof AuthenticationTokenActions) => {
+  const authenticationTokenClone = authenticationToken.clone()
 
-  apiTokenClone.options.actions = actions
+  authenticationTokenClone.options.actions = actions
 
-  const store = createStore(new Module({ modules: { apiToken: apiTokenClone } }))
+  const store = createStore(new Module({ modules: { authenticationToken: authenticationTokenClone } }))
 
-  const context = apiTokenClone.context(store)
+  const context = authenticationTokenClone.context(store)
 
   return {
     store,

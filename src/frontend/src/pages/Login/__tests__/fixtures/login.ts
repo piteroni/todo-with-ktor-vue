@@ -1,9 +1,9 @@
 import { ServerError, UnauthorizedError } from "@/api/exceptions"
-import { ApiTokenActions } from "@/store/modules/apiToken"
+import { AuthenticationTokenActions } from "@/store/modules/authenticationToken"
 
 export const verifyCrediantialsMock = jest.fn()
 
-export class ApiTokenActionsMockWithAuthFailure extends ApiTokenActions {
+export class AuthenticationTokenActionsMockWithAuthFailure extends AuthenticationTokenActions {
   // 認証例外を発生させるようにする
   public async verify(): Promise<void> {
     verifyCrediantialsMock()
@@ -12,7 +12,7 @@ export class ApiTokenActionsMockWithAuthFailure extends ApiTokenActions {
   }
 }
 
-export class ApiTokenActionsMockWithAuthed extends ApiTokenActions {
+export class AuthenticationTokenActionsMockWithAuthed extends AuthenticationTokenActions {
   public setUp(): void {
     this.state.token = "token"
   }
@@ -21,7 +21,8 @@ export class ApiTokenActionsMockWithAuthed extends ApiTokenActions {
     verifyCrediantialsMock()
   }
 }
-export class ApiTokenActionsMockWithException extends ApiTokenActions {
+
+export class AuthenticationTokenActionsMockWithException extends AuthenticationTokenActions {
   public setUp(): void {
     this.state.token = "token"
   }

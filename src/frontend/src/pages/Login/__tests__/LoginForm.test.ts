@@ -4,7 +4,7 @@ import VueRouter from "vue-router"
 import { mount, createLocalVue, shallowMount } from "@vue/test-utils"
 import { types } from "@/providers/types"
 import { container as vuexContextContainer } from "@/providers/containers/vuexContext"
-import { FetchApiTokenParameter } from "@/store/modules/apiToken"
+import { FetchAuthenticationTokenParameter } from "@/store/modules/authenticationToken"
 import LoginForm from "@/pages/Login/LoginForm.vue"
 import { waitUntilForMounted, waitUntilForDone, useStderrMock } from "@/shared/testing"
 import * as fixtures from "./fixtures/loginForm"
@@ -27,9 +27,9 @@ describe("LoginForm.vue", () => {
       routes,
     })
 
-    const { context } = setUpVuexModule(fixtures.ApiTokenActionsMock)
+    const { context } = setUpVuexModule(fixtures.AuthenticationTokenActionsMock)
 
-    vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
+    vuexContextContainer.rebind(types.vuexContext.authenticationToken).toConstantValue(context)
   })
 
   afterEach(() => {
@@ -44,7 +44,7 @@ describe("LoginForm.vue", () => {
       router,
     })
 
-    const expected: FetchApiTokenParameter = {
+    const expected: FetchAuthenticationTokenParameter = {
       email: "user@example.com",
       password: "password"
     }
@@ -58,17 +58,17 @@ describe("LoginForm.vue", () => {
     await waitUntilForDone()
 
     // 認証処理が呼ばれること
-    expect(fixtures.fetchApiTokenMock).toBeCalledTimes(1)
-    expect(fixtures.fetchApiTokenMock).toBeCalledWith(expected)
+    expect(fixtures.fetchAuthenticationTokenMock).toBeCalledTimes(1)
+    expect(fixtures.fetchAuthenticationTokenMock).toBeCalledWith(expected)
 
     // タスク管理画面に推移すること
     expect(loginForm.vm.$route.path).toBe("/tasks")
   })
 
   it("認証に失敗すると、認証に失敗した旨が表示されログイン処理が中断される", async () => {
-    const { context } = setUpVuexModule(fixtures.ApiTokenActionsMockWithAuthFailure)
+    const { context } = setUpVuexModule(fixtures.AuthenticationTokenActionsMockWithAuthFailure)
 
-    vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
+    vuexContextContainer.rebind(types.vuexContext.authenticationToken).toConstantValue(context)
 
     const loginForm = mount(LoginForm, {
       localVue,
@@ -85,7 +85,7 @@ describe("LoginForm.vue", () => {
     await waitUntilForDone()
 
     // 認証処理が呼ばれること
-    expect(fixtures.fetchApiTokenMockWithAuthFailure).toBeCalledTimes(1)
+    expect(fixtures.fetchAuthenticationTokenMockWithAuthFailure).toBeCalledTimes(1)
 
     // エラーメッセージが表示されていること
     expect(loginForm.find(".failureMessage").text()).not.toBe("")
@@ -95,9 +95,9 @@ describe("LoginForm.vue", () => {
   })
 
   it("認証中に例外が発生した場合に、エラーメッセージが通知される", async () => {
-    const { context } = setUpVuexModule(fixtures.ApiTokenActionsMockWithException)
+    const { context } = setUpVuexModule(fixtures.AuthenticationTokenActionsMockWithException)
 
-    vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
+    vuexContextContainer.rebind(types.vuexContext.authenticationToken).toConstantValue(context)
 
     const stderr = useStderrMock()
 
@@ -144,9 +144,9 @@ describe("LoginForm.vue", () => {
   it("ユーザーアカウント情報を送信すると、URLのクエリやメッセージが初期化される", async () => {
     router.push("/login?isRedirect=true")
 
-    const { context } = setUpVuexModule(fixtures.ApiTokenActionsMockWithAuthFailure)
+    const { context } = setUpVuexModule(fixtures.AuthenticationTokenActionsMockWithAuthFailure)
 
-    vuexContextContainer.rebind(types.vuexContext.apiToken).toConstantValue(context)
+    vuexContextContainer.rebind(types.vuexContext.authenticationToken).toConstantValue(context)
 
     const loginForm = mount(LoginForm, {
       localVue,
@@ -163,7 +163,7 @@ describe("LoginForm.vue", () => {
     await waitUntilForDone()
 
     // 認証処理が呼ばれること
-    expect(fixtures.fetchApiTokenMockWithAuthFailure).toBeCalledTimes(1)
+    expect(fixtures.fetchAuthenticationTokenMockWithAuthFailure).toBeCalledTimes(1)
 
     expect(loginForm.vm.$route.query).toEqual({})
     expect(loginForm.find(".redirectMessage").exists()).toBeFalsy()
@@ -255,7 +255,7 @@ describe("LoginForm.vue", () => {
     await waitUntilForDone()
 
     // 認証処理が呼ばれないこと
-    expect(fixtures.fetchApiTokenMock).not.toBeCalled()
+    expect(fixtures.fetchAuthenticationTokenMock).not.toBeCalled()
 
     // タスク管理画面に推移しないこと
     expect(loginForm.vm.$route.path).not.toBe("/tasks")

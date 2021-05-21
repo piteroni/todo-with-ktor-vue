@@ -1,16 +1,16 @@
-import { AxiosInstance } from "axios"
 import { injectable } from "inversify"
 import { throwApiError } from "@/api/handlers"
 import { ApiError, UnauthorizedError } from "@/api/exceptions"
 import { HttpStatusCode } from "@/shared/http"
+import { AxiosInstanceWithAuthorization } from "@/api/authorization"
 
 export const resource = "/credentials"
 
 @injectable()
 export class Credentials {
-  private $api: AxiosInstance
+  private $api: AxiosInstanceWithAuthorization
 
-  constructor(api: AxiosInstance) {
+  constructor(api: AxiosInstanceWithAuthorization) {
     this.$api = api
   }
 

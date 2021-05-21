@@ -4,6 +4,6 @@ export const types = {
     Credentials: Symbol.for("api.Credentials"),
   },
   vuexContext: {
-    apiToken: Symbol.for("vuexContext.apiToken"),
+    authenticationToken: Symbol.for("vuexContext.authenticationToken"),
   }
 } as const

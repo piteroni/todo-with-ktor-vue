@@ -24,7 +24,7 @@ import Loading from "@/components/singletons/Loading.vue"
 import LoginForm from "./LoginForm.vue"
 import { VuexContext } from "@/providers/containers/vuexContext"
 import { types } from "@/providers/types"
-import { ApiTokenContext } from "@/store/modules/apiToken"
+import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
 import { UnauthorizedError } from "@/api/exceptions"
 import { routeNames } from "@/router/routeNames"
 
@@ -37,8 +37,8 @@ import { routeNames } from "@/router/routeNames"
   }
 })
 export default class LoginPage extends Vue {
-  @VuexContext(types.vuexContext.apiToken)
-  private $apiToken!: ApiTokenContext;
+  @VuexContext(types.vuexContext.authenticationToken)
+  private $authenticationToken!: AuthenticationTokenContext;
 
   /**
    * ローディング状態を保持する.
@@ -71,14 +71,14 @@ export default class LoginPage extends Vue {
    *   リダイレクトが行われたか否か.
    */
   private async redirectIfAuthenticated(): Promise<boolean> {
-    await this.$apiToken.actions.setUp()
+    await this.$authenticationToken.actions.setUp()
 
-    if (!this.$apiToken.getters.isStored) {
+    if (!this.$authenticationToken.getters.isStored) {
       return false
     }
 
     try {
-      await this.$apiToken.actions.verify()
+      await this.$authenticationToken.actions.verify()
     } catch (e) {
       if (e instanceof UnauthorizedError) {
         return false

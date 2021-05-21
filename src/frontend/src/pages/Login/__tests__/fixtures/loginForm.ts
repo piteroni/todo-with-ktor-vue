@@ -1,19 +1,19 @@
-import { ApiTokenActions, FetchApiTokenParameter } from "@/store/modules/apiToken"
+import { AuthenticationTokenActions, FetchAuthenticationTokenParameter } from "@/store/modules/authenticationToken"
 import { UnauthorizedError } from "@/api/exceptions"
 
-export const fetchApiTokenMock = jest.fn()
+export const fetchAuthenticationTokenMock = jest.fn()
 
-export class ApiTokenActionsMock extends ApiTokenActions {
-  public async fetch(params: FetchApiTokenParameter): Promise<void> {
-    fetchApiTokenMock(params)
+export class AuthenticationTokenActionsMock extends AuthenticationTokenActions {
+  public async fetch(params: FetchAuthenticationTokenParameter): Promise<void> {
+    fetchAuthenticationTokenMock(params)
   }
 }
 
-export const fetchApiTokenMockWithAuthFailure = jest.fn()
+export const fetchAuthenticationTokenMockWithAuthFailure = jest.fn()
 
-export class ApiTokenActionsMockWithAuthFailure extends ApiTokenActions {
+export class AuthenticationTokenActionsMockWithAuthFailure extends AuthenticationTokenActions {
   public async fetch(): Promise<void> {
-    fetchApiTokenMockWithAuthFailure()
+    fetchAuthenticationTokenMockWithAuthFailure()
 
     throw new UnauthorizedError("message", 1, "code")
   }
@@ -21,7 +21,7 @@ export class ApiTokenActionsMockWithAuthFailure extends ApiTokenActions {
 
 export const fetchWithException = jest.fn()
 
-export class ApiTokenActionsMockWithException extends ApiTokenActions {
+export class AuthenticationTokenActionsMockWithException extends AuthenticationTokenActions {
   public async fetch(): Promise<void> {
     fetchWithException()
 
