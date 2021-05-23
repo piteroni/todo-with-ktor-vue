@@ -1,5 +1,6 @@
 package io.github.piteroni.todoktorvue.migration
 
+import io.github.piteroni.todoktorvue.app.persistence.models.Tasks
 import io.github.piteroni.todoktorvue.app.persistence.models.Users
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
@@ -10,6 +11,7 @@ fun drop() {
     transaction {
         addLogger(StdOutSqlLogger)
 
+        SchemaUtils.drop(Tasks)
         SchemaUtils.drop(Users)
     }
 }

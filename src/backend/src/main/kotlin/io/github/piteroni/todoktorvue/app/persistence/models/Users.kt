@@ -20,6 +20,7 @@ class User(id: EntityID<Int>) : IntEntity(id) {
     var name by Users.name
     var email by Users.email
     var password by Users.password
+    val tasks by Task referrersOn Tasks.user
     var createdAt by Users.createdAt
     var updatedAt by Users.updatedAt
 
