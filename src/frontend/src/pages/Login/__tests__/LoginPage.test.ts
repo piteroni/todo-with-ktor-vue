@@ -8,6 +8,7 @@ import Login from "@/pages/Login/LoginPage.vue"
 import * as fixtures from "./fixtures/login"
 import { routes, setUpVuexModule } from "./fixtures/shared"
 import { waitUntilForMounted, useStderrMock } from "@/shared/testing"
+import { AuthenticationTokenStoreKey } from "@/store/modules/authenticationToken"
 
 Vue.use(Vuetify)
 
@@ -77,7 +78,7 @@ describe("LoginPage.vue", () => {
       vuexContextContainer.rebind(types.vuexContext.authenticationToken).toConstantValue(context)
 
       // 認証トークンを保存することで認証トークンの検証まで処理を進める
-      window.localStorage.setItem("api-token", "token-stub")
+      window.localStorage.setItem(AuthenticationTokenStoreKey, "token-stub")
 
       router.push("/login")
 

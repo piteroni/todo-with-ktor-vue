@@ -149,7 +149,7 @@ export default class LoginForm extends Vue {
    */
   public get emailRules(): Array<VTextRule> {
     return [
-      (v: string | undefined) => !!v || "メールアドレスを入力してください",
+      (v: string | undefined) => (v && v.length >= 3) || "メールアドレスは3文字以上入力してください",
       (v: string | undefined) => (v && v.length <= 256) || "メールアドレスは256文字以内で入力してください",
     ]
   }
@@ -159,7 +159,7 @@ export default class LoginForm extends Vue {
    */
   public get passwordRules(): Array<VTextRule> {
     return [
-      (v: string | undefined) => !!v || "パスワードを入力してください",
+      (v: string | undefined) => (v && v.length >= 8) || "パスワードは8文字以上入力してください",
       (v: string | undefined) => (v && v.length <= 128) || "パスワードは128文字以内で入力してください",
     ]
   }

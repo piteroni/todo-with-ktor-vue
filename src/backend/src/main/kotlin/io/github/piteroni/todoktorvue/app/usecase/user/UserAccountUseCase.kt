@@ -1,14 +1,13 @@
-package io.github.piteroni.todoktorvue.app.usecase.identification
+package io.github.piteroni.todoktorvue.app.usecase.user
 
 import io.github.piteroni.todoktorvue.app.domain.DomainException
 import io.github.piteroni.todoktorvue.app.persistence.models.User
 import io.github.piteroni.todoktorvue.app.persistence.models.Users
+import io.github.piteroni.todoktorvue.app.usecase.identification.AuthenticationException
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
 
-class AuthenticationException(message: String) : Exception(message)
-
-class Authentication {
+class UserAccountUseCase {
     /**
      * authenticate the UserAccount.
      *
