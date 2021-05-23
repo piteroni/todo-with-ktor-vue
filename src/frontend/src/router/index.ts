@@ -2,7 +2,7 @@ import Vue from "vue"
 import VueRouter, { RouteConfig } from "vue-router"
 import { routeNames } from "./routeNames"
 import Login from "@/pages/Login/LoginPage.vue"
-import Home from "@/pages/Home/HomePage.vue"
+import ManageTask from "@/pages/ManageTask/ManageTaskPage.vue"
 import NotFound from "@/pages/Error/NotFound.vue"
 
 Vue.use(VueRouter)
@@ -14,9 +14,9 @@ const routes: Array<RouteConfig> = [
     component: Login,
   },
   {
-    path: "/home",
-    name: routeNames.home,
-    component: Home,
+    path: "/tasks",
+    name: routeNames.manageTask,
+    component: ManageTask,
   },
   {
     path: "*",
