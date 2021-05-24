@@ -1,11 +1,10 @@
-import Vue from "vue"
 import { types } from "@/providers/types"
 import { VuexContext } from "@/providers/containers/vuexContext"
 import { UnauthorizedError } from "@/api/exceptions"
 import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
 import { routeNames } from "@/router/routeNames"
 import VueRouter from "vue-router"
-import { NotifyClient } from "../notify/lib"
+import { NotifyClient } from "@/lib/notify/lib"
 
 export interface Redirector {
   /**

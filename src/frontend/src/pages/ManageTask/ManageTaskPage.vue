@@ -4,12 +4,8 @@
 
     <v-layout v-else justify-center align-center>
       <v-flex fill-height>
-        <navbar>
-          <logo />
-        </navbar>
 
         <div class="container">
-          <login-form />
         </div>
       </v-flex>
     </v-layout>

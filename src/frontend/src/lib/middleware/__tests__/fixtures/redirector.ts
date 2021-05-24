@@ -1,4 +1,6 @@
 import { UnauthorizedError } from "@/api/exceptions"
+import { NotifyApi } from "@/lib/notify/api"
+import { NotifyClient } from "@/lib/notify/lib"
 import { authenticationToken, AuthenticationTokenActions, AuthenticationTokenGetters } from "@/store/modules/authenticationToken"
 import { RouteConfig } from "vue-router"
 import { createStore, Module } from "vuex-smart-module"
@@ -7,6 +9,19 @@ export const routes: RouteConfig[] = [
   { path: "/login", name: "login", component: { template: "<div><b>stub</b></div>" } },
   { path: "/tasks", name: "manageTask", component: { template: "<div><b>stub</b></div>" } }
 ]
+
+export const fatal = jest.fn()
+
+export class NotifyClientMock implements NotifyClient {
+  info() {}
+  warn() {}
+  success() {}
+  error(){}
+
+  fatal() {
+    fatal()
+  }
+}
 
 export const isStored = jest.fn()
 
