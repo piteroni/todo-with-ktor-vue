@@ -1,7 +1,7 @@
-import { UnauthorizedError } from "@/api/exceptions";
-import { authenticationToken, AuthenticationTokenActions, AuthenticationTokenGetters } from "@/store/modules/authenticationToken";
-import { RouteConfig } from "vue-router";
-import { createStore, Module } from "vuex-smart-module";
+import { UnauthorizedError } from "@/api/exceptions"
+import { authenticationToken, AuthenticationTokenActions, AuthenticationTokenGetters } from "@/store/modules/authenticationToken"
+import { RouteConfig } from "vue-router"
+import { createStore, Module } from "vuex-smart-module"
 
 export const routes: RouteConfig[] = [
   { path: "/login", name: "login", component: { template: "<div><b>stub</b></div>" } },
@@ -40,7 +40,7 @@ export const verifyWithException = jest.fn()
 export class VerifyStubWithException extends AuthenticationTokenActions {
   public async verify(): Promise<void> {
     verifyWithException()
-    throw new Error
+    throw new Error()
   }
 }
 
@@ -52,6 +52,7 @@ export class VerifyStubWithAuth extends AuthenticationTokenActions {
   }
 }
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const mockAuthenticationToken = (getters: typeof AuthenticationTokenGetters, actions: typeof AuthenticationTokenActions) => {
   const authenticationTokenClone = authenticationToken.clone()
 
@@ -61,6 +62,7 @@ export const mockAuthenticationToken = (getters: typeof AuthenticationTokenGette
   return make(authenticationTokenClone)
 }
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const mockAuthenticationTokenGetters = (getters: typeof AuthenticationTokenGetters) => {
   const authenticationTokenClone = authenticationToken.clone()
 
@@ -69,6 +71,7 @@ export const mockAuthenticationTokenGetters = (getters: typeof AuthenticationTok
   return make(authenticationTokenClone)
 }
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const mockAuthenticationTokenActions = (actions: typeof AuthenticationTokenActions) => {
   const authenticationTokenClone = authenticationToken.clone()
 

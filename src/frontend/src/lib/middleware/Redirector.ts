@@ -1,9 +1,11 @@
-import Vue from "vue";
-import { types } from "@/providers/types";
-import { VuexContext } from "@/providers/containers/vuexContext";
-import { UnauthorizedError } from "@/api/exceptions";
-import { AuthenticationTokenContext } from "@/store/modules/authenticationToken";
-import { routeNames } from "@/router/routeNames";
+import Vue from "vue"
+import { types } from "@/providers/types"
+import { VuexContext } from "@/providers/containers/vuexContext"
+import { UnauthorizedError } from "@/api/exceptions"
+import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
+import { routeNames } from "@/router/routeNames"
+import VueRouter from "vue-router"
+import { NotifyClient } from "../notify/lib"
 
 export interface Redirector {
   /**
@@ -27,14 +29,17 @@ export class RedirectAPI implements Redirector {
   @VuexContext(types.vuexContext.authenticationToken)
   private $authenticationToken!: AuthenticationTokenContext
 
-  private vue: Vue
+  private router: VueRouter
 
-  constructor(vue: Vue) {
-    this.vue = vue
+  private notify: NotifyClient
+
+  constructor(router: VueRouter, notify: NotifyClient) {
+    this.router = router
+    this.notify = notify
   }
 
   public async redirectIfAuthenticated(): Promise<boolean> {
-    await this.$authenticationToken.actions.setUp();
+    await this.$authenticationToken.actions.setUp()
 
     if (!this.$authenticationToken.getters.isStored) {
       return false
@@ -42,18 +47,18 @@ export class RedirectAPI implements Redirector {
 
     try {
       await this.$authenticationToken.actions.verify()
-    } catch(e) {
+    } catch (e) {
       if (e instanceof UnauthorizedError) {
         return false
       }
 
       console.error(e)
-      this.vue.$notify.fatal()
+      this.notify.fatal()
 
       return false
     }
 
-    this.vue.$router.push({ name: routeNames.manageTask })
+    this.router.push({ name: routeNames.manageTask })
 
     return true
   }
@@ -62,7 +67,7 @@ export class RedirectAPI implements Redirector {
     await this.$authenticationToken.actions.setUp()
 
     if (!this.$authenticationToken.getters.isStored) {
-      this.vue.$router.push({ name: routeNames.login })
+      this.router.push({ name: routeNames.login })
       return true
     }
 
@@ -70,12 +75,12 @@ export class RedirectAPI implements Redirector {
       await this.$authenticationToken.actions.verify()
     } catch (e) {
       if (e instanceof UnauthorizedError) {
-        this.vue.$router.push({ name: routeNames.login, query: { isRedirect: "true" } })
+        this.router.push({ name: routeNames.login, query: { isRedirect: "true" } })
         return true
       }
 
       console.error(e)
-      this.vue.$notify.fatal()
+      this.notify.fatal()
 
       return false
     }
