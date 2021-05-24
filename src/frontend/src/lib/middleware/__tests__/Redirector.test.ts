@@ -1,5 +1,6 @@
+import Vuex from "vuex"
 import VueRouter from "vue-router"
-import { container as vuexContextContainer } from "@/providers/containers/vuexContext"
+import { vuexContextContainer } from "@/providers/containers"
 import { types } from "@/providers/types"
 import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
 import { createLocalVue } from "@vue/test-utils"
@@ -9,6 +10,8 @@ import * as fixtures from "./fixtures/redirector"
 import { NotifyClient } from "@/lib/notify/lib"
 
 const localVue = createLocalVue()
+
+localVue.use(Vuex)
 localVue.use(VueRouter)
 
 describe("ユーザーの認証ステータスに応じてリダレクトを行う", () => {

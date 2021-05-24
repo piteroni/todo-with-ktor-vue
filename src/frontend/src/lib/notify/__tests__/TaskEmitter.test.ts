@@ -25,6 +25,7 @@ describe("TaskEmitter", () => {
       message: "メッセージ通知メッセージ"
     }]]
 
+    // タスクが保留されないようにmountedイベントを送出.
     wrapper.vm.$emit(event.componentMounted)
 
     emitter.addTask({
@@ -58,7 +59,7 @@ describe("TaskEmitter", () => {
     expect(wrapper.emitted("page-task:create")).toEqual(expected)
   })
 
-  it("Componentのマウントが完了していない場合、タスクを送信を保留することができる", async () => {
+  it("Componentのマウントが完了していない場合、タスクの送信を保留することができる", async () => {
     /* eslint-disable prefer-const */
     let emittedWithPending: { [name: string]: Array<Array<any>> | undefined }
     let emittedWithComplate: { [name: string]: Array<Array<any>> | undefined }

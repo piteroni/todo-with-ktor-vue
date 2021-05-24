@@ -1,6 +1,6 @@
 import { Credentials } from "@/api/Credentials"
 import { Identification } from "@/api/Identification"
-import { Api } from "@/providers/containers/api"
+import { Api } from "@/providers/containers"
 import { types } from "@/providers/types"
 import {
   Mutations, Getters, Actions, Module

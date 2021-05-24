@@ -37,10 +37,29 @@ export interface Message {
 }
 
 export interface NotifyClient {
+  /**
+   * 情報メッセージを表示する.
+   */
   info: (message: string, title?: string) => void;
+
+  /**
+   * 警告メッセージを表示する.
+   */
   warn: (message: string, title?: string) => void;
+
+  /**
+   * 成功メッセージを表示する.
+   */
   success: (message: string, title?: string) => void;
+
+  /**
+   * エラーメッセージを表示する.
+   */
   error: (message: string, title?: string) => void;
+
+  /**
+   * 致命的エラーを表示する.
+   */
   fatal: (message?: string, title?: string) => void;
 }
 

@@ -4,7 +4,7 @@ import { createLocalVue } from "@vue/test-utils"
 import {
   authenticationToken, AuthenticationTokenStoreKey, AuthenticationTokenState, AuthenticationTokenContext
 } from "@/store/modules/authenticationToken"
-import { container } from "@/providers/containers/api"
+import { apiContainer } from "@/providers/containers"
 import { Credentials } from "@/api/Credentials"
 import { Identification } from "@/api/Identification"
 import { types } from "@/providers/types"
@@ -53,8 +53,8 @@ describe("authenticationToken.ts", () => {
 
   describe("actions", () => {
     beforeEach(() => {
-      container.rebind<Identification>(types.api.Identification).toDynamicValue(() => new fixtures.IdentificationMock())
-      container.rebind<Credentials>(types.api.Credentials).toDynamicValue(() => new fixtures.CredentialsMock())
+      apiContainer.rebind<Identification>(types.api.Identification).toConstantValue(new fixtures.IdentificationMock())
+      apiContainer.rebind<Credentials>(types.api.Credentials).toConstantValue(new fixtures.CredentialsMock())
       window.localStorage.clear()
     })
 

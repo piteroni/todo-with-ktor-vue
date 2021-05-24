@@ -7,9 +7,6 @@ export class NotifyApi implements NotifyClient {
     this.emitter = emitter
   }
 
-  /**
-   * 情報メッセージを表示する.
-   */
   public info(message: string, title?: string): void {
     this.emitter.addTask({
       notifyType: "message",
@@ -19,9 +16,6 @@ export class NotifyApi implements NotifyClient {
     })
   }
 
-  /**
-   * 警告メッセージを表示する.
-   */
   public warn(message: string, title?: string): void {
     this.emitter.addTask({
       notifyType: "message",
@@ -31,9 +25,6 @@ export class NotifyApi implements NotifyClient {
     })
   }
 
-  /**
-   * 成功メッセージを表示する.
-   */
   public success(message: string, title?: string): void {
     this.emitter.addTask({
       notifyType: "message",
@@ -43,12 +34,6 @@ export class NotifyApi implements NotifyClient {
     })
   }
 
-  /**
-   * エラーメッセージを表示する.
-   *
-   * @param message
-   * @param title
-   */
   public error(message: string, title?: string): void {
     this.emitter.addTask({
       notifyType: "message",
@@ -58,12 +43,6 @@ export class NotifyApi implements NotifyClient {
     })
   }
 
-  /**
-   * 致命的エラーを表示する.
-   *
-   * @param message
-   * @param title
-   */
   public fatal(message?: string, title?: string): void {
     this.emitter.addTask({
       notifyType: "page",

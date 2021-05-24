@@ -1,9 +1,7 @@
 import { router } from "@/router"
 import { RedirectAPI, Redirector } from "@/lib/middleware/Redirector"
 import { notify } from "@/plugins/notify"
-import { container } from "@/providers/containers/service"
+import { serviceContainer } from "@/providers/containers"
 import { types } from "@/providers/types"
 
-container.rebind<Redirector>(types.service.redirector).toDynamicValue(() => {
-  return new RedirectAPI(router, notify)
-})
+serviceContainer.rebind<Redirector>(types.service.redirector).toConstantValue(new RedirectAPI(router, notify))

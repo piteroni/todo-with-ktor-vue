@@ -15,7 +15,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
 import { types } from "@/providers/types"
-import { Service } from "@/providers/containers/service"
+import { Service } from "@/providers/containers"
 import { Redirector } from "@/lib/middleware/Redirector"
 import Loading from "@/components/singletons/Loading.vue"
 

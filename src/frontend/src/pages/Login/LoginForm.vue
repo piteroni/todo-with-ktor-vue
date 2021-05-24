@@ -83,7 +83,7 @@
 <script lang="ts">
 import { Vue, Component, Ref } from "vue-property-decorator"
 import { types } from "@/providers/types"
-import { VuexContext } from "@/providers/containers/vuexContext"
+import { VuexContext } from "@/providers/containers"
 import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
 import { routeNames } from "@/router/routeNames"
 import { UnauthorizedError } from "@/api/exceptions"

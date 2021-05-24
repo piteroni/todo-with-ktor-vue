@@ -1,5 +1,5 @@
 import { types } from "@/providers/types"
-import { VuexContext } from "@/providers/containers/vuexContext"
+import { VuexContext } from "@/providers/containers"
 import { UnauthorizedError } from "@/api/exceptions"
 import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
 import { routeNames } from "@/router/routeNames"

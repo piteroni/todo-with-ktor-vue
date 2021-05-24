@@ -1,15 +1,17 @@
 import Vue from "vue"
+import Vuex from "vuex"
 import Vuetify from "vuetify"
 import VueRouter from "vue-router"
 import { mount, createLocalVue, shallowMount } from "@vue/test-utils"
 import { types } from "@/providers/types"
-import { container as vuexContextContainer } from "@/providers/containers/vuexContext"
+import {  vuexContextContainer } from "@/providers/containers"
 import { FetchAuthenticationTokenParameter } from "@/store/modules/authenticationToken"
 import LoginForm from "@/pages/Login/LoginForm.vue"
 import { waitUntilForMounted, waitUntilForDone, useStderrMock } from "@/shared/testing"
 import * as fixtures from "./fixtures/loginForm"
 import { routes, setUpVuexModule } from "./fixtures/shared"
 
+Vue.use(Vuex)
 Vue.use(Vuetify)
 Vue.use(VueRouter)
 
