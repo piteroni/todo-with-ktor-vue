@@ -4,8 +4,8 @@
 
     <v-layout v-else justify-center align-center>
       <v-flex fill-height>
-
         <div class="container">
+          タスク管理画面
         </div>
       </v-flex>
     </v-layout>
