@@ -5,5 +5,8 @@ export const types = {
   },
   vuexContext: {
     authenticationToken: Symbol.for("vuexContext.authenticationToken"),
+  },
+  service: {
+    redirector: Symbol.for("service.redirector"),
   }
 } as const

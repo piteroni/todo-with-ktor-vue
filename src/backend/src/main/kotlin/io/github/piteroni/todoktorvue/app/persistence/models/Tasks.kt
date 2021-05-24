@@ -1,10 +1,10 @@
 package io.github.piteroni.todoktorvue.app.persistence.models
 
-import io.github.piteroni.todoktorvue.app.domain.task.Task as TaskEntity
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.IntIdTable
+import io.github.piteroni.todoktorvue.app.domain.task.Task as TaskEntity
 
 object Tasks : IntIdTable("tasks") {
     val name = varchar("name", 256)

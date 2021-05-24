@@ -1,6 +1,6 @@
 import { RouteConfig } from "vue-router"
-import { createStore, Module } from "vuex-smart-module"
 import { authenticationToken, AuthenticationTokenActions } from "@/store/modules/authenticationToken"
+import { createStore, Module } from "vuex-smart-module"
 
 export const routes: Array<RouteConfig> = [
   {
