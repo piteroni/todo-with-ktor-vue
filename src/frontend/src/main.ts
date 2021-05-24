@@ -3,9 +3,9 @@ import App from "@/App.vue"
 import { router } from "@/router"
 import { store } from "@/store"
 import vuetify from "@/plugins/vuetify"
+import "@/providers/bindings/service"
 import "@/plugins/window"
 import "@/plugins/notify"
-import "@/assets/scss/global.scss"
 
 Vue.config.productionTip = false
 

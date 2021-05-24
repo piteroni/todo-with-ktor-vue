@@ -18,15 +18,13 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
+import { types } from "@/providers/types"
+import { Service } from "@/providers/containers/service"
+import { Redirector } from "@/lib/middleware/Redirector"
 import Navbar from "@/components/singletons/Navber.vue"
 import Logo from "@/components/singletons/Logo.vue"
 import Loading from "@/components/singletons/Loading.vue"
 import LoginForm from "./LoginForm.vue"
-import { VuexContext } from "@/providers/containers/vuexContext"
-import { types } from "@/providers/types"
-import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
-import { UnauthorizedError } from "@/api/exceptions"
-import { routeNames } from "@/router/routeNames"
 
 @Component({
   components: {
@@ -37,8 +35,8 @@ import { routeNames } from "@/router/routeNames"
   }
 })
 export default class LoginPage extends Vue {
-  @VuexContext(types.vuexContext.authenticationToken)
-  private $authenticationToken!: AuthenticationTokenContext;
+  @Service(types.service.redirector)
+  private $redirector!: Redirector
 
   /**
    * ローディング状態を保持する.
@@ -46,50 +44,13 @@ export default class LoginPage extends Vue {
   public loading = true
 
   public async mounted(): Promise<void> {
-    let isRedirect = false
-
-    try {
-      isRedirect = await this.redirectIfAuthenticated()
-    } catch (e) {
-      console.error(e)
-      this.$notify.fatal()
-
-      return
-    }
+    const isRedirect = await this.$redirector.redirectIfAuthenticated()
 
     if (isRedirect) {
       return
     }
 
     this.loading = false
-  }
-
-  /**
-   * ユーザーが認証済みの場合に、リダイレクトを行う.
-   *
-   * @return
-   *   リダイレクトが行われたか否か.
-   */
-  private async redirectIfAuthenticated(): Promise<boolean> {
-    await this.$authenticationToken.actions.setUp()
-
-    if (!this.$authenticationToken.getters.isStored) {
-      return false
-    }
-
-    try {
-      await this.$authenticationToken.actions.verify()
-    } catch (e) {
-      if (e instanceof UnauthorizedError) {
-        return false
-      }
-
-      throw e
-    }
-
-    this.$router.push({ name: routeNames.manageTask })
-
-    return true
   }
 }
 </script>

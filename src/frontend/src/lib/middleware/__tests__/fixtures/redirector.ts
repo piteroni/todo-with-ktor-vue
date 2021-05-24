@@ -1,5 +1,4 @@
 import { UnauthorizedError } from "@/api/exceptions"
-import { NotifyApi } from "@/lib/notify/api"
 import { NotifyClient } from "@/lib/notify/lib"
 import { authenticationToken, AuthenticationTokenActions, AuthenticationTokenGetters } from "@/store/modules/authenticationToken"
 import { RouteConfig } from "vue-router"
@@ -12,11 +11,12 @@ export const routes: RouteConfig[] = [
 
 export const fatal = jest.fn()
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types @typescript-eslint/no-empty-function */
 export class NotifyClientMock implements NotifyClient {
   info() {}
   warn() {}
   success() {}
-  error(){}
+  error() {}
 
   fatal() {
     fatal()

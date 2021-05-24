@@ -1,36 +1,29 @@
-import { ServerError, UnauthorizedError } from "@/api/exceptions"
-import { AuthenticationTokenActions } from "@/store/modules/authenticationToken"
+import { Redirector } from "@/lib/middleware/Redirector";
 
-export const verifyCrediantialsMock = jest.fn()
+export const redirectWithUnAuth = jest.fn()
 
-export class AuthenticationTokenActionsMockWithAuthFailure extends AuthenticationTokenActions {
-  // 認証例外を発生させるようにする
-  public async verify(): Promise<void> {
-    verifyCrediantialsMock()
+export class RedirectorMockWithUnAuth implements Redirector {
+  async redirectIfAuthenticated() {
+    redirectWithUnAuth()
+    return false
+  }
 
-    throw new UnauthorizedError("message", 1, "code")
+  // stub
+  async redirectIfUnauthenticated() {
+    return true
   }
 }
 
-export class AuthenticationTokenActionsMockWithAuthed extends AuthenticationTokenActions {
-  public setUp(): void {
-    this.state.token = "token"
+export const redirectWithAuth = jest.fn()
+
+export class RedirectorMockWithAuth implements Redirector {
+  async redirectIfAuthenticated() {
+    redirectWithAuth()
+    return true
   }
 
-  public async verify(): Promise<void> {
-    verifyCrediantialsMock()
-  }
-}
-
-export class AuthenticationTokenActionsMockWithException extends AuthenticationTokenActions {
-  public setUp(): void {
-    this.state.token = "token"
-  }
-
-  // UnauthorizedError以外を発生させるようにする
-  public async verify(): Promise<void> {
-    verifyCrediantialsMock()
-
-    throw new ServerError("message")
+  // stub
+  async redirectIfUnauthenticated() {
+    return true
   }
 }
