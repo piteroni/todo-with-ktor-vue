@@ -3,6 +3,7 @@
 ## identification
 
 - ログインする
+- ログアウトする
 
 ## task
 

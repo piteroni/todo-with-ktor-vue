@@ -96,5 +96,15 @@ describe("authenticationToken.ts", () => {
 
       expect(fixtures.verifyMock).toBeCalledTimes(1)
     })
+
+    it("保存されている認証トークンを削除できる", async () => {
+      window.localStorage.setItem(AuthenticationTokenStoreKey, "authenticationToken")
+
+      await context.actions.forget()
+
+      const actual = window.localStorage.getItem(AuthenticationTokenStoreKey)
+
+      expect(actual).toBe(null)
+    })
   })
 })

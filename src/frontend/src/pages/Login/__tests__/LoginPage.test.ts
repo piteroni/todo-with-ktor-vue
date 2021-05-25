@@ -32,7 +32,7 @@ describe("LoginPage.vue", () => {
       routes,
     })
 
-    serviceContainer.rebind<Redirector>(types.service.redirector).toConstantValue(new fixtures.RedirectorMockWithUnAuth)
+    serviceContainer.rebind<Redirector>(types.service.redirector).toConstantValue(new fixtures.RedirectorMockWithUnAuth())
   })
 
   afterEach(() => {
@@ -68,7 +68,7 @@ describe("LoginPage.vue", () => {
   })
 
   it("ユーザーが認証済みの場合、ログインフォームは表示されない", async () => {
-    serviceContainer.rebind<Redirector>(types.service.redirector).toConstantValue(new fixtures.RedirectorMockWithAuth)
+    serviceContainer.rebind<Redirector>(types.service.redirector).toConstantValue(new fixtures.RedirectorMockWithAuth())
 
     const login = shallowMount(Login, {
       localVue,

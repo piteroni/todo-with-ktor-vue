@@ -87,6 +87,13 @@ export class AuthenticationTokenActions extends Actions<AuthenticationTokenState
     this.mutations.save(response.token)
     window.localStorage.setItem(AuthenticationTokenStoreKey, response.token)
   }
+
+  /**
+   * 保存されている認証トークンを削除する.
+   */
+  public forget(): void {
+    window.localStorage.removeItem(AuthenticationTokenStoreKey)
+  }
 }
 
 export const authenticationToken = new Module({

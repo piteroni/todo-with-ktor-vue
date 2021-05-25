@@ -4,6 +4,13 @@
 
     <v-layout v-else justify-center align-center>
       <v-flex fill-height>
+        <navbar>
+          <logo />
+
+          <v-spacer />
+          <more-menu />
+        </navbar>
+
         <div class="container">
           タスク管理画面
         </div>
@@ -17,11 +24,17 @@ import { Vue, Component } from "vue-property-decorator"
 import { types } from "@/providers/types"
 import { Service } from "@/providers/containers"
 import { Redirector } from "@/lib/middleware/Redirector"
+import Navbar from "@/components/singletons/Navber.vue"
+import Logo from "@/components/singletons/Logo.vue"
 import Loading from "@/components/singletons/Loading.vue"
+import MoreMenu from "@/components/singletons/MoreMenu.vue"
 
 @Component({
   components: {
+    "logo": Logo,
+    "navbar": Navbar,
     "loading": Loading,
+    "more-menu": MoreMenu,
   }
 })
 export default class ManageTaskPage extends Vue {

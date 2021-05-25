@@ -8,6 +8,7 @@ export class NotImplementedError extends RuntimeError {
 class TemplateClass {
 }
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const makeNotImplemented = (message: string) => {
   return class extends TemplateClass {
     constructor() {
