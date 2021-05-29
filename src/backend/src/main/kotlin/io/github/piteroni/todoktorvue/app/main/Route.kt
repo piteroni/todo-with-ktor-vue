@@ -3,6 +3,9 @@ package io.github.piteroni.todoktorvue.app.main
 import io.github.piteroni.todoktorvue.app.auth.jwt.JWT
 import io.github.piteroni.todoktorvue.app.auth.jwt.makeJWTConfig
 import io.github.piteroni.todoktorvue.app.http.controllers.IdentificationController
+import io.github.piteroni.todoktorvue.app.http.controllers.TaskController
+import io.github.piteroni.todoktorvue.app.persistence.repositories.TaskRepository
+import io.github.piteroni.todoktorvue.app.usecase.task.TaskUseCase
 import io.github.piteroni.todoktorvue.app.usecase.user.UserAccountUseCase
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -10,9 +13,10 @@ import io.ktor.auth.authenticate
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
 import io.ktor.routing.Route
-import io.ktor.routing.post
-import io.ktor.routing.route
 import io.ktor.routing.routing
+import io.ktor.routing.route
+import io.ktor.routing.get
+import io.ktor.routing.post
 
 internal fun Application.applyRoutes() {
     routing {
@@ -21,9 +25,10 @@ internal fun Application.applyRoutes() {
 }
 
 internal fun Route.internalApiRoutes() {
-    val jwt = JWT(makeJWTConfig())
     val userAccountUseCase = UserAccountUseCase()
-    val identificationController = IdentificationController(jwt, userAccountUseCase)
+    val taskUseCase = TaskUseCase(TaskRepository())
+    val identificationController = IdentificationController(JWT(makeJWTConfig()), userAccountUseCase)
+    val taskController = TaskController(taskUseCase)
 
     route("/api/i/v0") {
         post("/login") {
@@ -33,6 +38,11 @@ internal fun Route.internalApiRoutes() {
         authenticate {
             route("/credentials") {
                 post("/verify") { call.respond(HttpStatusCode.OK) }
+            }
+        }
+        route("/users/current") {
+            get("/tasks") {
+                taskController.getRetainedTaskList(call)
             }
         }
     }

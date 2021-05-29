@@ -1,12 +1,11 @@
 import { Credentials } from "@/api/Credentials"
 import { Identification } from "@/api/Identification"
+import { authenticateTokenConfig } from "@/lib/consts/AuthenticateTokenConfig"
 import { Api } from "@/providers/containers"
 import { types } from "@/providers/types"
 import {
   Mutations, Getters, Actions, Module
 } from "vuex-smart-module"
-
-export const AuthenticationTokenStoreKey = "authentication-token" as const
 
 export interface AuthenticationTokenState {
   token: string;
@@ -53,7 +52,7 @@ export class AuthenticationTokenActions extends Actions<AuthenticationTokenState
    * 認証トークンの初期化を行う.
    */
   public setUp(): void {
-    const token = window.localStorage.getItem(AuthenticationTokenStoreKey) ?? ""
+    const token = window.localStorage.getItem(authenticateTokenConfig.storeKey) ?? ""
 
     this.mutations.save(token)
   }
@@ -85,14 +84,14 @@ export class AuthenticationTokenActions extends Actions<AuthenticationTokenState
     const response = await this.$identification.login(email, password)
 
     this.mutations.save(response.token)
-    window.localStorage.setItem(AuthenticationTokenStoreKey, response.token)
+    window.localStorage.setItem(authenticateTokenConfig.storeKey, response.token)
   }
 
   /**
    * 保存されている認証トークンを削除する.
    */
   public forget(): void {
-    window.localStorage.removeItem(AuthenticationTokenStoreKey)
+    window.localStorage.removeItem(authenticateTokenConfig.storeKey)
   }
 }
 

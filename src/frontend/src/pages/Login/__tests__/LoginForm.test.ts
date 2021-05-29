@@ -222,23 +222,6 @@ describe("LoginForm.vue", () => {
 
       expect(loginForm.find(".password div[role=\"alert\"] .v-messages__message").text()).not.toBe("")
     })
-
-    it("パスワード欄に129文字以上文字が入力された場合、エラーメッセージが表示される", async () => {
-      const loginForm = mount(LoginForm, {
-        localVue,
-        vuetify,
-        router,
-      })
-
-      await waitUntilForMounted()
-
-      await loginForm.find(".password input").setValue("0".repeat(129))
-      await loginForm.find(".loginButton").trigger("click")
-
-      await waitUntilForDone()
-
-      expect(loginForm.find(".password div[role=\"alert\"] .v-messages__message").text()).not.toBe("")
-    })
   })
 
   it("入力内容に不備がある場合、ログイン処理は実施されない", async () => {

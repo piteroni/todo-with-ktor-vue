@@ -2,13 +2,14 @@ import Vuex, { Store } from "vuex"
 import { Module, createStore } from "vuex-smart-module"
 import { createLocalVue } from "@vue/test-utils"
 import {
-  authenticationToken, AuthenticationTokenStoreKey, AuthenticationTokenState, AuthenticationTokenContext
+  authenticationToken, AuthenticationTokenState, AuthenticationTokenContext
 } from "@/store/modules/authenticationToken"
 import { apiContainer } from "@/providers/containers"
 import { Credentials } from "@/api/Credentials"
 import { Identification } from "@/api/Identification"
 import { types } from "@/providers/types"
 import * as fixtures from "./fixtures/authenticationToken"
+import { authenticateTokenConfig } from "@/lib/consts/AuthenticateTokenConfig"
 
 const localVue = createLocalVue()
 
@@ -62,7 +63,7 @@ describe("authenticationToken.ts", () => {
       const token = "authenticationToken"
       const expected = "authenticationToken"
 
-      window.localStorage.setItem(AuthenticationTokenStoreKey, token)
+      window.localStorage.setItem(authenticateTokenConfig.storeKey, token)
 
       context.actions.setUp()
 
@@ -98,11 +99,11 @@ describe("authenticationToken.ts", () => {
     })
 
     it("保存されている認証トークンを削除できる", async () => {
-      window.localStorage.setItem(AuthenticationTokenStoreKey, "authenticationToken")
+      window.localStorage.setItem(authenticateTokenConfig.storeKey, "authenticationToken")
 
       await context.actions.forget()
 
-      const actual = window.localStorage.getItem(AuthenticationTokenStoreKey)
+      const actual = window.localStorage.getItem(authenticateTokenConfig.storeKey)
 
       expect(actual).toBe(null)
     })

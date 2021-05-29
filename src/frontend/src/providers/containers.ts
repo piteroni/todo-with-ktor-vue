@@ -2,7 +2,7 @@ import "reflect-metadata"
 import { Container } from "inversify"
 import getDecorators from "inversify-inject-decorators"
 import { types } from "@/providers/types"
-import { makeNotImplemented } from "@/providers/bindings/shared"
+import { makeNotImplemented } from "@/providers/lib/shared"
 
 //
 // api
@@ -13,6 +13,8 @@ apiContainer.bind(types.api.Credentials).to(makeNotImplemented(`should bind the 
 
 apiContainer.bind(types.api.Identification).to(makeNotImplemented(`should bind the ${types.api.Identification.toString()}`))
 
+apiContainer.bind(types.api.CurrentUser).to(makeNotImplemented(`should bind the ${types.api.CurrentUser.toString()}`))
+
 export const Api = getDecorators(apiContainer).lazyInject
 
 //
@@ -21,6 +23,8 @@ export const Api = getDecorators(apiContainer).lazyInject
 export const vuexContextContainer = new Container()
 
 vuexContextContainer.bind(types.vuexContext.authenticationToken).to(makeNotImplemented(`should bind the ${types.vuexContext.authenticationToken.toString()}`))
+
+vuexContextContainer.bind(types.vuexContext.retainedTaskList).to(makeNotImplemented(`should bind the ${types.vuexContext.retainedTaskList.toString()}`))
 
 export const VuexContext = getDecorators(vuexContextContainer).lazyInject
 

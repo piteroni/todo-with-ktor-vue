@@ -1,14 +1,8 @@
-import { AxiosError, AxiosInstance } from "axios"
+import { AxiosError } from "axios"
 import {
   ApiErrorResponse, ApiError, ClientError, ServerError
 } from "@/api/exceptions"
-import { StatusCode } from "@/api/shared"
-
-export const interceptOfError = (api: AxiosInstance): AxiosInstance => {
-  api.interceptors.response.use(response => response, error => throwApiError(error))
-
-  return api
-}
+import { StatusCode } from "@/api/lib/shared"
 
 /**
  * APIとの通信時に例外が発生した場合のハンドリングを行う.

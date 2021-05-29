@@ -1,6 +1,6 @@
-import { AuthenticationTokenStoreKey } from "@/store/modules/authenticationToken"
 import { RuntimeError } from "@/shared/exception"
 import { AxiosInstance } from "axios"
+import { authenticateTokenConfig } from "@/lib/consts/AuthenticateTokenConfig"
 
 export class UnauthorizedError extends RuntimeError {
 }
@@ -11,7 +11,7 @@ export class UnauthorizedError extends RuntimeError {
 export type AxiosInstanceWithAuthorization = AxiosInstance
 
 export const createBearerSchema = (): Record<string, string> => {
-  const token = window.localStorage.getItem(AuthenticationTokenStoreKey)
+  const token = window.localStorage.getItem(authenticateTokenConfig.storeKey)
 
   if (!token) {
     throw new UnauthorizedError("Unable to obtain an authentication token")

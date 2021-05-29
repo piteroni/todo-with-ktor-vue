@@ -8,7 +8,7 @@ interface Password {
 
 data class RawPassword(override val value: String) : Password {
     init {
-        if (value.length !in 8..256) {
+        if (value.length !in 8..128) {
             throw DomainException("Illegal password size, must be between 8-256. size = $value")
         }
 
