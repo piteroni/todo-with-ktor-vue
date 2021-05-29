@@ -6,10 +6,10 @@ import {
 } from "@/store/modules/authenticationToken"
 import { apiContainer } from "@/providers/containers"
 import { Credentials } from "@/api/Credentials"
+import { authenticateTokenConfig } from "@/lib/consts/authenticateTokenConfig"
 import { Identification } from "@/api/Identification"
 import { types } from "@/providers/types"
 import * as fixtures from "./fixtures/authenticationToken"
-import { authenticateTokenConfig } from "@/lib/consts/AuthenticateTokenConfig"
 
 const localVue = createLocalVue()
 

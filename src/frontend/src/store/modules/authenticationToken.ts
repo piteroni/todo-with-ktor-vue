@@ -1,6 +1,6 @@
 import { Credentials } from "@/api/Credentials"
 import { Identification } from "@/api/Identification"
-import { authenticateTokenConfig } from "@/lib/consts/AuthenticateTokenConfig"
+import { authenticateTokenConfig } from "@/lib/consts/authenticateTokenConfig"
 import { Api } from "@/providers/containers"
 import { types } from "@/providers/types"
 import {

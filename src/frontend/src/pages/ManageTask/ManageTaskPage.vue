@@ -22,8 +22,9 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator"
 import { types } from "@/providers/types"
-import { Service } from "@/providers/containers"
+import { Service, VuexContext } from "@/providers/containers"
 import { Redirector } from "@/lib/middleware/Redirector"
+import { RetainedTaskListContext } from "@/store/modules/retainedTaskList"
 import Navbar from "@/components/singletons/Navber.vue"
 import Logo from "@/components/singletons/Logo.vue"
 import Loading from "@/components/singletons/Loading.vue"
@@ -38,6 +39,9 @@ import MoreMenu from "@/components/singletons/MoreMenu.vue"
   }
 })
 export default class ManageTaskPage extends Vue {
+  @VuexContext(types.vuexContext.retainedTaskList)
+  private $retainedTaskList!: RetainedTaskListContext
+
   @Service(types.service.redirector)
   private $redirector!: Redirector
 
@@ -52,6 +56,8 @@ export default class ManageTaskPage extends Vue {
     if (isRedirect) {
       return
     }
+
+    await this.$retainedTaskList.actions.fetch()
 
     this.loading = false
   }

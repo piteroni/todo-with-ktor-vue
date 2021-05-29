@@ -1,8 +1,8 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios"
 import { baseURL, defaultHeaders } from "@/api/lib/config"
-import { authenticateTokenConfig } from "@/lib/consts/AuthenticateTokenConfig";
-import { throwApiError } from "@/api/lib/handlers";
-import { RuntimeError } from "@/shared/exception";
+import { authenticateTokenConfig } from "@/lib/consts/authenticateTokenConfig"
+import { throwApiError } from "@/api/lib/handlers"
+import { RuntimeError } from "@/shared/exception"
 
 class TokenNotExistsError extends RuntimeError {}
 

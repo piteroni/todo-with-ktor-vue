@@ -2,12 +2,8 @@ import { types } from "@/providers/types"
 import { apiContainer } from "@/providers/containers"
 import { Identification } from "@/api/Identification"
 import { Credentials } from "@/api/Credentials"
-import { createAxiosInstance } from "@/api"
-import { createBearerSchema } from "@/api/authorization"
-import { CurrentUser } from "@/api/implementation/CurrentUser"
+import { CurrentUser } from "@/api/clients/CurrentUser"
 
-apiContainer.rebind<Credentials>(types.api.Credentials).toConstantValue(new Credentials(createAxiosInstance(createBearerSchema())))
-
-apiContainer.rebind(types.api.Identification).toConstantValue(new Identification(createAxiosInstance()))
-
+apiContainer.rebind(types.api.Credentials).to(Credentials)
+apiContainer.rebind(types.api.Identification).to(Identification)
 apiContainer.rebind(types.api.CurrentUser).to(CurrentUser)

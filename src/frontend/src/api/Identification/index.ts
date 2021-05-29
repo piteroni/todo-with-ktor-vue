@@ -1,16 +1,16 @@
 import { injectable } from "inversify"
 import { AxiosInstance, AxiosResponse } from "axios"
-import { throwApiError } from "@/api/handlers"
-import { ApiError, UnauthorizedError } from "@/api/exceptions"
+import { AxiosInstanceFactory } from "@/api/lib/client"
+import { ApiError, UnauthorizedError } from "@/api/lib/exceptions"
 import { HttpStatusCode } from "@/shared/http"
 import { PostLoginResponse } from "./types"
 
 @injectable()
 export class Identification {
-  private $api: AxiosInstance
+  private api: AxiosInstance
 
-  constructor(api: AxiosInstance) {
-    this.$api = api
+  constructor() {
+    this.api = AxiosInstanceFactory.get()
   }
 
   /**
@@ -30,10 +30,10 @@ export class Identification {
   public async login(email: string, password: string): Promise<PostLoginResponse> {
     const data = { email, password }
 
-    let response: void | AxiosResponse<any>
+    let response: AxiosResponse<PostLoginResponse>
 
     try {
-      response = await this.$api.post("/login", data).catch(throwApiError)
+      response = await this.api.post("/login", data)
     } catch (e) {
       if (e.constructor.name === ApiError.name) {
         const apiError = e as ApiError
@@ -46,6 +46,6 @@ export class Identification {
       throw e
     }
 
-    return (response as AxiosResponse<PostLoginResponse>).data
+    return response.data
   }
 }

@@ -1,17 +1,17 @@
 import { injectable } from "inversify"
-import { throwApiError } from "@/api/handlers"
-import { ApiError, UnauthorizedError } from "@/api/exceptions"
+import { AxiosInstance } from "axios"
+import { AxiosInstanceFactory } from "@/api/lib/client"
+import { ApiError, UnauthorizedError } from "@/api/lib/exceptions"
 import { HttpStatusCode } from "@/shared/http"
-import { AxiosInstanceWithAuthorization } from "@/api/authorization"
 
 export const resource = "/credentials"
 
 @injectable()
 export class Credentials {
-  private $api: AxiosInstanceWithAuthorization
+  private api: AxiosInstance
 
-  constructor(api: AxiosInstanceWithAuthorization) {
-    this.$api = api
+  constructor() {
+    this.api = AxiosInstanceFactory.auth()
   }
 
   /**
@@ -24,7 +24,7 @@ export class Credentials {
    */
   public async verify(): Promise<void> {
     try {
-      await this.$api.post(`${resource}/verify`).catch(throwApiError)
+      await this.api.post(`${resource}/verify`)
     } catch (e) {
       if (e.constructor.name === ApiError.name) {
         const apiError = e as ApiError
