@@ -1,4 +1,8 @@
 export const types = {
+  core: {
+    axios: Symbol.for("api.core.axios"),
+    authenticatedAxios: Symbol.for("api.core.AuthenticatedAxios")
+  },
   api: {
     Identification: Symbol.for("api.Identification"),
     Credentials: Symbol.for("api.Credentials"),

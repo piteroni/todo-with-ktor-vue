@@ -26,7 +26,7 @@ export class AxiosInstanceFactory {
     const token = window.localStorage.getItem(authenticateTokenConfig.storeKey)
 
     if (!token) {
-      throw new TokenNotExistsError("認証トークンを永続化領域に保存してください")
+      throw new TokenNotExistsError("認証トークンを永続化領域に保存されていません")
     }
 
     api.interceptors.request.use(config => {

@@ -1,18 +1,16 @@
 import { injectable } from "inversify"
 import { AxiosInstance } from "axios"
-import { AxiosInstanceFactory } from "@/api/lib/client"
 import { ApiError, UnauthorizedError } from "@/api/lib/exceptions"
 import { HttpStatusCode } from "@/shared/http"
+import { Core } from "@/providers/containers"
+import { types } from "@/providers/types"
 
 export const resource = "/credentials"
 
 @injectable()
 export class Credentials {
-  private api: AxiosInstance
-
-  constructor() {
-    this.api = AxiosInstanceFactory.auth()
-  }
+  @Core(types.core.authenticatedAxios)
+  private $api!: AxiosInstance
 
   /**
    * ユーザーの資格情報を検証する.
@@ -24,7 +22,7 @@ export class Credentials {
    */
   public async verify(): Promise<void> {
     try {
-      await this.api.post(`${resource}/verify`)
+      await this.$api.post(`${resource}/verify`)
     } catch (e) {
       if (e.constructor.name === ApiError.name) {
         const apiError = e as ApiError

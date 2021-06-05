@@ -1,7 +1,7 @@
-import { ICurrentUser } from "@/api/clients/CurrentUser/declare"
+import { Actions, Module } from "vuex-smart-module"
 import { Api } from "@/providers/containers"
 import { types } from "@/providers/types"
-import { Actions, Module } from "vuex-smart-module"
+import { CurrentUser } from "@/api/clients/CurrentUser"
 
 export interface RetainedTask {
   id: number
@@ -18,7 +18,7 @@ class RetainedTaskList implements RetainedTaskListState {
 
 class RetainedTaskListActions extends Actions<RetainedTaskListState> {
   @Api(types.api.CurrentUser)
-  private $currentUser!: ICurrentUser;
+  private $currentUser!: CurrentUser;
 
   /**
    * サーバーから保有タスクリストを取得し、Stateに保存する.

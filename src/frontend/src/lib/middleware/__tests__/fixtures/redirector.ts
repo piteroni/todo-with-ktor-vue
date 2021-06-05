@@ -1,4 +1,4 @@
-import { UnauthorizedError } from "@/api/exceptions"
+import { UnauthorizedError } from "@/api/lib/exceptions"
 import { NotifyClient } from "@/lib/notify/lib"
 import { authenticationToken, AuthenticationTokenActions, AuthenticationTokenGetters } from "@/store/modules/authenticationToken"
 import { RouteConfig } from "vue-router"

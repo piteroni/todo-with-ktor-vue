@@ -7,6 +7,17 @@ import { makeNotImplemented } from "@/providers/lib/shared"
 //
 // api
 //
+export const coreContainer = new Container()
+
+coreContainer.bind(types.core.axios).to(makeNotImplemented(`should bind the ${types.core.axios.toString()}`))
+
+coreContainer.bind(types.core.authenticatedAxios).to(makeNotImplemented(`should bind the ${types.core.authenticatedAxios.toString()}`))
+
+export const Core = getDecorators(coreContainer).lazyInject
+
+//
+// api
+//
 export const apiContainer = new Container()
 
 apiContainer.bind(types.api.Credentials).to(makeNotImplemented(`should bind the ${types.api.Credentials.toString()}`))

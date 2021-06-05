@@ -40,9 +40,12 @@ internal fun Route.internalApiRoutes() {
                 post("/verify") { call.respond(HttpStatusCode.OK) }
             }
         }
-        route("/users/current") {
-            get("/tasks") {
-                taskController.getRetainedTaskList(call)
+
+        authenticate {
+            route("/users/current") {
+                get("/tasks") {
+                    taskController.getRetainedTaskList(call)
+                }
             }
         }
     }

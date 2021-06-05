@@ -1,6 +1,6 @@
 import { types } from "@/providers/types"
 import { VuexContext } from "@/providers/containers"
-import { UnauthorizedError } from "@/api/exceptions"
+import { UnauthorizedError } from "@/api/lib/exceptions"
 import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
 import { routeNames } from "@/router/routeNames"
 import VueRouter from "vue-router"

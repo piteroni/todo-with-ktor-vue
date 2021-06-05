@@ -1,7 +1,7 @@
 import { AxiosError } from "axios"
 import {
   ApiErrorResponse, ApiError, ClientError, ServerError
-} from "@/api/exceptions"
+} from "@/api/lib/exceptions"
 import { StatusCode } from "@/api/lib/shared"
 
 /**

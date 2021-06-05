@@ -1,17 +1,15 @@
 import { injectable } from "inversify"
 import { AxiosInstance, AxiosResponse } from "axios"
-import { AxiosInstanceFactory } from "@/api/lib/client"
 import { ApiError, UnauthorizedError } from "@/api/lib/exceptions"
 import { HttpStatusCode } from "@/shared/http"
 import { PostLoginResponse } from "./types"
+import { Core } from "@/providers/containers"
+import { types } from "@/providers/types"
 
 @injectable()
 export class Identification {
-  private api: AxiosInstance
-
-  constructor() {
-    this.api = AxiosInstanceFactory.get()
-  }
+  @Core(types.core.axios)
+  private $api!: AxiosInstance
 
   /**
    * ユーザー認証を行う.
@@ -33,7 +31,7 @@ export class Identification {
     let response: AxiosResponse<PostLoginResponse>
 
     try {
-      response = await this.api.post("/login", data)
+      response = await this.$api.post("/login", data)
     } catch (e) {
       if (e.constructor.name === ApiError.name) {
         const apiError = e as ApiError

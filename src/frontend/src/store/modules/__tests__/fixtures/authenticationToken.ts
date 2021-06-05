@@ -1,6 +1,6 @@
-import { Credentials } from "@/api/Credentials"
-import { Identification } from "@/api/Identification"
-import { PostLoginResponse } from "@/api/Identification/types"
+import { Credentials } from "@/api/clients/Credentials"
+import { Identification } from "@/api/clients/Identification"
+import { PostLoginResponse } from "@/api/clients/Identification/types"
 
 export const loginMock = jest.fn()
 

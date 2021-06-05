@@ -86,7 +86,7 @@ import { types } from "@/providers/types"
 import { VuexContext } from "@/providers/containers"
 import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
 import { routeNames } from "@/router/routeNames"
-import { UnauthorizedError } from "@/api/exceptions"
+import { UnauthorizedError } from "@/api/lib/exceptions"
 import { VForm, VTextRule } from "@/shared/vuetify"
 
 @Component

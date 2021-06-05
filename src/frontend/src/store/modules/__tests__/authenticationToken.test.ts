@@ -5,9 +5,9 @@ import {
   authenticationToken, AuthenticationTokenState, AuthenticationTokenContext
 } from "@/store/modules/authenticationToken"
 import { apiContainer } from "@/providers/containers"
-import { Credentials } from "@/api/Credentials"
+import { Credentials } from "@/api/clients/Credentials"
 import { authenticateTokenConfig } from "@/lib/consts/authenticateTokenConfig"
-import { Identification } from "@/api/Identification"
+import { Identification } from "@/api/clients/Identification"
 import { types } from "@/providers/types"
 import * as fixtures from "./fixtures/authenticationToken"
 

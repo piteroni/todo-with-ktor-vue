@@ -1,5 +1,5 @@
 import { AuthenticationTokenActions, FetchAuthenticationTokenParameter } from "@/store/modules/authenticationToken"
-import { UnauthorizedError } from "@/api/exceptions"
+import { UnauthorizedError } from "@/api/lib/exceptions"
 
 export const fetchAuthenticationTokenMock = jest.fn()
 
