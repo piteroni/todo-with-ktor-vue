@@ -9,7 +9,7 @@ import { Credentials } from "@/api/clients/Credentials"
 import { authenticateTokenConfig } from "@/lib/consts/authenticateTokenConfig"
 import { Identification } from "@/api/clients/Identification"
 import { types } from "@/providers/types"
-import * as fixtures from "./fixtures/authenticationToken"
+import { createMock } from "@/lib/testing/lib"
 
 const localVue = createLocalVue()
 
@@ -53,9 +53,31 @@ describe("authenticationToken.ts", () => {
   })
 
   describe("actions", () => {
+    const loginMock = jest.fn()
+    const verifyMock = jest.fn()
+
+    beforeAll(() => {
+      const identificationMock = createMock(Identification, {
+        async login(email: string, password: string) {
+          loginMock(email, password)
+
+          return {
+            token: ""
+          }
+        }
+      })
+
+      const credentialsMock = createMock(Credentials, {
+        async verify() {
+          verifyMock()
+        }
+      })
+
+      apiContainer.rebind<Identification>(types.api.Identification).toConstantValue(identificationMock)
+      apiContainer.rebind<Credentials>(types.api.Credentials).toConstantValue(credentialsMock)
+    })
+
     beforeEach(() => {
-      apiContainer.rebind<Identification>(types.api.Identification).toConstantValue(new fixtures.IdentificationMock())
-      apiContainer.rebind<Credentials>(types.api.Credentials).toConstantValue(new fixtures.CredentialsMock())
       window.localStorage.clear()
     })
 
@@ -86,8 +108,8 @@ describe("authenticationToken.ts", () => {
 
       await context.actions.fetch({ email, password })
 
-      expect(fixtures.loginMock).toBeCalledTimes(1)
-      expect(fixtures.loginMock).toBeCalledWith("email-stub", "password-stub")
+      expect(loginMock).toBeCalledTimes(1)
+      expect(loginMock).toBeCalledWith("email-stub", "password-stub")
     })
 
     it("認証トークンは有効であるか否かを検証できる", async () => {
@@ -95,7 +117,7 @@ describe("authenticationToken.ts", () => {
 
       await context.actions.verify()
 
-      expect(fixtures.verifyMock).toBeCalledTimes(1)
+      expect(verifyMock).toBeCalledTimes(1)
     })
 
     it("保存されている認証トークンを削除できる", async () => {

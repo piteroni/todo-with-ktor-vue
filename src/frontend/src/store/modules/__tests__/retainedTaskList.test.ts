@@ -23,6 +23,10 @@ describe("保有タスクリスト", () => {
     context = mocked.context
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe("actions", () => {
     it("サーバーから保有タスクリストを取得できる", async () => {
       const getRetainedTaskListMock = jest.fn((): RetainedTaskAcquirationResponse => {
