@@ -9,6 +9,7 @@ module.exports = {
     "api/",
     "providers/",
     "router/",
+    "lib/testing",
     "shared/",
     "fixtures/",
     "store/index.ts"

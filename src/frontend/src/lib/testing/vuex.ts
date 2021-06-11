@@ -1,6 +1,6 @@
-import { Constructor } from "@/lib/testing/lib";
-import { RuntimeError } from "@/shared/exception";
-import { Actions, createStore, Getters, Module, Mutations } from "vuex-smart-module";
+import { Constructor } from "@/lib/testing/lib"
+import { RuntimeError } from "@/shared/exception"
+import { Actions, createStore, Getters, Module, Mutations } from "vuex-smart-module"
 
 type VuexModule = Module<any, any, any, any, any>
 

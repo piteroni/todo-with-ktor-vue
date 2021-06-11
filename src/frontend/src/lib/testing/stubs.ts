@@ -1,4 +1,4 @@
-import { Redirector } from "@/lib/middleware/Redirector";
+import { Redirector } from "@/lib/middleware/Redirector"
 
 export class RedirectorStub implements Redirector {
   redirectIfAuthenticated() {

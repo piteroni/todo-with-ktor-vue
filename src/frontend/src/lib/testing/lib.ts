@@ -1,17 +1,14 @@
-import { isClass } from "@/shared/helpers";
+import { isClass } from "@/shared/helpers"
 
-export type Constructor<T = {}> = new (...args: any[]) => T;
-
-export function createMock<T>(c: new () => T, entries: PartialDeep<T>): T
-export function createMock<T>(o: T, entries: PartialDeep<T>): T
-
-export function createMock<T extends object>(o: T | (new () => T), entries: PartialDeep<T>): T {
+export function createMock<T extends object>(o: T | Constructor<T>, entries: PartialDeep<T>): T {
   if (isClass(o)) {
-    return Object.assign(new (o as new () => T), entries)
+    return Object.assign(new (o as Constructor<T>)(), entries)
   } else {
     return Object.assign(o as T, entries)
   }
 }
+
+export type Constructor<T = {}> = new (...args: any[]) => T
 
 type Primitive = null | undefined | string | number | boolean | symbol | bigint;
 
@@ -31,15 +28,13 @@ export type PartialDeep<T> = T extends Primitive
   ? PartialObjectDeep<T>
   : unknown;
 
-interface PartialMapDeep<KeyType, ValueType>
-  extends Map<PartialDeep<KeyType>, PartialDeep<ValueType>> {}
+type PartialMapDeep<KeyType, ValueType> = Map<PartialDeep<KeyType>, PartialDeep<ValueType>>
 
-interface PartialSetDeep<T> extends Set<PartialDeep<T>> {}
+type PartialSetDeep<T> = Set<PartialDeep<T>>
 
-interface PartialReadonlyMapDeep<KeyType, ValueType>
-  extends ReadonlyMap<PartialDeep<KeyType>, PartialDeep<ValueType>> {}
+type PartialReadonlyMapDeep<KeyType, ValueType> = ReadonlyMap<PartialDeep<KeyType>, PartialDeep<ValueType>>
 
-interface PartialReadonlySetDeep<T> extends ReadonlySet<PartialDeep<T>> {}
+type PartialReadonlySetDeep<T> = ReadonlySet<PartialDeep<T>>
 
 type PartialObjectDeep<ObjectType extends object> = {
   [KeyType in keyof SuppressObjectPrototypeOverrides<ObjectType>]?: PartialDeep<
