@@ -1,5 +1,8 @@
 import { isClass } from "@/shared/helpers"
 
+/* eslint-disable no-use-before-define */
+/* eslint-disable @typescript-eslint/ban-types */
+
 export function createMock<T extends object>(o: T | Constructor<T>, entries: PartialDeep<T>): T {
   if (isClass(o)) {
     return Object.assign(new (o as Constructor<T>)(), entries)
@@ -47,4 +50,3 @@ type SuppressObjectPrototypeOverrides<ObjectType> = Pick<
   Exclude<keyof ObjectType, keyof Object>
 > &
   Pick<Object, Extract<keyof Object, keyof ObjectType>>;
-

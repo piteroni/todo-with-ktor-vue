@@ -1,11 +1,14 @@
+import { Store } from "vuex"
+import { Actions, Context, createStore, Getters, Module, Mutations } from "vuex-smart-module"
 import { Constructor } from "@/lib/testing/lib"
 import { RuntimeError } from "@/shared/exception"
-import { Actions, createStore, Getters, Module, Mutations } from "vuex-smart-module"
 
 type VuexModule = Module<any, any, any, any, any>
 
-export function mock<T extends VuexModule>(module: T) {
-  return new MockBuilder(module.clone())
+type MockedVuexModule<T extends VuexModule> = { store: Store<any>, context: Context<T> }
+
+export function mock<T extends VuexModule>(module: T): MockBuilder<T> {
+  return new MockBuilder<T>(module.clone() as T)
 }
 
 export class VuexMockBuildError extends RuntimeError {
@@ -44,7 +47,7 @@ class MockBuilder<T extends VuexModule> {
     return this
   }
 
-  public build() {
+  public build(): MockedVuexModule<T> {
     if (!this.moduleKey) {
       throw new VuexMockBuildError("module key is not specified")
     }

@@ -7,6 +7,8 @@ export const sleep = async (ms: number): Promise<void> => {
   await new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /**
  * 指定されたオブジェクトがクラスで宣言されたか否かを取得する.
  *
