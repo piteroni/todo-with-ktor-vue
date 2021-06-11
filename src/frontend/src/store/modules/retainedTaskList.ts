@@ -12,11 +12,11 @@ export interface RetainedTaskListState {
   tasks: RetainedTask[]
 }
 
-class RetainedTaskList implements RetainedTaskListState {
+export class RetainedTaskList implements RetainedTaskListState {
   public tasks: RetainedTask[] = []
 }
 
-class RetainedTaskListActions extends Actions<RetainedTaskListState> {
+export class RetainedTaskListActions extends Actions<RetainedTaskListState> {
   @Api(types.api.CurrentUser)
   private $currentUser!: CurrentUser;
 

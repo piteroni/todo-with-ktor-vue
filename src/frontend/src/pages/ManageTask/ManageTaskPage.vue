@@ -2,7 +2,7 @@
   <v-container class="grey lighten-5 pa-0" fluid fill-height>
     <loading :loading="loading" v-if="loading" />
 
-    <v-layout v-else justify-center align-center>
+    <v-layout class="manageTask" v-else justify-center align-center>
       <v-flex fill-height>
         <navbar>
           <logo />
@@ -57,13 +57,16 @@ export default class ManageTaskPage extends Vue {
       return
     }
 
-    await this.$retainedTaskList.actions.fetch()
+    try {
+      await this.$retainedTaskList.actions.fetch()
+    } catch (e) {
+      console.error(e)
+      this.$notify.fatal()
+
+      return
+    }
 
     this.loading = false
   }
 }
 </script>
-
-<style>
-
-</style>
