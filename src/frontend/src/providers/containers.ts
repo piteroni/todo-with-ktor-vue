@@ -35,7 +35,7 @@ export const vuexContextContainer = new Container()
 
 vuexContextContainer.bind(types.vuexContext.authenticationToken).to(makeNotImplemented(`should bind the ${types.vuexContext.authenticationToken.toString()}`))
 
-vuexContextContainer.bind(types.vuexContext.retainedTaskList).to(makeNotImplemented(`should bind the ${types.vuexContext.retainedTaskList.toString()}`))
+vuexContextContainer.bind(types.vuexContext.retainedTask).to(makeNotImplemented(`should bind the ${types.vuexContext.retainedTask.toString()}`))
 
 export const VuexContext = getDecorators(vuexContextContainer).lazyInject
 

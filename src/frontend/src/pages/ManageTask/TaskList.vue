@@ -26,18 +26,18 @@
 import { Vue, Component } from "vue-property-decorator"
 import { VuexContext } from "@/providers/containers"
 import { types } from "@/providers/types"
-import { RetainedTaskListContext, RetainedTask } from "@/store/modules/retainedTaskList"
+import { RetainedTaskContext, RetainedTask } from "@/store/modules/retainedTask"
 
 @Component
 export default class RetainedTaskList extends Vue {
-  @VuexContext(types.vuexContext.retainedTaskList)
-  private $retainedTaskList!: RetainedTaskListContext
+  @VuexContext(types.vuexContext.retainedTask)
+  private $retainedTask!: RetainedTaskContext
 
   /**
    * 保有タスクリストを取得する.
    */
   public get tasks(): RetainedTask[] {
-    return this.$retainedTaskList.state.tasks
+    return this.$retainedTask.state.tasks
   }
 
   /**
@@ -48,7 +48,7 @@ export default class RetainedTaskList extends Vue {
    */
   public async deleteTask(taskId: number): Promise<void> {
     try {
-      await this.$retainedTaskList.actions.deleteTask(taskId)
+      await this.$retainedTask.actions.deleteTask(taskId)
     } catch (e) {
       console.error(e)
       this.$notify.fatal()

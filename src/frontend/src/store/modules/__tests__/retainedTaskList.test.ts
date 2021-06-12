@@ -1,6 +1,6 @@
 import Vuex, { Store } from "vuex"
 import { createLocalVue } from "@vue/test-utils"
-import { RetainedTask, retainedTaskList, RetainedTaskListContext, RetainedTaskListState } from "@/store/modules/retainedTaskList"
+import { RetainedTask, retainedTask, RetainedTaskContext, RetainedTaskState } from "@/store/modules/retainedTask"
 import { mock } from "@/lib/testing/vuex"
 import { apiContainer } from "@/providers/containers"
 import { CurrentUser } from "@/api/clients/CurrentUser"
@@ -13,11 +13,11 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe("保有タスクリスト", () => {
-  let store: Store<{ retainedTaskList: RetainedTaskListState }>
-  let context: RetainedTaskListContext
+  let store: Store<{ retainedTask: RetainedTaskState }>
+  let context: RetainedTaskContext
 
   beforeEach(() => {
-    const mocked = mock(retainedTaskList).withKey("retainedTaskList").build()
+    const mocked = mock(retainedTask).withKey("retainedTask").build()
 
     store = mocked.store
     context = mocked.context
@@ -29,7 +29,7 @@ describe("保有タスクリスト", () => {
 
   describe("actions", () => {
     it("サーバーから保有タスクリストを取得できる", async () => {
-      const getRetainedTaskListMock = jest.fn((): RetainedTaskAcquirationResponse => {
+      const getRetainedTaskMock = jest.fn((): RetainedTaskAcquirationResponse => {
         return [{
           id: 0,
           name: ""
@@ -38,7 +38,7 @@ describe("保有タスクリスト", () => {
 
       const currentUserMock = createMock(CurrentUser, {
         async getRetainedTaskList() {
-          return getRetainedTaskListMock()
+          return getRetainedTaskMock()
         }
       })
 
@@ -49,10 +49,10 @@ describe("保有タスクリスト", () => {
 
       apiContainer.rebind<CurrentUser>(types.api.CurrentUser).toConstantValue(currentUserMock)
 
-      await context.actions.fetch()
+      await context.actions.fetchTasks()
 
-      expect(getRetainedTaskListMock).toBeCalledTimes(1)
-      expect(store.state.retainedTaskList.tasks).toEqual(expected)
+      expect(getRetainedTaskMock).toBeCalledTimes(1)
+      expect(store.state.retainedTask.tasks).toEqual(expected)
       expect(context.state.tasks).toEqual(expected)
     })
 
@@ -89,7 +89,7 @@ describe("保有タスクリスト", () => {
 
       expect(deleteRetainedTaskMock).toBeCalledTimes(1)
       expect(deleteRetainedTaskMock).toBeCalledWith(100)
-      expect(store.state.retainedTaskList.tasks).toEqual(expected)
+      expect(store.state.retainedTask.tasks).toEqual(expected)
       expect(context.state.tasks).toEqual(expected)
     })
   })

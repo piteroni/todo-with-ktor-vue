@@ -24,7 +24,7 @@ import { Vue, Component } from "vue-property-decorator"
 import { types } from "@/providers/types"
 import { Service, VuexContext } from "@/providers/containers"
 import { Redirector } from "@/lib/middleware/Redirector"
-import { RetainedTaskListContext } from "@/store/modules/retainedTaskList"
+import { RetainedTaskContext } from "@/store/modules/retainedTask"
 import Navbar from "@/components/singletons/Navber.vue"
 import Logo from "@/components/singletons/Logo.vue"
 import Loading from "@/components/singletons/Loading.vue"
@@ -41,8 +41,8 @@ import TaskList from "./TaskList.vue"
   }
 })
 export default class ManageTaskPage extends Vue {
-  @VuexContext(types.vuexContext.retainedTaskList)
-  private $retainedTaskList!: RetainedTaskListContext
+  @VuexContext(types.vuexContext.retainedTask)
+  private $retainedTask!: RetainedTaskContext
 
   @Service(types.service.redirector)
   private $redirector!: Redirector
@@ -60,7 +60,7 @@ export default class ManageTaskPage extends Vue {
     }
 
     try {
-      await this.$retainedTaskList.actions.fetch()
+      await this.$retainedTask.actions.fetchTasks()
     } catch (e) {
       console.error(e)
       this.$notify.fatal()

@@ -2,23 +2,23 @@ import Vue from "vue"
 import Vuex, { Store } from "vuex"
 import { createStore, Module } from "vuex-smart-module"
 import { authenticationToken, AuthenticationTokenState } from "@/store/modules/authenticationToken"
-import { retainedTaskList, RetainedTaskListState } from "@/store/modules/retainedTaskList"
+import { retainedTask, RetainedTaskState } from "@/store/modules/retainedTask"
 
 Vue.use(Vuex)
 
 export type StoreType = Store<{
   authenticationToken: AuthenticationTokenState,
-  retainedTaskList: RetainedTaskListState
+  retainedTask: RetainedTaskState
 }>;
 
 export const store: StoreType = createStore(
   new Module({
     modules: {
       authenticationToken,
-      retainedTaskList
+      retainedTask
     }
   })
 )
 
 export const authenticationTokenContext = authenticationToken.context(store)
-export const retainedTaskListContext = retainedTaskList.context(store)
+export const retainedTaskContext = retainedTask.context(store)

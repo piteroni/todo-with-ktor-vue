@@ -10,7 +10,7 @@ export const types = {
   },
   vuexContext: {
     authenticationToken: Symbol.for("vuexContext.authenticationToken"),
-    retainedTaskList: Symbol.for("vuexContext.retainedTaskList"),
+    retainedTask: Symbol.for("vuexContext.retainedTask"),
   },
   service: {
     redirector: Symbol.for("service.redirector"),

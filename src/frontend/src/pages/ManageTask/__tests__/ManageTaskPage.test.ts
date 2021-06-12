@@ -9,7 +9,7 @@ import ManageTaskPage from "../ManageTaskPage.vue"
 import { createMock } from "@/lib/testing/lib"
 import { RedirectorStub } from "@/lib/testing/stubs"
 import { useStderrMock, waitUntilForMounted } from "@/shared/testing"
-import { retainedTaskList, RetainedTaskListContext, RetainedTaskListActions } from "@/store/modules/retainedTaskList"
+import { retainedTask, RetainedTaskContext, RetainedTaskActions } from "@/store/modules/retainedTask"
 import { mock } from "@/lib/testing/vuex"
 
 Vue.use(Vuetify)
@@ -24,9 +24,9 @@ describe("タスク管理画面", () => {
   beforeEach(() => {
     vuetify = new Vuetify()
 
-    const { context } = mock(retainedTaskList).withKey("retainedTaskList").build()
+    const { context } = mock(retainedTask).withKey("retainedTask").build()
 
-    vuexContextContainer.rebind<RetainedTaskListContext>(types.vuexContext.retainedTaskList).toConstantValue(context)
+    vuexContextContainer.rebind<RetainedTaskContext>(types.vuexContext.retainedTask).toConstantValue(context)
     serviceContainer.rebind<Redirector>(types.service.redirector).toConstantValue(new RedirectorStub())
   })
 
@@ -68,7 +68,7 @@ describe("タスク管理画面", () => {
   })
 
   it("初期表示時に保有タスクリスト取得処理が行われる", async () => {
-    const fetchMock = jest.fn()
+    const fetchTasksMock = jest.fn()
     const redirectIfUnauthenticatedMock = jest.fn(() => Promise.resolve(false))
 
     const redirectorMock = createMock<Redirector>(RedirectorStub, {
@@ -77,17 +77,17 @@ describe("タスク管理画面", () => {
       }
     })
 
-    const { context } = mock(retainedTaskList)
-      .withKey("retainedTaskList")
-      .withActions(class extends RetainedTaskListActions {
-        async fetch() {
-          fetchMock()
+    const { context } = mock(retainedTask)
+      .withKey("retainedTask")
+      .withActions(class extends RetainedTaskActions {
+        async fetchTasks() {
+          fetchTasksMock()
         }
       })
       .build()
 
     serviceContainer.rebind<Redirector>(types.service.redirector).toConstantValue(redirectorMock)
-    vuexContextContainer.rebind<RetainedTaskListContext>(types.vuexContext.retainedTaskList).toConstantValue(context)
+    vuexContextContainer.rebind<RetainedTaskContext>(types.vuexContext.retainedTask).toConstantValue(context)
 
     shallowMount(ManageTaskPage, {
       localVue,
@@ -97,14 +97,14 @@ describe("タスク管理画面", () => {
     await waitUntilForMounted()
 
     expect(redirectIfUnauthenticatedMock).toBeCalledTimes(1)
-    expect(fetchMock).toBeCalledTimes(1)
+    expect(fetchTasksMock).toBeCalledTimes(1)
   })
 
   it("保有タスクリスト取得処理に失敗した場合、エラーが通知される", async () => {
     const error = useStderrMock()
     const fatal = jest.fn()
 
-    const fetchMock = jest.fn()
+    const fetchTasksMock = jest.fn()
     const redirectIfUnauthenticatedMock = jest.fn(() => Promise.resolve(false))
 
     const redirectorMock = createMock<Redirector>(RedirectorStub, {
@@ -113,18 +113,18 @@ describe("タスク管理画面", () => {
       }
     })
 
-    const { context } = mock(retainedTaskList)
-      .withKey("retainedTaskList")
-      .withActions(class extends RetainedTaskListActions {
-        async fetch() {
-          fetchMock()
+    const { context } = mock(retainedTask)
+      .withKey("retainedTask")
+      .withActions(class extends RetainedTaskActions {
+        async fetchTasks() {
+          fetchTasksMock()
           throw new Error()
         }
       })
       .build()
 
     serviceContainer.rebind<Redirector>(types.service.redirector).toConstantValue(redirectorMock)
-    vuexContextContainer.rebind<RetainedTaskListContext>(types.vuexContext.retainedTaskList).toConstantValue(context)
+    vuexContextContainer.rebind<RetainedTaskContext>(types.vuexContext.retainedTask).toConstantValue(context)
 
     shallowMount(ManageTaskPage, {
       localVue,
@@ -139,7 +139,7 @@ describe("タスク管理画面", () => {
     await waitUntilForMounted()
 
     expect(redirectIfUnauthenticatedMock).toBeCalledTimes(1)
-    expect(fetchMock).toBeCalledTimes(1)
+    expect(fetchTasksMock).toBeCalledTimes(1)
     expect(error).not.toBeCalledWith("")
     expect(fatal).toBeCalledTimes(1)
   })

@@ -8,15 +8,15 @@ export interface RetainedTask {
   name: string
 }
 
-export interface RetainedTaskListState {
+export interface RetainedTaskState {
   tasks: RetainedTask[]
 }
 
-export class RetainedTaskList implements RetainedTaskListState {
+class State implements RetainedTaskState {
   public tasks: RetainedTask[] = []
 }
 
-export class RetainedTaskListActions extends Actions<RetainedTaskListState> {
+export class RetainedTaskActions extends Actions<RetainedTaskState> {
   @Api(types.api.CurrentUser)
   private $currentUser!: CurrentUser;
 
@@ -26,7 +26,7 @@ export class RetainedTaskListActions extends Actions<RetainedTaskListState> {
    * @throws {@/api/lib/shared/exceptions#ApiError}
    *   APIとの通信時にエラーが発生した場合に送出される.
    */
-  public async fetch(): Promise<void> {
+  public async fetchTasks(): Promise<void> {
     this.state.tasks = await this.$currentUser.getRetainedTaskList()
   }
 
@@ -47,9 +47,9 @@ export class RetainedTaskListActions extends Actions<RetainedTaskListState> {
   }
 }
 
-export const retainedTaskList = new Module({
-  state: RetainedTaskList,
-  actions: RetainedTaskListActions
+export const retainedTask = new Module({
+  state: State,
+  actions: RetainedTaskActions
 })
 
-export type RetainedTaskListContext = ReturnType<typeof retainedTaskList.context>
+export type RetainedTaskContext = ReturnType<typeof retainedTask.context>

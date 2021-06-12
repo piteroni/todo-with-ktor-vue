@@ -4,7 +4,7 @@ import Vuetify from "vuetify"
 import { createLocalVue, mount } from "@vue/test-utils"
 import { mock } from "@/lib/testing/vuex"
 import { vuexContextContainer } from "@/providers/containers"
-import { retainedTaskList, RetainedTaskListActions, RetainedTaskListContext } from "@/store/modules/retainedTaskList"
+import { retainedTask, RetainedTaskActions, RetainedTaskContext } from "@/store/modules/retainedTask"
 import { types } from "@/providers/types"
 import TaskList from "@/pages/ManageTask/TaskList.vue"
 import { useStderrMock, waitUntilForDone, waitUntilForMounted } from "@/shared/testing"
@@ -17,14 +17,14 @@ localVue.use(Vuex)
 
 describe("保有タスクリスト", () => {
   let vuetify = new Vuetify()
-  let context: RetainedTaskListContext
+  let context: RetainedTaskContext
 
   beforeEach(() => {
     vuetify = new Vuetify()
 
-    context = mock(retainedTaskList).withKey("retainedTaskList").build().context
+    context = mock(retainedTask).withKey("retainedTask").build().context
 
-    vuexContextContainer.rebind<RetainedTaskListContext>(types.vuexContext.retainedTaskList).toConstantValue(context)
+    vuexContextContainer.rebind<RetainedTaskContext>(types.vuexContext.retainedTask).toConstantValue(context)
   })
 
   afterEach(() => {
@@ -62,16 +62,16 @@ describe("保有タスクリスト", () => {
   it("タスク削除ボタンを押下すると、タスク削除処理を呼ばれる", async () => {
     const deleteTaskMock = jest.fn()
 
-    const { context } = mock(retainedTaskList)
-      .withKey("retainedTaskList")
-      .withActions(class extends RetainedTaskListActions {
+    const { context } = mock(retainedTask)
+      .withKey("retainedTask")
+      .withActions(class extends RetainedTaskActions {
         async deleteTask(taskId: number) {
           deleteTaskMock(taskId)
         }
       })
       .build()
 
-    vuexContextContainer.rebind<RetainedTaskListContext>(types.vuexContext.retainedTaskList).toConstantValue(context)
+    vuexContextContainer.rebind<RetainedTaskContext>(types.vuexContext.retainedTask).toConstantValue(context)
 
     context.state.tasks = [
       {
@@ -97,9 +97,9 @@ describe("保有タスクリスト", () => {
     const deleteTaskMock = jest.fn()
     const fatal = jest.fn()
 
-    const { context } = mock(retainedTaskList)
-      .withKey("retainedTaskList")
-      .withActions(class extends RetainedTaskListActions {
+    const { context } = mock(retainedTask)
+      .withKey("retainedTask")
+      .withActions(class extends RetainedTaskActions {
         async deleteTask() {
           deleteTaskMock()
           throw new Error()
@@ -107,7 +107,7 @@ describe("保有タスクリスト", () => {
       })
       .build()
 
-    vuexContextContainer.rebind<RetainedTaskListContext>(types.vuexContext.retainedTaskList).toConstantValue(context)
+    vuexContextContainer.rebind<RetainedTaskContext>(types.vuexContext.retainedTask).toConstantValue(context)
 
     context.state.tasks = [
       {
