@@ -25,4 +25,21 @@ internal fun insert() {
             updatedAt = now
         }
     }
+
+    transaction {
+        val others = User.new {
+            name = "Others"
+            email = "others@example.com"
+            password = BCrypt.hashpw("password1!", BCrypt.gensalt())
+            createdAt = now
+            updatedAt = now
+        }
+
+        Task.new {
+            name = "others-task-0"
+            user = others
+            createdAt = now
+            updatedAt = now
+        }
+    }
 }

@@ -12,7 +12,7 @@
           </v-col>
 
           <div class="my-auto">
-            <v-btn class="deleteButton" icon @click="() => deleteTask(task.id)">
+            <v-btn class="taskDeleteButton" icon @click="() => deleteTask(task.id)">
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </div>
@@ -56,7 +56,3 @@ export default class RetainedTaskList extends Vue {
   }
 }
 </script>
-
-<style>
-
-</style>
