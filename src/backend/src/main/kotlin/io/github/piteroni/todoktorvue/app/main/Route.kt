@@ -17,6 +17,7 @@ import io.ktor.routing.routing
 import io.ktor.routing.route
 import io.ktor.routing.get
 import io.ktor.routing.post
+import io.ktor.routing.delete
 
 internal fun Application.applyRoutes() {
     routing {
@@ -43,8 +44,14 @@ internal fun Route.internalApiRoutes() {
 
         authenticate {
             route("/users/current") {
-                get("/tasks") {
-                    taskController.getRetainedTaskList(call)
+                route("tasks") {
+                    get {
+                        taskController.getRetainedTaskList(call)
+                    }
+
+                    delete("/{taskId}") {
+                        taskController.deleteRetainedTask(call, call.parameters["taskId"])
+                    }
                 }
             }
         }

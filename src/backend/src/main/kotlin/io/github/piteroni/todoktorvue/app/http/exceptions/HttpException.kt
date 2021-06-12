@@ -10,6 +10,7 @@ open class HttpException : Exception {
 
     constructor(message: String?) : super(message)
     constructor(message: String?, cause: Throwable?) : super(message, cause)
+    constructor(uri: String, httpMethod: String, message: String) : super("$uri ($httpMethod): $message")
     constructor(uri: String, httpMethod: String, message: String, cause: Throwable) : super("$uri ($httpMethod): $message", cause)
 
     fun asResponse(): HttpResponse = SimpleResponse(message ?: "")

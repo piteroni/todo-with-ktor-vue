@@ -11,9 +11,9 @@
           <more-menu />
         </navbar>
 
-        <div class="container">
-          タスク管理画面
-        </div>
+        <v-container fluid class="mx-12">
+          <retained-task-list />
+        </v-container>
       </v-flex>
     </v-layout>
   </v-container>
@@ -29,6 +29,7 @@ import Navbar from "@/components/singletons/Navber.vue"
 import Logo from "@/components/singletons/Logo.vue"
 import Loading from "@/components/singletons/Loading.vue"
 import MoreMenu from "@/components/singletons/MoreMenu.vue"
+import RetainedTaskList from "./RetainedTaskList.vue"
 
 @Component({
   components: {
@@ -36,6 +37,7 @@ import MoreMenu from "@/components/singletons/MoreMenu.vue"
     "navbar": Navbar,
     "loading": Loading,
     "more-menu": MoreMenu,
+    "retained-task-list": RetainedTaskList
   }
 })
 export default class ManageTaskPage extends Vue {

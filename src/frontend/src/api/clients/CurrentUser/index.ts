@@ -20,4 +20,14 @@ export class CurrentUser {
   public async getRetainedTaskList(): Promise<RetainedTaskAcquirationResponse> {
     return (await this.$api.get<RetainedTaskAcquirationResponse>(`${resource}/tasks`)).data
   }
+
+  /**
+   * 保有タスクを削除する.
+   *
+   * @throws {@/api/lib/shared/exceptions#ApiError}
+   *  APIとの通信時にエラーが発生した場合に送出される.
+   */
+  public async deleteRetainedTask(taskId: number): Promise<void> {
+    await this.$api.delete(`${resource}/tasks/${taskId}`)
+  }
 }

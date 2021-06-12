@@ -27,9 +27,23 @@ export class RetainedTaskListActions extends Actions<RetainedTaskListState> {
    *   APIとの通信時にエラーが発生した場合に送出される.
    */
   public async fetch(): Promise<void> {
-    const retainedTaskList = await this.$currentUser.getRetainedTaskList()
+    this.state.tasks = await this.$currentUser.getRetainedTaskList()
+  }
 
-    this.state.tasks = retainedTaskList
+  /**
+   * 指定された保有タスクを削除する.
+   *
+   * @param taskId
+   *   削除する保有タスクのID.
+   * @throws {@/api/lib/shared/exceptions#ApiError}
+   *   APIとの通信時にエラーが発生した場合に送出される.
+   */
+  public async deleteTask(taskId: number): Promise<void> {
+    await this.$currentUser.deleteRetainedTask(taskId)
+
+    const tasks = this.state.tasks.filter(t => t.id !== taskId)
+
+    this.state.tasks = tasks
   }
 }
 
