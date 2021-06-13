@@ -21,6 +21,23 @@ export class RetainedTaskActions extends Actions<RetainedTaskState> {
   private $currentUser!: CurrentUser;
 
   /**
+   * 保有タスクを作成する.
+   *
+   * @param name
+   *   タスク名.
+   * @throws {@/api/lib/shared/exceptions#ApiError}
+   *   APIとの通信時にエラーが発生した場合に送出される.
+   */
+  public async createTask(name: string): Promise<void> {
+    const response = await this.$currentUser.createRetainedTask(name)
+
+    this.state.tasks.push({
+      id: response.taskId,
+      name: response.name
+    })
+  }
+
+  /**
    * サーバーから保有タスクリストを取得し、Stateに保存する.
    *
    * @throws {@/api/lib/shared/exceptions#ApiError}

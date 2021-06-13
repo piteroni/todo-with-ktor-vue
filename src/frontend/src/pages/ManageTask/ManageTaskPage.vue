@@ -12,6 +12,7 @@
         </navbar>
 
         <v-container fluid class="mx-12">
+          <task-create-form />
           <task-list />
         </v-container>
       </v-flex>
@@ -30,6 +31,7 @@ import Logo from "@/components/singletons/Logo.vue"
 import Loading from "@/components/singletons/Loading.vue"
 import MoreMenu from "@/components/singletons/MoreMenu.vue"
 import TaskList from "./TaskList.vue"
+import TaskCreateForm from "./TaskCreateForm.vue"
 
 @Component({
   components: {
@@ -37,7 +39,8 @@ import TaskList from "./TaskList.vue"
     "navbar": Navbar,
     "loading": Loading,
     "more-menu": MoreMenu,
-    "task-list": TaskList
+    "task-list": TaskList,
+    "task-create-form": TaskCreateForm
   }
 })
 export default class ManageTaskPage extends Vue {

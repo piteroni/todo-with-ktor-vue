@@ -20,6 +20,4 @@ class Task(id: EntityID<Int>) : IntEntity(id) {
     var user by User referencedOn Tasks.user
     var createdAt by Tasks.createdAt
     var updatedAt by Tasks.updatedAt
-
-    fun asEntity(): TaskEntity = TaskEntity(id.value, name)
 }
