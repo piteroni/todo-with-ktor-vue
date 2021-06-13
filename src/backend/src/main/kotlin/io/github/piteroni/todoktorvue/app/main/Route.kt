@@ -49,6 +49,10 @@ internal fun Route.internalApiRoutes() {
                         taskController.getRetainedTaskList(call)
                     }
 
+                    post {
+                        taskController.createRetainedTask(call)
+                    }
+
                     delete("/{taskId}") {
                         taskController.deleteRetainedTask(call, call.parameters["taskId"])
                     }

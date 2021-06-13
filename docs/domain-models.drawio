@@ -1,6 +1,6 @@
 <mxfile>
     <diagram id="S_BapDMfcEEWxNIzrydn" name="Page-1">
-        <mxGraphModel dx="665" dy="564" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="782" dy="664" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -53,10 +53,10 @@
                     <mxGeometry x="870" y="340" width="230" height="190" as="geometry"/>
                 </mxCell>
                 <mxCell id="85" value="タスク" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" parent="1" vertex="1">
-                    <mxGeometry x="905" y="410" width="160" height="70" as="geometry"/>
+                    <mxGeometry x="905" y="410" width="160" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="86" value="タスクID&#10;タスク名" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="85" vertex="1">
-                    <mxGeometry y="30" width="160" height="40" as="geometry"/>
+                <mxCell id="86" value="タスクID&#10;ユーザーアカウントID&#10;タスク名" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" parent="85" vertex="1">
+                    <mxGeometry y="30" width="160" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="84" target="84" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
