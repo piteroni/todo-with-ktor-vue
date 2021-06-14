@@ -1,9 +1,13 @@
 package io.github.piteroni.todoktorvue.app.domain.task
 
+import io.github.piteroni.todoktorvue.app.domain.user.UserId
 import io.github.piteroni.todoktorvue.app.domain.DomainException
-import io.github.piteroni.todoktorvue.app.domain.user.UserAccountId
 
-class Task private constructor(val taskId: TaskId, val userAccountId: UserAccountId, val name: String) {
+class Task(
+    val id: TaskId,
+    val userId: UserId,
+    val name: String
+) {
     init {
         if (name.isEmpty()) {
             throw DomainException("Empty tasks cannot be created")
@@ -15,15 +19,9 @@ class Task private constructor(val taskId: TaskId, val userAccountId: UserAccoun
     }
 
     companion object {
-        fun of(id: Int, userAccountId: UserAccountId, name: String) = Task(
-            TaskId(id),
-            userAccountId,
-            name
-        )
-
-        fun create(userAccountId: UserAccountId, name: String) = Task(
+        fun create(userId: UserId, name: String) = Task(
             TaskId.unregistered(),
-            userAccountId,
+            userId,
             name
         )
     }

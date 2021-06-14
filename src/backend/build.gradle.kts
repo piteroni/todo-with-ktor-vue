@@ -38,8 +38,6 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:0.9.26")
     // configuration
     implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
-    // di
-    implementation("org.kodein.di:kodein-di:7.5.0")
 
     // ktor
     testImplementation("io.ktor:ktor-server-tests:1.5.3")
@@ -52,7 +50,7 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:4.5.0")
     // serialization
     testImplementation("com.google.code.gson:gson:2.8.6")
-    // in memory db
+    // in-memory db
     testRuntimeOnly("com.h2database:h2:1.4.200")
 }
 

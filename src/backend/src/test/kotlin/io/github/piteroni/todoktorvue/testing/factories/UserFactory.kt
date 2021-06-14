@@ -1,6 +1,6 @@
 package io.github.piteroni.todoktorvue.testing.factories
 
-import io.github.piteroni.todoktorvue.app.persistence.models.User
+import io.github.piteroni.todoktorvue.app.infrastructure.dao.UserDataSource
 import io.github.serpro69.kfaker.Faker
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
@@ -16,11 +16,11 @@ object UserFactory {
         password: String? = null,
         createdAt: DateTime? = null,
         updatedAt: DateTime? = null,
-    ): User {
+    ): UserDataSource {
         return transaction {
-            User.new {
+            UserDataSource.new {
                 this.name = name ?: faker.name.name()
-                this.email = email ?: faker.address.mailbox()
+                this.email = email ?: faker.internet.email()
                 this.password = hashpw(password ?: "password", gensalt())
                 this.createdAt = createdAt ?: DateTime.now()
                 this.updatedAt = updatedAt ?: DateTime.now()

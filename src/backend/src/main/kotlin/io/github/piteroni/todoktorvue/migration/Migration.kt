@@ -1,7 +1,7 @@
 package io.github.piteroni.todoktorvue.migration
 
-import io.github.piteroni.todoktorvue.app.persistence.models.Tasks
-import io.github.piteroni.todoktorvue.app.persistence.models.Users
+import io.github.piteroni.todoktorvue.app.infrastructure.dao.TaskMapper
+import io.github.piteroni.todoktorvue.app.infrastructure.dao.UserMapper
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
@@ -11,11 +11,11 @@ fun migrate() {
     transaction {
         addLogger(StdOutSqlLogger)
 
-        SchemaUtils.create(Users)
-        SchemaUtils.createMissingTablesAndColumns(Users)
+        SchemaUtils.create(UserMapper)
+        SchemaUtils.createMissingTablesAndColumns(UserMapper)
 
-        SchemaUtils.create(Tasks)
-        SchemaUtils.createMissingTablesAndColumns(Tasks)
+        SchemaUtils.create(TaskMapper)
+        SchemaUtils.createMissingTablesAndColumns(TaskMapper)
     }
 }
 
