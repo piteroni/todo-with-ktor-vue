@@ -1,7 +1,7 @@
 package io.github.piteroni.todoktorvue.app.presentation.exceptions
 
-import io.github.piteroni.todoktorvue.app.presentation.dto.responses.HttpResponse
-import io.github.piteroni.todoktorvue.app.presentation.dto.responses.SimpleResponse
+import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.HttpResponse
+import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.SimpleResponse
 import io.ktor.http.HttpStatusCode
 
 open class HttpException : Exception {

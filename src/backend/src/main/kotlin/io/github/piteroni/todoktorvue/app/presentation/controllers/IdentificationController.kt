@@ -5,8 +5,8 @@ import io.github.piteroni.todoktorvue.app.domain.DomainException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.InternalServerErrorException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.UnauthorizedException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.UnprocessableEntityException
-import io.github.piteroni.todoktorvue.app.presentation.dto.requests.LoginRequest
-import io.github.piteroni.todoktorvue.app.presentation.dto.responses.AuthenticationToken
+import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.LoginRequest
+import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.AuthenticationToken
 import io.github.piteroni.todoktorvue.app.usecase.user.AuthenticationException
 import io.github.piteroni.todoktorvue.app.usecase.user.UserUseCase
 import io.ktor.application.ApplicationCall
@@ -16,7 +16,7 @@ import io.ktor.request.receive
 import io.ktor.request.uri
 import io.ktor.response.respond
 
-class IdentificationController(private val jwt: JWT, private val userAccountUseCase: UserUseCase) {
+class IdentificationController(private val jwt: JWT, private val userUseCase: UserUseCase) {
     /**
      * Login to the application.
      *
@@ -29,8 +29,8 @@ class IdentificationController(private val jwt: JWT, private val userAccountUseC
             throw UnprocessableEntityException(call.request.uri, call.request.httpMethod.value, exception)
         }
 
-        val userAccountId = try {
-            userAccountUseCase.authenticate(params.email, params.password)
+        val userId = try {
+            userUseCase.authenticate(params.email, params.password)
         } catch (exception: AuthenticationException) {
             val message = "authentication failed"
             throw UnauthorizedException(call.request.uri, call.request.httpMethod.value, message, exception)
@@ -39,7 +39,7 @@ class IdentificationController(private val jwt: JWT, private val userAccountUseC
             throw InternalServerErrorException(call.request.uri, call.request.httpMethod.value, message, exception)
         }
 
-        val token = jwt.createToken(userAccountId)
+        val token = jwt.createToken(userId)
 
         call.respond(HttpStatusCode.OK, AuthenticationToken(token))
     }
