@@ -2,6 +2,7 @@ package io.github.piteroni.todoktorvue.app.infrastructure.dao
 
 import io.github.piteroni.todoktorvue.app.domain.task.Task
 import io.github.piteroni.todoktorvue.app.domain.task.TaskId
+import io.github.piteroni.todoktorvue.app.domain.task.TaskName
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -23,5 +24,5 @@ class TaskDataSource(id: EntityID<Int>) : IntEntity(id) {
     var createdAt by TaskMapper.createdAt
     var updatedAt by TaskMapper.updatedAt
 
-    fun asTask(): Task = Task(TaskId(id.value), user.asUser().id, name)
+    fun asTask(): Task = Task(TaskId(id.value), user.asUser().id, TaskName(name))
 }

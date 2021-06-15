@@ -21,14 +21,14 @@ class TaskRepository : ITaskRepository {
         return if (task.id == TaskId.unregistered()) {
             transaction {
                 TaskDataSource.new {
-                    name = task.name
+                    name = task.name.value
                     user = userDataSource
                 }.asTask()
             }
         } else {
             transaction {
                 val taskId = TaskMapper.update({ TaskMapper.id eq task.id.value }) {
-                    it[name] = task.name
+                    it[name] = task.name.value
                     it[updatedAt] = DateTime.now()
                 }
 

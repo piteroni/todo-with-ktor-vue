@@ -1,17 +1,18 @@
 package io.github.piteroni.todoktorvue.app.presentation.controllers
 
-import io.github.piteroni.todoktorvue.app.domain.DomainException
 import io.github.piteroni.todoktorvue.app.domain.task.TaskId
 import io.github.piteroni.todoktorvue.app.domain.user.UserId
-import io.github.piteroni.todoktorvue.app.usecase.task.AuthorizationException
+import io.github.piteroni.todoktorvue.app.domain.DomainException
+import io.github.piteroni.todoktorvue.app.domain.task.TaskName
 import io.github.piteroni.todoktorvue.app.usecase.task.TaskUseCase
+import io.github.piteroni.todoktorvue.app.usecase.task.AuthorizationException
 import io.github.piteroni.todoktorvue.app.presentation.auth.UserIdPrincipal
 import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.RetainedTaskCreateRequest
+import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.RequestValidationException
 import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.RetainedTaskCreateResponse
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.BadRequestException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.ForbiddenException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.UnprocessableEntityException
-import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.RequestValidationException
 import io.ktor.application.ApplicationCall
 import io.ktor.auth.principal
 import io.ktor.http.HttpStatusCode
@@ -33,12 +34,12 @@ class TaskController(private val taskUseCase: TaskUseCase) {
         }
 
         val task = try {
-            taskUseCase.createRetainedTask(UserId(userId), params.name)
+            taskUseCase.createRetainedTask(UserId(userId), TaskName(params.name))
         } catch(exception: DomainException) {
             throw UnprocessableEntityException(exception.message!! ,exception)
         }
 
-        call.respond(HttpStatusCode.Created, RetainedTaskCreateResponse(task.id.value, task.name))
+        call.respond(HttpStatusCode.Created, RetainedTaskCreateResponse(task.id.value, task.name.value))
     }
 
     suspend fun getRetainedTaskList(call: ApplicationCall) {
