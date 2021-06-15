@@ -11,14 +11,14 @@ data class LoginRequest(val email: String, val password: String) : HttpRequest {
         if (email.length > emailSize) {
             throw RequestValidationException(
                 error = "Illegal email size, must be less then $emailSize",
-                message  = "Illegal email size, must be less then ${emailSize}. size = ${email.length}"
+                message = "Illegal email size, must be less then $emailSize. size = ${email.length}"
             )
         }
 
         if (password.length > passwordSize) {
             throw RequestValidationException(
                 error = "Illegal password size, must be less then $passwordSize",
-                message = "Illegal password size, must be less then ${passwordSize}. size = ${password.length}",
+                message = "Illegal password size, must be less then $passwordSize. size = ${password.length}",
             )
         }
     }

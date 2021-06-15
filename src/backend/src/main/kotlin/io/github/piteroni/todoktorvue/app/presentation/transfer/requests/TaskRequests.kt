@@ -10,7 +10,7 @@ data class RetainedTaskCreateRequest(val name: String) : HttpRequest {
         if (name.length > nameSize) {
             throw RequestValidationException(
                 error = "Illegal task name size, must be less then $nameSize",
-                message = "Illegal task name size, must be less then ${nameSize}. size = ${name.length}"
+                message = "Illegal task name size, must be less then $nameSize. size = ${name.length}"
             )
         }
     }

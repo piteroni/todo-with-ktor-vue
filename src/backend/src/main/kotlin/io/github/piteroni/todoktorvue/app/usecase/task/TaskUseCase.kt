@@ -1,9 +1,9 @@
 package io.github.piteroni.todoktorvue.app.usecase.task
 
-import io.github.piteroni.todoktorvue.app.domain.task.TaskRepository
 import io.github.piteroni.todoktorvue.app.domain.task.Task
 import io.github.piteroni.todoktorvue.app.domain.task.TaskId
 import io.github.piteroni.todoktorvue.app.domain.task.TaskName
+import io.github.piteroni.todoktorvue.app.domain.task.TaskRepository
 import io.github.piteroni.todoktorvue.app.domain.user.UserId
 
 class AuthorizationException(message: String) : Exception(message)

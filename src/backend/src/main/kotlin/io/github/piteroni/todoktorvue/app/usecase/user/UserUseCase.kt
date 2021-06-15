@@ -1,10 +1,8 @@
 package io.github.piteroni.todoktorvue.app.usecase.user
 
 import io.github.piteroni.todoktorvue.app.domain.user.Email
-import io.github.piteroni.todoktorvue.app.domain.user.UserRepository
-import io.github.piteroni.todoktorvue.app.domain.DomainException
 import io.github.piteroni.todoktorvue.app.domain.user.Password
-import io.github.piteroni.todoktorvue.app.domain.user.RawPassword
+import io.github.piteroni.todoktorvue.app.domain.user.UserRepository
 import org.mindrot.jbcrypt.BCrypt
 
 class AuthenticationException(message: String) : Exception(message)
