@@ -1,4 +1,4 @@
-package io.github.piteroni.todoktorvue.app.presentation.dto.responses
+package io.github.piteroni.todoktorvue.app.presentation.transfer.responses
 
 import kotlinx.serialization.Serializable
 

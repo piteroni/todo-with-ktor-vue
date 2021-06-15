@@ -4,8 +4,8 @@ import io.github.piteroni.todoktorvue.app.domain.DomainException
 import io.github.piteroni.todoktorvue.app.usecase.task.AuthorizationException
 import io.github.piteroni.todoktorvue.app.usecase.task.TaskUseCase
 import io.github.piteroni.todoktorvue.app.presentation.auth.UserIdPrincipal
-import io.github.piteroni.todoktorvue.app.presentation.dto.requests.RetainedTaskCreateRequest
-import io.github.piteroni.todoktorvue.app.presentation.dto.responses.RetainedTaskCreateResponse
+import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.RetainedTaskCreateRequest
+import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.RetainedTaskCreateResponse
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.BadRequestException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.ForbiddenException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.InternalServerErrorException
