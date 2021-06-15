@@ -12,10 +12,6 @@ class Task(
         if (name.isEmpty()) {
             throw DomainException("Empty tasks cannot be created")
         }
-
-        if (name.length > 256) {
-            throw DomainException("Illegal email size, must be between 0-256. size = ${name.length}")
-        }
     }
 
     companion object {

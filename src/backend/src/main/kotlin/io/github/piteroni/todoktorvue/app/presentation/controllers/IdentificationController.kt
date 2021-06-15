@@ -1,14 +1,17 @@
 package io.github.piteroni.todoktorvue.app.presentation.controllers
 
-import io.github.piteroni.todoktorvue.app.presentation.auth.jwt.JWT
 import io.github.piteroni.todoktorvue.app.domain.DomainException
-import io.github.piteroni.todoktorvue.app.presentation.exceptions.InternalServerErrorException
+import io.github.piteroni.todoktorvue.app.domain.user.Email
+import io.github.piteroni.todoktorvue.app.domain.user.RawPassword
+import io.github.piteroni.todoktorvue.app.usecase.user.UserUseCase
+import io.github.piteroni.todoktorvue.app.usecase.user.AuthenticationException
+import io.github.piteroni.todoktorvue.app.presentation.auth.jwt.JWT
+import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.LoginRequest
+import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.RequestValidationException
+import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.AuthenticationToken
+import io.github.piteroni.todoktorvue.app.presentation.exceptions.BadRequestException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.UnauthorizedException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.UnprocessableEntityException
-import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.LoginRequest
-import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.AuthenticationToken
-import io.github.piteroni.todoktorvue.app.usecase.user.AuthenticationException
-import io.github.piteroni.todoktorvue.app.usecase.user.UserUseCase
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.httpMethod
@@ -19,24 +22,22 @@ import io.ktor.response.respond
 class IdentificationController(private val jwt: JWT, private val userUseCase: UserUseCase) {
     /**
      * Login to the application.
-     *
-     * @param call
      */
     suspend fun login(call: ApplicationCall) {
         val params = try {
             call.receive<LoginRequest>().apply { validate() }
+        } catch (exception: RequestValidationException) {
+            throw UnprocessableEntityException(exception.error, exception)
         } catch (exception: Throwable) {
-            throw UnprocessableEntityException(call.request.uri, call.request.httpMethod.value, exception)
+            throw BadRequestException(exception)
         }
 
         val userId = try {
-            userUseCase.authenticate(params.email, params.password)
-        } catch (exception: AuthenticationException) {
-            val message = "authentication failed"
-            throw UnauthorizedException(call.request.uri, call.request.httpMethod.value, message, exception)
+            userUseCase.authenticate(Email(params.email), RawPassword(params.password))
         } catch (exception: DomainException) {
-            val message = "the database has been populated with data that does not follow the domain"
-            throw InternalServerErrorException(call.request.uri, call.request.httpMethod.value, message, exception)
+            throw UnprocessableEntityException(exception.message!!, exception)
+        } catch (exception: AuthenticationException) {
+            throw UnauthorizedException(exception)
         }
 
         val token = jwt.createToken(userId)

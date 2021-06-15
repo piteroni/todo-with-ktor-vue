@@ -1,6 +1,6 @@
 package io.github.piteroni.todoktorvue.app.presentation.transfer.requests
 
-class RequestValidationException(message: String) : Exception(message)
+class RequestValidationException(message: String, val error: String) : Exception(message)
 
 interface HttpRequest {
     /**
@@ -9,5 +9,5 @@ interface HttpRequest {
      *
      * @throws RequestValidationException
      */
-    fun validate(): Unit
+    fun validate()
 }

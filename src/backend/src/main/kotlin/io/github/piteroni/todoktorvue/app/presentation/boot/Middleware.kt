@@ -1,5 +1,6 @@
 package io.github.piteroni.todoktorvue.app.presentation.boot
 
+import io.github.piteroni.todoktorvue.app.domain.DomainException
 import io.github.piteroni.todoktorvue.app.presentation.auth.jwt.Validator
 import io.github.piteroni.todoktorvue.app.presentation.auth.jwt.makeJWTConfig
 import io.github.piteroni.todoktorvue.app.presentation.auth.jwt.makeJWTVerifier
@@ -45,6 +46,13 @@ internal fun Application.applyMiddlewares() {
     }
 
     install(StatusPages) {
+        exception<DomainException> { cause ->
+            val exception = InternalServerErrorException(cause)
+
+            call.respond(exception.statusCode, exception.asResponse())
+            environment.log.error(exception.stackTraceToString())
+        }
+
         exception<HttpException> { cause ->
             call.respond(cause.statusCode, cause.asResponse())
 

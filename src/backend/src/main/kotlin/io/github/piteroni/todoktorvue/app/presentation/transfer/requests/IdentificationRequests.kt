@@ -4,13 +4,22 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginRequest(val email: String, val password: String) : HttpRequest {
+    private val emailSize = 256
+    private val passwordSize = 128
+
     override fun validate() {
-        if (email.isEmpty() || email.length > 256) {
-            throw RequestValidationException("Illegal email size, must be between 0-256. size = ${email.length}")
+        if (email.length > emailSize) {
+            throw RequestValidationException(
+                error = "Illegal email size, must be less then $emailSize",
+                message  = "Illegal email size, must be less then ${emailSize}. size = ${email.length}"
+            )
         }
 
-        if (password.isEmpty() || password.length > 128) {
-            throw RequestValidationException("Illegal password size, must be between 0-128. size =  ${password.length}")
+        if (password.length > passwordSize) {
+            throw RequestValidationException(
+                error = "Illegal password size, must be less then $passwordSize",
+                message = "Illegal password size, must be less then ${passwordSize}. size = ${password.length}",
+            )
         }
     }
 }
