@@ -1,8 +1,5 @@
 package io.github.piteroni.todoktorvue.app.presentation.controllers
 
-import io.github.piteroni.todoktorvue.app.domain.DomainException
-import io.github.piteroni.todoktorvue.app.domain.user.Email
-import io.github.piteroni.todoktorvue.app.domain.user.RawPassword
 import io.github.piteroni.todoktorvue.app.presentation.auth.jwt.JWT
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.BadRequestException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.UnauthorizedException
@@ -10,6 +7,7 @@ import io.github.piteroni.todoktorvue.app.presentation.exceptions.UnprocessableE
 import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.LoginRequest
 import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.RequestValidationException
 import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.AuthenticationToken
+import io.github.piteroni.todoktorvue.app.usecase.user.AuthenticateInputDataException
 import io.github.piteroni.todoktorvue.app.usecase.user.AuthenticationException
 import io.github.piteroni.todoktorvue.app.usecase.user.UserUseCase
 import io.ktor.application.ApplicationCall
@@ -23,7 +21,7 @@ class IdentificationController(private val jwt: JWT, private val userUseCase: Us
      */
     suspend fun login(call: ApplicationCall) {
         val params = try {
-            call.receive<LoginRequest>().apply { validate() }
+            call.receive<LoginRequest>().apply { validate() }.asInputData()
         } catch (exception: RequestValidationException) {
             throw UnprocessableEntityException(exception.error, exception)
         } catch (exception: Throwable) {
@@ -31,8 +29,8 @@ class IdentificationController(private val jwt: JWT, private val userUseCase: Us
         }
 
         val userId = try {
-            userUseCase.authenticate(Email(params.email), RawPassword(params.password))
-        } catch (exception: DomainException) {
+            userUseCase.authenticate(params)
+        } catch (exception: AuthenticateInputDataException) {
             throw UnprocessableEntityException(exception.message!!, exception)
         } catch (exception: AuthenticationException) {
             throw UnauthorizedException(exception)

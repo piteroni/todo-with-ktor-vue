@@ -1,5 +1,6 @@
 package io.github.piteroni.todoktorvue.app.presentation.transfer.requests
 
+import io.github.piteroni.todoktorvue.app.usecase.user.AuthenticateInputData
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -22,4 +23,6 @@ data class LoginRequest(val email: String, val password: String) : HttpRequest {
             )
         }
     }
+
+    fun asInputData() = AuthenticateInputData(email, password)
 }

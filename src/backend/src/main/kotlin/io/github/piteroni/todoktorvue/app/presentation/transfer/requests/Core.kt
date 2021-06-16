@@ -4,7 +4,6 @@ class RequestValidationException(message: String, val error: String) : Exception
 
 interface HttpRequest {
     /**
-     *
      * validate of request payload.
      *
      * @throws RequestValidationException

@@ -1,21 +1,38 @@
 package io.github.piteroni.todoktorvue.app.usecase.user
 
+import io.github.piteroni.todoktorvue.app.domain.DomainException
 import io.github.piteroni.todoktorvue.app.domain.user.Email
 import io.github.piteroni.todoktorvue.app.domain.user.Password
+import io.github.piteroni.todoktorvue.app.domain.user.RawPassword
 import io.github.piteroni.todoktorvue.app.domain.user.UserRepository
 import org.mindrot.jbcrypt.BCrypt
 
 class AuthenticationException(message: String) : Exception(message)
 
+class AuthenticateInputDataException(message: String) : Exception(message)
+
+data class AuthenticateInputData(val email: String, val password: String)
+
 class UserUseCase(private val userRepository: UserRepository) {
     /**
      * authenticate the UserAccount.
      *
-     * @param email email of UserAccount.
-     * @param password password of UserAccount.
+     * @param inputData
      * @return ID of the authenticated user account.
+     * @throws AuthenticateInputDataException
+     * @throws AuthenticationException
      */
-    fun authenticate(email: Email, password: Password): Int {
+    fun authenticate(inputData: AuthenticateInputData): Int {
+        val email: Email
+        val password: Password
+
+        try {
+            email = Email(inputData.email)
+            password = RawPassword(inputData.email)
+        } catch (exception: DomainException) {
+            throw AuthenticateInputDataException(exception.message!!)
+        }
+
         val user = userRepository.findByEmail(email)
             ?: throw AuthenticationException("there is no user matching the specified email. email = ${email.value}")
 
