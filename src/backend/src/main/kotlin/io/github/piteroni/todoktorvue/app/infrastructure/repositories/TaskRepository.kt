@@ -18,22 +18,22 @@ class TaskRepository : ITaskRepository {
             UserDataSource.find { UserMapper.id eq task.userId.value }.firstOrNull()
         } ?: return task
 
-        return if (task.id == TaskId.unregistered()) {
-            transaction {
+        return transaction {
+            val taskDataSource = if (task.id == TaskId.unregistered()) {
                 TaskDataSource.new {
                     name = task.name.value
                     user = userDataSource
-                }.asTask()
-            }
-        } else {
-            transaction {
+                }
+            } else {
                 val taskId = TaskMapper.update({ TaskMapper.id eq task.id.value }) {
                     it[name] = task.name.value
                     it[updatedAt] = DateTime.now()
                 }
 
-                TaskDataSource.find { TaskMapper.id eq taskId }.first().asTask()
+                TaskDataSource.find { TaskMapper.id eq taskId }.first()
             }
+
+            taskDataSource.asTask()
         }
     }
 

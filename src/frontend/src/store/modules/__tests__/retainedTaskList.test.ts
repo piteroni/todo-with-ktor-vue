@@ -6,7 +6,7 @@ import { apiContainer } from "@/providers/containers"
 import { CurrentUser } from "@/api/clients/CurrentUser"
 import { types } from "@/providers/types"
 import { createMock } from "@/lib/testing/lib"
-import { RetainedTaskCreateResponose, RetainedTaskListAcquirationResponse } from "@/api/clients/CurrentUser/types"
+import { CreatedRetainedTask, RetainedTaskListAcquirationResponse } from "@/api/clients/CurrentUser/types"
 
 const localVue = createLocalVue()
 
@@ -30,9 +30,9 @@ describe("保有タスクリスト", () => {
   describe("actions", () => {
     it("保有タスクを作成できる", async () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const createRetainedTaskMock = jest.fn((...args: any[]): RetainedTaskCreateResponose => {
+      const createRetainedTaskMock = jest.fn((...args: any[]): CreatedRetainedTask => {
         return {
-          taskId: 99,
+          id: 99,
           name: "task-99"
         }
       })

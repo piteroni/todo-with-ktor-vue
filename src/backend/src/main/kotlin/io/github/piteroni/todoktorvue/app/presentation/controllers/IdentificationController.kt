@@ -7,6 +7,7 @@ import io.github.piteroni.todoktorvue.app.presentation.exceptions.UnprocessableE
 import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.LoginRequest
 import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.RequestValidationException
 import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.AuthenticationToken
+import io.github.piteroni.todoktorvue.app.usecase.user.AuthenticateInputData
 import io.github.piteroni.todoktorvue.app.usecase.user.AuthenticateInputDataException
 import io.github.piteroni.todoktorvue.app.usecase.user.AuthenticationException
 import io.github.piteroni.todoktorvue.app.usecase.user.UserUseCase
@@ -21,15 +22,17 @@ class IdentificationController(private val jwt: JWT, private val userUseCase: Us
      */
     suspend fun login(call: ApplicationCall) {
         val params = try {
-            call.receive<LoginRequest>().apply { validate() }.asInputData()
+            call.receive<LoginRequest>().apply { validate() }
         } catch (exception: RequestValidationException) {
             throw UnprocessableEntityException(exception.error, exception)
         } catch (exception: Throwable) {
             throw BadRequestException(exception)
         }
 
+        val inputData = AuthenticateInputData(params.email, params.password)
+
         val userId = try {
-            userUseCase.authenticate(params)
+            userUseCase.authenticate(inputData)
         } catch (exception: AuthenticateInputDataException) {
             throw UnprocessableEntityException(exception.message!!, exception)
         } catch (exception: AuthenticationException) {

@@ -1,6 +1,6 @@
 import { injectable } from "inversify"
 import { AxiosInstance } from "axios"
-import { RetainedTaskCreateResponose, RetainedTaskListAcquirationResponse } from "./types"
+import { CreatedRetainedTask, RetainedTaskListAcquirationResponse } from "./types"
 import { Core } from "@/providers/containers"
 import { types } from "@/providers/types"
 
@@ -19,10 +19,10 @@ export class CurrentUser {
    * @throws {@/api/lib/shared/exceptions#ApiError}
    *  APIとの通信時にエラーが発生した場合に送出される.
    */
-  public async createRetainedTask(name: string): Promise<RetainedTaskCreateResponose> {
+  public async createRetainedTask(name: string): Promise<CreatedRetainedTask> {
     const data = { name }
 
-    return (await this.$api.post<RetainedTaskCreateResponose>(`${resource}/tasks`, data)).data
+    return (await this.$api.post<CreatedRetainedTask>(`${resource}/tasks`, data)).data
   }
 
   // createRetainedTask

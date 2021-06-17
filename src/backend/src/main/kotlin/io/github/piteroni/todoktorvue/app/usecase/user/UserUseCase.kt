@@ -7,12 +7,6 @@ import io.github.piteroni.todoktorvue.app.domain.user.RawPassword
 import io.github.piteroni.todoktorvue.app.domain.user.UserRepository
 import org.mindrot.jbcrypt.BCrypt
 
-class AuthenticationException(message: String) : Exception(message)
-
-class AuthenticateInputDataException(message: String) : Exception(message)
-
-data class AuthenticateInputData(val email: String, val password: String)
-
 class UserUseCase(private val userRepository: UserRepository) {
     /**
      * authenticate the UserAccount.
@@ -28,7 +22,7 @@ class UserUseCase(private val userRepository: UserRepository) {
 
         try {
             email = Email(inputData.email)
-            password = RawPassword(inputData.email)
+            password = RawPassword(inputData.password)
         } catch (exception: DomainException) {
             throw AuthenticateInputDataException(exception.message!!)
         }

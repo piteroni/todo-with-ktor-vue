@@ -86,7 +86,7 @@ import { types } from "@/providers/types"
 import { VuexContext } from "@/providers/containers"
 import { AuthenticationTokenContext } from "@/store/modules/authenticationToken"
 import { routeNames } from "@/router/routeNames"
-import { UnauthorizedError } from "@/api/lib/exceptions"
+import { UnauthorizedError, ClientError } from "@/api/lib/exceptions"
 import { VForm, VTextRule } from "@/shared/vuetify"
 
 @Component
@@ -183,7 +183,7 @@ export default class LoginForm extends Vue {
         password: this.password
       })
     } catch (e) {
-      if (e instanceof UnauthorizedError) {
+      if (e instanceof UnauthorizedError || e instanceof ClientError) {
         this.isLoggedIn = false
         this.feedbackError("ログインに失敗しました、入力内容をご確認下さい")
       } else {

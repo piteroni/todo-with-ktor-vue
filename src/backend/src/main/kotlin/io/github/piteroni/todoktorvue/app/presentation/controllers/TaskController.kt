@@ -1,17 +1,17 @@
 package io.github.piteroni.todoktorvue.app.presentation.controllers
 
-import io.github.piteroni.todoktorvue.app.domain.task.TaskId
-import io.github.piteroni.todoktorvue.app.domain.user.UserId
 import io.github.piteroni.todoktorvue.app.presentation.auth.UserIdPrincipal
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.BadRequestException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.ForbiddenException
 import io.github.piteroni.todoktorvue.app.presentation.exceptions.UnprocessableEntityException
 import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.RequestValidationException
 import io.github.piteroni.todoktorvue.app.presentation.transfer.requests.RetainedTaskCreateRequest
-import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.RetainedTaskCreateResponse
+import io.github.piteroni.todoktorvue.app.presentation.transfer.responses.CreatedRetainedTask
 import io.github.piteroni.todoktorvue.app.usecase.task.AuthorizationException
 import io.github.piteroni.todoktorvue.app.usecase.task.RetainedTaskCreationInputData
 import io.github.piteroni.todoktorvue.app.usecase.task.RetainedTaskCreationInputDataException
+import io.github.piteroni.todoktorvue.app.usecase.task.RetainedTaskDeletionInputData
+import io.github.piteroni.todoktorvue.app.usecase.task.RetainedTaskDeletionInputDataException
 import io.github.piteroni.todoktorvue.app.usecase.task.TaskUseCase
 import io.ktor.application.ApplicationCall
 import io.ktor.auth.principal
@@ -24,26 +24,28 @@ class TaskController(private val taskUseCase: TaskUseCase) {
         val userId = call.principal<UserIdPrincipal>()!!.value
 
         val params = try {
-            call.receive<RetainedTaskCreateRequest>().apply { validate() }.asInputData(userId)
+            call.receive<RetainedTaskCreateRequest>().apply { validate() }
         } catch (exception: RequestValidationException) {
             throw UnprocessableEntityException(exception.error, exception)
         } catch (exception: Throwable) {
             throw BadRequestException(exception)
         }
 
+        val inputData = RetainedTaskCreationInputData(userId, params.name)
+
         val task = try {
-            taskUseCase.createRetainedTask(params)
+            taskUseCase.createRetainedTask(inputData)
         } catch (exception: RetainedTaskCreationInputDataException) {
             throw UnprocessableEntityException(exception.message!!, exception)
         }
 
-        call.respond(HttpStatusCode.Created, RetainedTaskCreateResponse(task.id.value, task.name.value))
+        call.respond(HttpStatusCode.Created, CreatedRetainedTask(task.id.value, task.name.value))
     }
 
     suspend fun getRetainedTaskList(call: ApplicationCall) {
         val userId = call.principal<UserIdPrincipal>()!!.value
 
-        val retainedTaskList = taskUseCase.getRetainedTaskList(UserId(userId))
+        val retainedTaskList = taskUseCase.getRetainedTaskList(userId)
 
         call.respond(HttpStatusCode.OK, retainedTaskList)
     }
@@ -53,8 +55,12 @@ class TaskController(private val taskUseCase: TaskUseCase) {
 
         val taskId = param?.toIntOrNull() ?: throw BadRequestException("path parameter is not an integer. param = $param")
 
+        val inputData = RetainedTaskDeletionInputData(userId, taskId)
+
         try {
-            taskUseCase.deleteRetainedTask(UserId(userId), TaskId(taskId))
+            taskUseCase.deleteRetainedTask(inputData)
+        } catch (exception: RetainedTaskDeletionInputDataException) {
+            throw UnprocessableEntityException(exception.message!!, exception)
         } catch (exception: AuthorizationException) {
             throw ForbiddenException(exception)
         }

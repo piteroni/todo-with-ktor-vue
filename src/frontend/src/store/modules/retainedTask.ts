@@ -29,11 +29,11 @@ export class RetainedTaskActions extends Actions<RetainedTaskState> {
    *   APIとの通信時にエラーが発生した場合に送出される.
    */
   public async createTask(name: string): Promise<void> {
-    const response = await this.$currentUser.createRetainedTask(name)
+    const task = await this.$currentUser.createRetainedTask(name)
 
     this.state.tasks.push({
-      id: response.taskId,
-      name: response.name
+      id: task.id,
+      name: task.name
     })
   }
 

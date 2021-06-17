@@ -1,6 +1,5 @@
 package io.github.piteroni.todoktorvue.app.presentation.transfer.requests
 
-import io.github.piteroni.todoktorvue.app.usecase.task.RetainedTaskCreationInputData
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,6 +14,4 @@ data class RetainedTaskCreateRequest(val name: String) : HttpRequest {
             )
         }
     }
-
-    fun asInputData(userId: Int) = RetainedTaskCreationInputData(userId, name)
 }

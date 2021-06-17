@@ -3,7 +3,7 @@ export type RetainedTaskListAcquirationResponse = Array<{
   name: string
 }>
 
-export interface RetainedTaskCreateResponose {
-  taskId: number
+export interface CreatedRetainedTask {
+  id: number
   name: string
 }
