@@ -40,7 +40,7 @@ class TaskUseCase(private val taskRepository: TaskRepository) {
         val task = taskRepository.find(taskId)
 
         if (task == null || task.userId != userId) {
-            throw AuthorizationException("not have permission to delete tasks. userId = $userId")
+            throw AuthorizationException("not have permission to delete tasks. userId = $userId, taskId = $taskId"  )
         }
 
         taskRepository.remove(task.id)
