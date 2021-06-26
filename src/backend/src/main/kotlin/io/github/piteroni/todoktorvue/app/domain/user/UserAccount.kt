@@ -1,6 +1,6 @@
 package io.github.piteroni.todoktorvue.app.domain.user
 
-class UserAccount(
+data class UserAccount(
     val email: Email,
     val password: Password
 ) {
