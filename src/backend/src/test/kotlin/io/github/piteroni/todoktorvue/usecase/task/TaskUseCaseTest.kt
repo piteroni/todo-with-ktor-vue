@@ -1,4 +1,4 @@
-package io.github.piteroni.todoktorvue.usecase.user
+package io.github.piteroni.todoktorvue.usecase.task
 
 import io.github.piteroni.todoktorvue.app.domain.task.Task
 import io.github.piteroni.todoktorvue.app.domain.task.TaskId
@@ -27,7 +27,7 @@ class TaskUseCaseTest : DescribeSpec({
     val taskRepository = mockk<TaskRepository>()
     val taskUseCase = TaskUseCase(taskRepository)
 
-    beforeEach {
+    afterEach {
         clearAllMocks()
     }
 
