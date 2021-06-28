@@ -8,7 +8,6 @@ import io.github.piteroni.todoktorvue.testing.factories.UserDataSourceFactory
 import io.github.piteroni.todoktorvue.testing.setUp
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.core.test.TestCase
 import io.kotest.matchers.shouldBe
 
 class TaskRepositoryTest : FreeSpec() {
