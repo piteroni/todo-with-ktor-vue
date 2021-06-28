@@ -7,7 +7,7 @@ import org.joda.time.DateTime
 import org.mindrot.jbcrypt.BCrypt.gensalt
 import org.mindrot.jbcrypt.BCrypt.hashpw
 
-object UserFactory {
+object UserDataSourceFactory {
     private val faker = Faker()
 
     fun make(
