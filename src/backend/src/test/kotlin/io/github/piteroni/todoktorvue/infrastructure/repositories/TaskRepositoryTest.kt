@@ -3,14 +3,19 @@ package io.github.piteroni.todoktorvue.infrastructure.repositories
 import io.github.piteroni.todoktorvue.app.domain.task.Task
 import io.github.piteroni.todoktorvue.app.domain.task.TaskId
 import io.github.piteroni.todoktorvue.app.domain.task.TaskName
+import io.github.piteroni.todoktorvue.app.domain.user.UserId
+import io.github.piteroni.todoktorvue.app.infrastructure.dao.TaskDataSource
+import io.github.piteroni.todoktorvue.app.infrastructure.dao.TaskMapper
 import io.github.piteroni.todoktorvue.app.infrastructure.repositories.TaskRepository
+import io.github.piteroni.todoktorvue.testing.factories.TaskDataSourceFactory
 import io.github.piteroni.todoktorvue.testing.factories.UserDataSourceFactory
 import io.github.piteroni.todoktorvue.testing.setUp
 import io.kotest.core.spec.Spec
-import io.kotest.core.spec.style.FreeSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import org.jetbrains.exposed.sql.transactions.transaction
 
-class TaskRepositoryTest : FreeSpec() {
+class TaskRepositoryTest : StringSpec() {
     private val taskRepository = TaskRepository()
 
     override fun beforeSpec(spec: Spec) {
@@ -18,15 +23,31 @@ class TaskRepositoryTest : FreeSpec() {
     }
 
     init {
-        "Saving task" - {
-            "When an unregistered task is passed, task can be registered in the repository" - {
-                val userDataSource = UserDataSourceFactory.make()
-                val task = Task(TaskId.unregistered(), userDataSource.asUser().id, TaskName("new-task"))
-
-                val createdTask = taskRepository.save(task)
-
-                createdTask.name shouldBe TaskName("new-task")
+        "未登録のタスクを渡すと、リポジトリにタスクが保存される" {
+            val task = UserDataSourceFactory.make().run {
+                Task(TaskId.unregistered(), asUser().id, TaskName("new-task"))
             }
+
+            val createdTask = taskRepository.save(task)
+
+            val storedTask = transaction {
+                TaskDataSource.find { TaskMapper.id eq createdTask.id.value }.first().asTask()
+            }
+
+            createdTask.name shouldBe storedTask.name
+            createdTask.userId shouldBe storedTask.userId
+        }
+
+        "タスクのIDを渡すと、タスクIDに一致するタスクをリポジトリを取得できる" {
+            val userDataSource = UserDataSourceFactory.make()
+            val task = transaction {
+                TaskDataSourceFactory.make(userDataSource, "new-task").asTask()
+            }
+
+            val storedTask = taskRepository.find(task.id)!!
+
+            storedTask.name shouldBe TaskName("new-task")
+            storedTask.userId shouldBe userDataSource.asUser().id
         }
     }
 }
