@@ -14,6 +14,7 @@ import io.github.piteroni.todoktorvue.app.usecase.task.RetainedTaskDeletionInput
 import io.github.piteroni.todoktorvue.app.usecase.task.TaskUseCase
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.core.spec.style.FreeSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.matchers.shouldBe
@@ -25,7 +26,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 
-class TaskUseCaseTest : DescribeSpec() {
+class TaskUseCaseTest : FreeSpec() {
     private val taskRepository = mockk<TaskRepository>()
     private val taskUseCase = TaskUseCase(taskRepository)
 
@@ -34,8 +35,8 @@ class TaskUseCaseTest : DescribeSpec() {
     }
 
     init {
-        describe("保有タスク作成処理") {
-            it("タスク作成に必要な情報を渡すと、リポジトリに保有タスクが保存される") {
+        "保有タスク作成処理" - {
+            "タスク作成に必要な情報を渡すと、リポジトリに保有タスクが保存される" - {
                 val inputData = RetainedTaskCreationInputData(88, "new-task")
                 val toBeCreatedTask = slot<Task>()
 
@@ -55,7 +56,7 @@ class TaskUseCaseTest : DescribeSpec() {
                 createdTask.name shouldBe TaskName("new-task")
             }
 
-            it("タスク名のドメインに従わない入力データを渡すと例外が送出され、リポジトリに保有タスクは保存されない") {
+            "タスク名のドメインに従わない入力データを渡すと例外が送出され、リポジトリに保有タスクは保存されない" - {
                 val inputData = RetainedTaskCreationInputData(88, "")
 
                 every { taskRepository.save(any()) }
@@ -69,8 +70,8 @@ class TaskUseCaseTest : DescribeSpec() {
             }
         }
 
-        describe("保有タスクリスト取得処理") {
-            it("保有タスクリストをリポジトリから取得できる") {
+        "保有タスクリスト取得処理" - {
+            "保有タスクリストをリポジトリから取得できる" - {
                 val tasks: List<Task> = listOf(
                     Task(TaskId(1), UserId(1), TaskName("saved-task-1")),
                     Task(TaskId(2), UserId(1), TaskName("saved-task-2")),
@@ -95,8 +96,8 @@ class TaskUseCaseTest : DescribeSpec() {
             }
         }
 
-        describe("保有タスク削除処理") {
-            it("タスク削除に必要な情報を渡すと、リポジトリに保存されている該当の保有タスクが削除される") {
+        "保有タスク削除処理" - {
+            "タスク削除に必要な情報を渡すと、リポジトリに保存されている該当の保有タスクが削除される" - {
                 val userId = 22
                 val taskId = 39
                 val inputData = RetainedTaskDeletionInputData(userId, taskId)
@@ -116,7 +117,7 @@ class TaskUseCaseTest : DescribeSpec() {
                 confirmVerified(taskRepository)
             }
 
-            it("タスクIDのドメインに従わない入力データを渡すと例外が送出され、リポジトリに保存されている該当の保有タスクは削除されない") {
+            "タスクIDのドメインに従わない入力データを渡すと例外が送出され、リポジトリに保存されている該当の保有タスクは削除されない" - {
                 val userId = 130
                 val taskId = -1
                 val inputData = RetainedTaskDeletionInputData(userId, taskId)
@@ -133,12 +134,11 @@ class TaskUseCaseTest : DescribeSpec() {
                 confirmVerified(taskRepository)
             }
 
-            it(
-                """
-                指定したユーザーIDとリポジトリに保存されているタスクの作成ユーザーのIDが異なる場合、
-                例外が送出され、リポジトリに保存されている該当の保有タスクは削除されない
-                """.trimIndent()
-            ) {
+
+            """
+            指定したユーザーIDとリポジトリに保存されているタスクの作成ユーザーのIDが異なる場合、
+            例外が送出され、リポジトリに保存されている該当の保有タスクは削除されない
+            """.trimIndent() - {
                 val userId = 49
                 val authorId = 41
                 val taskId = 82
@@ -158,12 +158,10 @@ class TaskUseCaseTest : DescribeSpec() {
                 confirmVerified(taskRepository)
             }
 
-            it(
-                """
-                指定したタスクIDに一致する保有タスクがリポジトリ上に存在しない場合、
-                例外が送出され、リポジトリに保存されている該当の保有タスクは削除されない
-                """.trimIndent()
-            ) {
+            """
+            指定したタスクIDに一致する保有タスクがリポジトリ上に存在しない場合、
+            例外が送出され、リポジトリに保存されている該当の保有タスクは削除されない
+            """.trimIndent() - {
                 val userId = 130
                 val taskId = 82
                 val inputData = RetainedTaskDeletionInputData(userId, taskId)
