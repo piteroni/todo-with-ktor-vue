@@ -3,16 +3,19 @@ package io.github.piteroni.todoktorvue.infrastructure.repositories
 import io.github.piteroni.todoktorvue.app.domain.task.Task
 import io.github.piteroni.todoktorvue.app.domain.task.TaskId
 import io.github.piteroni.todoktorvue.app.domain.task.TaskName
-import io.github.piteroni.todoktorvue.app.domain.user.UserId
 import io.github.piteroni.todoktorvue.app.infrastructure.dao.TaskDataSource
 import io.github.piteroni.todoktorvue.app.infrastructure.dao.TaskMapper
 import io.github.piteroni.todoktorvue.app.infrastructure.repositories.TaskRepository
 import io.github.piteroni.todoktorvue.testing.factories.TaskDataSourceFactory
 import io.github.piteroni.todoktorvue.testing.factories.UserDataSourceFactory
+import io.github.piteroni.todoktorvue.testing.refresh
 import io.github.piteroni.todoktorvue.testing.setUp
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.core.test.TestCase
+import io.kotest.core.test.TestResult
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class TaskRepositoryTest : StringSpec() {
@@ -20,6 +23,10 @@ class TaskRepositoryTest : StringSpec() {
 
     override fun beforeSpec(spec: Spec) {
         setUp()
+    }
+
+    override fun afterEach(testCase: TestCase, result: TestResult) {
+        refresh()
     }
 
     init {
@@ -40,14 +47,19 @@ class TaskRepositoryTest : StringSpec() {
 
         "タスクのIDを渡すと、タスクIDに一致するタスクをリポジトリを取得できる" {
             val userDataSource = UserDataSourceFactory.make()
-            val task = transaction {
-                TaskDataSourceFactory.make(userDataSource, "new-task").asTask()
+            val taskId = transaction {
+                TaskDataSourceFactory.make(userDataSource, "new-task").asTask().id
             }
 
-            val storedTask = taskRepository.find(task.id)!!
+            val task = taskRepository.find(taskId)!!
 
-            storedTask.name shouldBe TaskName("new-task")
-            storedTask.userId shouldBe userDataSource.asUser().id
+            task shouldNotBe null
+            task.name shouldBe TaskName("new-task")
+            task.userId shouldBe userDataSource.asUser().id
+        }
+
+        "タスクIDに一致するタスクがリポジトリ上に存在しない場合、nullが返る" {
+            taskRepository.find(TaskId(1)) shouldBe null
         }
     }
 }

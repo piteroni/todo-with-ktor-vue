@@ -15,9 +15,13 @@ fun refresh() {
         val db = TransactionManager.current().db
         val connector = db.connector()
 
+        connector.createStatement().execute("SET FOREIGN_KEY_CHECKS=0")
+
         db.dialect.allTablesNames().forEach {
             connector.createStatement().execute("TRUNCATE TABLE $it")
         }
+
+        connector.createStatement().execute("SET FOREIGN_KEY_CHECKS=1")
     }
 }
 
