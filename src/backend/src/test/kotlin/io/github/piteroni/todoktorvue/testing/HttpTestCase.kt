@@ -1,15 +1,15 @@
 package io.github.piteroni.todoktorvue.testing
 
-import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.core.test.TestCase
+import io.kotest.core.test.TestResult
 
-abstract class HttpTestCase : AnnotationSpec() {
-    @BeforeAll
-    fun beforeAll() {
+abstract class HttpTestCase : DescribeSpec() {
+    override fun beforeEach(testCase: TestCase) {
         setUp()
     }
 
-    @AfterEach
-    fun afterEach() {
+    override fun afterEach(testCase: TestCase, result: TestResult) {
         refresh()
     }
 }

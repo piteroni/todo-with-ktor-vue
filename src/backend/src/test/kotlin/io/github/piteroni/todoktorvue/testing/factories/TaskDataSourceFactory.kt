@@ -20,3 +20,32 @@ object TaskDataSourceFactory {
         }
     }
 }
+
+class TaskDataSourceFactory2 {
+    private val faker = Faker()
+
+    private var count = 1
+
+    fun count(count: Int): TaskDataSourceFactory2 {
+        this.count = count
+
+        return this
+    }
+
+    fun make(
+        user: UserDataSource,
+        name: String? = null,
+    ): List<TaskDataSource> {
+        val index = 1
+        val range = index..count
+
+        return transaction {
+            range.map {
+                TaskDataSource.new {
+                    this.user = user
+                    this.name = name ?: faker.name.name()
+                }
+            }
+        }
+    }
+}
